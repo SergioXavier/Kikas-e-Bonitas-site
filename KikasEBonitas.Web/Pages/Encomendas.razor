@@ -1,0 +1,87 @@
+@page "/encomendas"
+@using KikasEBonitas.Web.Dtos
+@inject HttpClient Http
+
+<div class="container-fluid px-4 py-4">
+    <!-- Cabeçalho da Página -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold text-dark mb-1">Gestão de Encomendas</h2>
+            <p class="text-muted small mb-0">Consulte e gira todos os pedidos efetuados no sistema.</p>
+        </div>
+    </div>
+
+    @if (encomendas == null)
+    {
+        <div class="card p-5 text-center">
+            <div class="spinner-border text-primary mx-auto mb-3" role="status"></div>
+            <p class="text-muted">A carregar encomendas...</p>
+        </div>
+    }
+    else if (!encomendas.Any())
+    {
+        <div class="card p-5 text-center">
+            <div class="mb-3">
+                <i class="bi bi-inbox fs-1 text-muted"></i>
+            </div>
+            <h5 class="text-dark">Sem encomendas registadas</h5>
+            <p class="text-muted small">Ainda não existem pedidos efetuados no sistema.</p>
+        </div>
+    }
+    else
+    {
+        <div class="card">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">ID</th>
+                                <th>Data</th>
+                                <th>Cliente</th>
+                                <th>Email</th>
+                                <th>Estado</th>
+                                <th class="text-end pe-4">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var enc in encomendas)
+                            {
+                                <tr>
+                                    <td class="ps-4 fw-bold text-primary">#@enc.Id</td>
+                                    <td class="text-muted small">@enc.DataCriacao.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>
+                                        <div class="fw-semibold text-dark">@enc.NomeCliente</div>
+                                    </td>
+                                    <td class="text-muted">@enc.EmailCliente</td>
+                                    <td>
+                                        <span class="badge bg-light text-primary border border-primary-subtle">
+                                            @enc.Status
+                                        </span>
+                                    </td>
+                                    <td class="text-end pe-4 fw-bold text-dark">@enc.ValorTotal.ToString("C")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private List<EncomendaRespostaDto>? encomendas;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            encomendas = await Http.GetFromJsonAsync<List<EncomendaRespostaDto>>("api/encomendas");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao carregar encomendas: {ex.Message}");
+        }
+    }
+}

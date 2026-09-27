@@ -1,7 +1,110 @@
 ﻿@page "/"
+@using KikasEBonitas.Web.Dtos
+@inject HttpClient Http
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Kikas & Bonitas - Catálogo</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="container-fluid px-4 py-4">
+    <!-- Cabeçalho com o Logótipo ou Título Estilizado -->
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-dark mb-1" style="letter-spacing: 0.5px;">Catálogo Semanal</h2>
+        <p class="text-muted small">Consulte os nossos produtos e faça a sua encomenda</p>
+    </div>
 
-Welcome to your new app.
+    <!-- Grelha de Produtos (Cartões) -->
+    @if (produtos == null)
+    {
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="text-muted mt-2">A carregar catálogo...</p>
+        </div>
+    }
+    else if (!produtos.Any())
+    {
+        <div class="card p-5 text-center shadow-sm">
+            <p class="text-muted mb-0">De momento não existem produtos disponíveis no catálogo.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            @foreach (var produto in produtos)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0 rounded-4 p-3 d-flex flex-column justify-content-between">
+                        <div>
+                            <!-- Imagem do Produto (ou placeholder elegante) -->
+                            <div class="bg-light rounded-3 mb-3 d-flex align-items-center justify-content-center" style="height: 180px; overflow: hidden;">
+                                <i class="bi bi-image text-muted fs-1"></i>
+                            </div>
+                            
+                            <!-- Nome do Produto -->
+                            <h6 class="fw-semibold text-dark text-center mb-2">@produto.Nome</h6>
+                            
+                            <!-- Preço -->
+                            <div class="text-center text-success fw-bold fs-5 mb-3">
+                                @produto.Preco.ToString("C")
+                            </div>
+                        </div>
+
+                        <!-- Botão Adicionar -->
+                        <button class="btn btn-primary w-100 rounded-pill py-2 shadow-sm" @onclick="() => AdicionarAoCarrinho(produto)">
+                            <i class="bi bi-plus-lg me-1">+ Adicionar</i>
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    <!-- Botão Flutuante do Carrinho -->
+    <div class="position-fixed bottom-0 end-0 p-4" style="z-index: 1050;">
+        <button class="btn btn-success rounded-pill shadow-lg px-4 py-3 fw-bold d-flex align-items-center gap-2" @onclick="VerCarrinho">
+            <i class="bi bi-cart-fill fs-5"></i>
+            <span>Carrinho (@quantidadeCarrinho)</span>
+        </button>
+    </div>
+</div>
+
+@code {
+    private List<ProdutoDto>? produtos;
+    private int quantidadeCarrinho = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // Simula ou busca os produtos à API (ajusta o endpoint conforme o teu backend de produtos)
+            produtos = await Http.GetFromJsonAsync<List<ProdutoDto>>("api/produtos");
+        }
+        catch
+        {
+            // Fallback visual de exemplo caso a API de produtos ainda esteja a ser ajustada
+            produtos = new List<ProdutoDto>
+            {
+                new() { Id = 1, Nome = "Ácido Azelaico Gel", Preco = 9.99m },
+                new() { Id = 2, Nome = "Aloe Vera Gel", Preco = 3.00m },
+                new() { Id = 3, Nome = "Anti Fungos Solução", Preco = 5.25m },
+                new() { Id = 4, Nome = "Antirrugas Creme Colageneu", Preco = 15.55m }
+            };
+        }
+    }
+
+    private void AdicionarAoCarrinho(ProdutoDto produto)
+    {
+        quantidadeCarrinho++;
+        // Lógica futura de adição ao carrinho
+    }
+
+    private void VerCarrinho()
+    {
+        // Navegação para a página do carrinho ou abertura de modal
+    }
+
+    public class ProdutoDto
+    {
+        public int Id { get; set; }
+        public string Nome { get; set; } = string.Empty;
+        public decimal Preco { get; set; }
+    }
+}
