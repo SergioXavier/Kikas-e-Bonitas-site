@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/kikas-e-bonitas-api/">
+    <Project Path="kikas-e-bonitas-api/KikasEBonitas.Api.csproj" />
+  </Folder>
+  <Project Path="KikasEBonitas.Web/KikasEBonitas.Web.csproj" />
+</Solution>

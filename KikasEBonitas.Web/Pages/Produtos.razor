@@ -1,0 +1,204 @@
+@page "/produtos"
+@inject HttpClient Http
+@using KikasEBonitas.Web.Dtos
+
+<h3>Catálogo de Produtos - Kikas & Bonitas</h3>
+
+<!-- Secção para Adicionar/Editar Produto -->
+<div class="card mb-4 p-3 bg-light">
+    <h4>@(produtoEmEdicaoId == null ? "Adicionar Novo Produto" : $"Editar Produto #{produtoEmEdicaoId}")</h4>
+    <EditForm Model="novoProduto" OnValidSubmit="GuardarProduto">
+        <DataAnnotationsValidator />
+
+        <div class="mb-3">
+            <label class="form-label">Nome:</label>
+            <InputText class="form-control" @bind-Value="novoProduto.Nome" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Preço (€):</label>
+            <InputNumber class="form-control" @bind-Value="novoProduto.Preco" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Stock:</label>
+            <InputNumber class="form-control" @bind-Value="novoProduto.Stock" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">ID da Categoria:</label>
+            <InputNumber class="form-control" @bind-Value="novoProduto.CategoriaId" />
+        </div>
+
+        <button type="submit" class="btn @(produtoEmEdicaoId == null ? "btn-primary" : "btn-warning")">
+            @(produtoEmEdicaoId == null ? "Guardar Produto" : "Atualizar Produto")
+        </button>
+
+        @if (produtoEmEdicaoId != null)
+        {
+            <button type="button" class="btn btn-secondary ms-2" @onclick="CancelarEdicao">Cancelar</button>
+        }
+    </EditForm>
+    
+    @if (!string.IsNullOrEmpty(mensagemErro))
+    {
+        <div class="alert alert-danger mt-2">@mensagemErro</div>
+    }
+</div>
+
+<hr />
+
+<!-- Listagem de Produtos -->
+<h4>Lista de Produtos</h4>
+
+@if (resultadoPaginado == null)
+{
+    <p>A carregar produtos da API...</p>
+}
+else if (resultadoPaginado.Itens == null || resultadoPaginado.Itens.Count == 0)
+{
+    <p>Nenhum produto encontrado.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Categoria</th>
+                <th>Preço</th>
+                <th>Stock</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var produto in resultadoPaginado.Itens)
+            {
+                <tr>
+                    <td>@produto.Nome</td>
+                    <td>@produto.NomeCategoria</td>
+                    <td>@produto.Preco.ToString("C")</td>
+                    <td>@produto.Stock</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary" @onclick="() => CarregarParaEdicao(produto)">
+                            Editar
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" @onclick="() => EliminarProduto(produto.Id)">
+                            Eliminar
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private ResultadoPaginadoDto<ProdutoDto>? resultadoPaginado;
+    private CriarProdutoDto novoProduto = new();
+    private string? mensagemErro;
+    private int? produtoEmEdicaoId = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CarregarProdutos();
+    }
+
+    private async Task CarregarProdutos()
+    {
+        try
+        {
+            resultadoPaginado = await Http.GetFromJsonAsync<ResultadoPaginadoDto<ProdutoDto>>("api/produtos");
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Erro ao carregar produtos: {ex.Message}");
+        }
+    }
+
+    private void CarregarParaEdicao(ProdutoDto produto)
+    {
+        produtoEmEdicaoId = produto.Id;
+        novoProduto = new CriarProdutoDto 
+        {
+            Nome = produto.Nome,
+            Preco = produto.Preco,
+            Stock = produto.Stock,
+            CategoriaId = produto.CategoriaId
+        };
+        mensagemErro = null;
+    }
+
+    private void CancelarEdicao()
+    {
+        produtoEmEdicaoId = null;
+        novoProduto = new();
+        mensagemErro = null;
+    }
+
+    private async Task GuardarProduto()
+    {
+        mensagemErro = null;
+        try
+        {
+            HttpResponseMessage response;
+
+            if (produtoEmEdicaoId == null)
+            {
+                // Fluxo de Criação (POST)
+                response = await Http.PostAsJsonAsync("api/produtos", novoProduto);
+            }
+            else
+            {
+                // Fluxo de Atualização (PUT)
+                response = await Http.PutAsJsonAsync($"api/produtos/{produtoEmEdicaoId}", novoProduto);
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                novoProduto = new();
+                produtoEmEdicaoId = null;
+                await CarregarProdutos();
+            }
+            else
+            {
+                var erroDetalhes = await response.Content.ReadAsStringAsync();
+                mensagemErro = $"Erro ({response.StatusCode}): {erroDetalhes}";
+            }
+        }
+        catch (Exception ex)
+        {
+            mensagemErro = $"Erro de ligação: {ex.Message}";
+        }
+    }
+
+    private async Task EliminarProduto(int id)
+    {
+        mensagemErro = null;
+        try
+        {
+            var response = await Http.DeleteAsync($"api/produtos/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Se o produto que estamos a eliminar estiver selecionado no formulário de edição, limpa-o
+                if (produtoEmEdicaoId == id)
+                {
+                    CancelarEdicao();
+                }
+
+                // Recarrega a listagem
+                await CarregarProdutos();
+            }
+            else
+            {
+                var erroDetalhes = await response.Content.ReadAsStringAsync();
+                mensagemErro = $"Erro ao eliminar ({response.StatusCode}): {erroDetalhes}";
+            }
+        }
+        catch (Exception ex)
+        {
+            mensagemErro = $"Erro de ligação: {ex.Message}";
+        }
+    }
+}

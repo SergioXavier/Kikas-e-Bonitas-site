@@ -1,0 +1,70 @@
+@page "/login"
+@inject HttpClient Http
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+@using KikasEBonitas.Web.Dtos
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card p-4 shadow-sm">
+            <h3 class="text-center mb-4">Entrar - Kikas & Bonitas</h3>
+
+            <EditForm Model="loginModel" OnValidSubmit="EfetuarLogin">
+                <DataAnnotationsValidator />
+
+                <div class="mb-3">
+                    <label class="form-label">Usuário:</label>
+                    <InputText class="form-control" @bind-Value="loginModel.Usuario" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Senha:</label>
+                    <InputText type="password" class="form-control" @bind-Value="loginModel.Senha" />
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Entrar</button>
+            </EditForm>
+
+            @if (!string.IsNullOrEmpty(mensagemErro))
+            {
+                <div class="alert alert-danger mt-3">@mensagemErro</div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private LoginDto loginModel = new();
+    private string? mensagemErro;
+
+    private async Task EfetuarLogin()
+    {
+        mensagemErro = null;
+        try
+        {
+            // Ajusta o endpoint conforme a rota de login da tua API (ex: "api/auth/login" ou "api/utilizadores/login")
+            var response = await Http.PostAsJsonAsync("api/auth/login", loginModel);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var resultado = await response.Content.ReadFromJsonAsync<TokenResponseDto>();
+                if (resultado != null && !string.IsNullOrEmpty(resultado.Token))
+                {
+                    // Guarda o token no localStorage do browser
+                    await JS.InvokeVoidAsync("localStorage.setItem", "authToken", resultado.Token);
+                    
+                    // Redireciona para a página de produtos
+                    Navigation.NavigateTo("/produtos");
+                }
+            }
+            else
+            {
+                mensagemErro = "Credenciais rejeitadas pela API.";
+            }
+        }
+        catch (Exception ex)
+        {
+            mensagemErro = $"Erro de ligação: {ex.Message}";
+        }
+    }
+}
