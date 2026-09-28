@@ -1,0 +1,40 @@
+@page "/minhas-encomendas"
+@inject HttpClient Http
+
+<PageTitle>Kikas & Bonitas - As Minhas Encomendas</PageTitle>
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+        <div>
+            <h2 class="fw-bold text-dark mb-1">As Minhas Encomendas</h2>
+            <p class="text-muted small mb-0">Consulte o estado atual e o histórico dos seus pedidos.</p>
+        </div>
+        <a href="/" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+            <i class="bi bi-arrow-left me-1"></i> Voltar à Loja
+        </a>
+    </div>
+
+    <!-- Simulação de lista de encomendas do cliente -->
+    <div class="card border-0 shadow-sm rounded-4 p-4">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Data</th>
+                        <th>Estado Atual</th>
+                        <th class="text-end">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="fw-bold text-primary">#1</td>
+                        <td class="text-muted">25/09/2026 14:37</td>
+                        <td><span class="badge bg-warning text-dark">Em Preparação</span></td>
+                        <td class="text-end fw-bold">37,80 €</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

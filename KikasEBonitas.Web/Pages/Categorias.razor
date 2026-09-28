@@ -1,0 +1,233 @@
+@page "/categorias"
+@using KikasEBonitas.Web.Dtos
+@inject NavigationManager Navigation
+@inject HttpClient Http
+@inject IJSRuntime JS
+
+<PageTitle>Kikas & Bonitas - Gestão de Categorias</PageTitle>
+
+<div class="container py-5">
+    <!-- Cabeçalho -->
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+        <div>
+            <h2 class="fw-bold text-dark mb-1">Gestão de Categorias</h2>
+            <p class="text-muted small mb-0">Adicione, edite ou remova categorias do catálogo.</p>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-primary btn-sm rounded-pill px-3" @onclick="AbrirCriarForm">
+                <i class="bi bi-plus-lg me-1"></i> Nova Categoria
+            </button>
+            <a href="/admin" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+                <i class="bi bi-arrow-left me-1"></i> Voltar ao Painel
+            </a>
+        </div>
+    </div>
+
+    <!-- Alerta de Erro -->
+    @if (!string.IsNullOrEmpty(erroMensagem))
+    {
+        <div class="alert alert-danger mb-4 rounded-4 shadow-sm p-3 d-flex justify-content-between align-items-center">
+            <div><strong>Erro:</strong> @erroMensagem</div>
+            <button class="btn-close" @onclick="() => erroMensagem = null"></button>
+        </div>
+    }
+
+    <!-- Formulário de Criação / Edição (Inline) -->
+    @if (modoFormulario != FormularioModo.Nenhum)
+    {
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-light">
+            <h5 class="fw-bold mb-3">@(modoFormulario == FormularioModo.Criar ? "Criar Nova Categoria" : "Editar Categoria")</h5>
+            
+            <div class="row g-3 align-items-center">
+                <div class="col-md-8">
+                    <input type="text" class="form-control rounded-pill px-3" placeholder="Nome da categoria..." @bind="nomeCategoriaInput" />
+                </div>
+                <div class="col-md-4 d-flex gap-2">
+                    <button class="btn btn-success rounded-pill px-4" @onclick="GuardarCategoria">Guardar</button>
+                    <button class="btn btn-outline-secondary rounded-pill px-3" @onclick="FecharForm">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Tabela de Categorias -->
+    <div class="card border-0 shadow-sm rounded-4 p-4">
+        @if (categorias == null)
+        {
+            <div class="text-center py-4 text-muted">A carregar categorias...</div>
+        }
+        else if (!categorias.Any())
+        {
+            <div class="text-center py-4 text-muted">Ainda não existem categorias registadas.</div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome da Categoria</th>
+                            <th>Total Produtos</th>
+                            <th class="text-end">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var categoria in categorias)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@categoria.Id</td>
+                                <td>@categoria.Nome</td>
+                                <td>
+                                    <span class="badge bg-light text-dark border px-3 py-2 rounded-pill">
+                                        @categoria.TotalProdutos
+                                    </span>
+                                </td>
+                                <td class="text-end gap-2">
+                                    <button class="btn btn-sm btn-outline-primary rounded-pill px-3 me-2" @onclick="() => AbrirEditarForm(categoria)">Editar</button>
+                                    <button class="btn btn-sm btn-outline-danger rounded-pill px-3" @onclick="() => ApagarCategoria(categoria.Id)">Apagar</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private List<CategoriaDto>? categorias;
+    private string? erroMensagem;
+    
+    // Controlo do formulário de criação/edição
+    private enum FormularioModo { Nenhum, Criar, Editar }
+    private FormularioModo modoFormulario = FormularioModo.Nenhum;
+    private int categoriaIdEmEdicao;
+    private string nomeCategoriaInput = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CarregarCategorias();
+    }
+
+    private async Task CarregarCategorias()
+    {
+        try
+        {
+            erroMensagem = null;
+            await ConfigurarAutorizacao();
+
+            categorias = await Http.GetFromJsonAsync<List<CategoriaDto>>("api/categorias");
+        }
+        catch (Exception ex)
+        {
+            categorias = new List<CategoriaDto>();
+            erroMensagem = $"Erro ao carregar: {ex.Message}";
+        }
+    }
+
+    private void AbrirCriarForm()
+    {
+        modoFormulario = FormularioModo.Criar;
+        nomeCategoriaInput = string.Empty;
+        erroMensagem = null;
+    }
+
+    private void AbrirEditarForm(CategoriaDto categoria)
+    {
+        modoFormulario = FormularioModo.Editar;
+        categoriaIdEmEdicao = categoria.Id;
+        nomeCategoriaInput = categoria.Nome;
+        erroMensagem = null;
+    }
+
+    private void FecharForm()
+    {
+        modoFormulario = FormularioModo.Nenhum;
+        nomeCategoriaInput = string.Empty;
+    }
+
+    private async Task GuardarCategoria()
+    {
+        if (string.IsNullOrWhiteSpace(nomeCategoriaInput))
+        {
+            erroMensagem = "O nome da categoria não pode estar vazio.";
+            return;
+        }
+
+        try
+        {
+            await ConfigurarAutorizacao();
+            HttpResponseMessage response;
+
+            var dto = new { Nome = nomeCategoriaInput };
+
+            if (modoFormulario == FormularioModo.Criar)
+            {
+                response = await Http.PostAsJsonAsync("api/categorias", dto);
+            }
+            else
+            {
+                response = await Http.PutAsJsonAsync($"api/categorias/{categoriaIdEmEdicao}", dto);
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                FecharForm();
+                await CarregarCategorias();
+            }
+            else
+            {
+                var erroObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+                erroMensagem = erroObj != null && erroObj.ContainsKey("mensagem") 
+                    ? erroObj["mensagem"] 
+                    : "Ocorreu um erro ao guardar a categoria.";
+            }
+        }
+        catch (Exception ex)
+        {
+            erroMensagem = $"Erro de comunicação: {ex.Message}";
+        }
+    }
+
+    private async Task ApagarCategoria(int id)
+    {
+        try
+        {
+            await ConfigurarAutorizacao();
+            var response = await Http.DeleteAsync($"api/categorias/{id}");
+            
+            if (response.IsSuccessStatusCode)
+            {
+                await CarregarCategorias();
+            }
+            else
+            {
+                var erroObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+                erroMensagem = erroObj != null && erroObj.ContainsKey("mensagem") 
+                    ? erroObj["mensagem"] 
+                    : "Não foi possível apagar a categoria.";
+            }
+        }
+        catch (Exception ex)
+        {
+            erroMensagem = $"Erro ao apagar: {ex.Message}";
+        }
+    }
+
+    private async Task ConfigurarAutorizacao()
+    {
+        string? token = null;
+        try 
+        {
+            token = await JS.InvokeAsync<string>("localStorage.getItem", "authToken");
+        }
+        catch {}
+
+        if (!string.IsNullOrEmpty(token))
+        {
+            Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+        }
+    }
+}

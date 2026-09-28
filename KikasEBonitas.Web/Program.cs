@@ -18,4 +18,6 @@ builder.Services.AddHttpClient("KikasApi", client => client.BaseAddress = new Ur
 // 3. Fazer com que o HttpClient padrão utilize também esta configuração
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("KikasApi"));
 
+builder.Services.AddScoped<CartService>();
+
 await builder.Build().RunAsync();

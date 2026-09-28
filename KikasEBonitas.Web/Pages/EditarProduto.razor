@@ -1,0 +1,154 @@
+@page "/produtos/editar/{Id:int}"
+@using KikasEBonitas.Web.Dtos
+@inject NavigationManager Navigation
+@inject HttpClient Http
+@inject IJSRuntime JS
+
+<PageTitle>Kikas & Bonitas - Editar Produto</PageTitle>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 p-4">
+                <h3 class="fw-bold text-dark mb-3">Editar Produto</h3>
+
+                @if (!string.IsNullOrEmpty(erroMensagem))
+                {
+                    <div class="alert alert-danger py-2 small">@erroMensagem</div>
+                }
+
+                @if (produto == null)
+                {
+                    <div class="text-center py-4 text-muted">A carregar dados do produto...</div>
+                }
+                else
+                {
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Nome do Produto</label>
+                        <input type="text" class="form-control rounded-pill px-3" @bind="produto.Nome" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Preço (€)</label>
+                        <input type="number" step="0.01" class="form-control rounded-pill px-3" @bind="produto.Preco" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Stock</label>
+                        <input type="number" class="form-control rounded-pill px-3" @bind="produto.Stock" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">ID da Categoria</label>
+                        <input type="number" class="form-control rounded-pill px-3" @bind="produto.CategoriaId" />
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label small fw-semibold">Imagem Atual / Alterar Imagem</label>
+                        @if (!string.IsNullOrEmpty(produto.ImagemUrl) && string.IsNullOrEmpty(imagemPreview))
+                        {
+                            <div class="mb-2 text-center">
+                                <img src="@produto.ImagemUrl" alt="Imagem atual" class="rounded-3 border" style="max-height: 100px; object-fit: cover;" />
+                            </div>
+                        }
+                        else if (!string.IsNullOrEmpty(imagemPreview))
+                        {
+                            <div class="mb-2 text-center">
+                                <img src="@imagemPreview" alt="Nova imagem" class="rounded-3 border" style="max-height: 100px; object-fit: cover;" />
+                            </div>
+                        }
+                        <InputFile class="form-control rounded-pill px-3" OnChange="CarregarFicheiro" />
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-dark w-100 rounded-pill py-2 fw-semibold" @onclick="AtualizarProduto">Guardar Alterações</button>
+                        <a href="/produtos" class="btn btn-outline-secondary w-100 rounded-pill py-2 text-decoration-none text-center">Cancelar</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private ProdutoDto? produto;
+    private IBrowserFile? arquivoSelecionado;
+    private string? imagemPreview;
+    private string? erroMensagem;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var token = await JS.InvokeAsync<string>("localStorage.getItem", "authToken");
+            if (!string.IsNullOrEmpty(token))
+            {
+                Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            }
+
+            produto = await Http.GetFromJsonAsync<ProdutoDto>($"api/produtos/{Id}");
+        }
+        catch (Exception ex)
+        {
+            erroMensagem = $"Erro ao carregar produto: {ex.Message}";
+        }
+    }
+
+    private async Task CarregarFicheiro(InputFileChangeEventArgs e)
+    {
+        arquivoSelecionado = e.File;
+        if (arquivoSelecionado != null)
+        {
+            var format = "image/jpeg";
+            var resizedImage = await arquivoSelecionado.RequestImageFileAsync(format, 300, 300);
+            var buffer = new byte[resizedImage.Size];
+            await resizedImage.OpenReadStream().ReadAsync(buffer);
+            imagemPreview = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+        }
+    }
+
+    private async Task AtualizarProduto()
+    {
+        try
+        {
+            if (produto == null) return;
+
+            var token = await JS.InvokeAsync<string>("localStorage.getItem", "authToken");
+            if (!string.IsNullOrEmpty(token))
+            {
+                Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            }
+
+            using var content = new MultipartFormDataContent();
+            content.Add(new StringContent(produto.Nome), "nome");
+            content.Add(new StringContent(produto.Preco.ToString(System.Globalization.CultureInfo.InvariantCulture)), "preco");
+            content.Add(new StringContent(produto.Stock.ToString()), "stock");
+            content.Add(new StringContent(produto.CategoriaId.ToString()), "categoriaId");
+
+            if (arquivoSelecionado != null)
+            {
+                var streamContent = new StreamContent(arquivoSelecionado.OpenReadStream(maxAllowedSize: 5120000));
+                streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(arquivoSelecionado.ContentType);
+                content.Add(streamContent, "imagem", arquivoSelecionado.Name);
+            }
+
+            var response = await Http.PutAsync($"api/produtos/{Id}", content);
+            if (response.IsSuccessStatusCode)
+            {
+                Navigation.NavigateTo("/produtos");
+            }
+            else
+            {
+                var erroObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+                erroMensagem = erroObj != null && erroObj.ContainsKey("mensagem") ? erroObj["mensagem"] : "Erro ao atualizar o produto.";
+            }
+        }
+        catch (Exception ex)
+        {
+            erroMensagem = ex.Message;
+        }
+    }
+}

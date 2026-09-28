@@ -1,103 +1,94 @@
 @page "/produtos"
-@inject HttpClient Http
 @using KikasEBonitas.Web.Dtos
+@inject NavigationManager Navigation
+@inject HttpClient Http
+@inject IJSRuntime JS
 
-<h3>Catálogo de Produtos - Kikas & Bonitas</h3>
+<PageTitle>Kikas & Bonitas - Gestão de Produtos</PageTitle>
 
-<!-- Secção para Adicionar/Editar Produto -->
-<div class="card mb-4 p-3 bg-light">
-    <h4>@(produtoEmEdicaoId == null ? "Adicionar Novo Produto" : $"Editar Produto #{produtoEmEdicaoId}")</h4>
-    <EditForm Model="novoProduto" OnValidSubmit="GuardarProduto">
-        <DataAnnotationsValidator />
-
-        <div class="mb-3">
-            <label class="form-label">Nome:</label>
-            <InputText class="form-control" @bind-Value="novoProduto.Nome" />
+<div class="container py-5">
+    <!-- Cabeçalho com Botão de Retorno -->
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+        <div>
+            <h2 class="fw-bold text-dark mb-1">Gestão de Produtos</h2>
+            <p class="text-muted small mb-0">Adicione, edite ou remova produtos do catálogo semanal.</p>
         </div>
-
-        <div class="mb-3">
-            <label class="form-label">Preço (€):</label>
-            <InputNumber class="form-control" @bind-Value="novoProduto.Preco" />
+        
+        <!-- Grupo de botões devidamente encapsulado -->
+        <div class="d-flex align-items-center gap-2">
+            <a href="/produtos/novo" class="btn btn-dark btn-sm rounded-pill px-3">
+                <i class="bi bi-plus-lg me-1"></i> Novo Produto
+            </a>
+            <a href="/admin" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+                <i class="bi bi-arrow-left me-1"></i> Voltar ao Painel
+            </a>
         </div>
+    </div>
 
-        <div class="mb-3">
-            <label class="form-label">Stock:</label>
-            <InputNumber class="form-control" @bind-Value="novoProduto.Stock" />
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">ID da Categoria:</label>
-            <InputNumber class="form-control" @bind-Value="novoProduto.CategoriaId" />
-        </div>
-
-        <button type="submit" class="btn @(produtoEmEdicaoId == null ? "btn-primary" : "btn-warning")">
-            @(produtoEmEdicaoId == null ? "Guardar Produto" : "Atualizar Produto")
-        </button>
-
-        @if (produtoEmEdicaoId != null)
-        {
-            <button type="button" class="btn btn-secondary ms-2" @onclick="CancelarEdicao">Cancelar</button>
-        }
-    </EditForm>
-    
-    @if (!string.IsNullOrEmpty(mensagemErro))
+    <!-- Alerta de Erro Detalhado (para diagnóstico) -->
+    @if (!string.IsNullOrEmpty(erroMensagem))
     {
-        <div class="alert alert-danger mt-2">@mensagemErro</div>
+        <div class="alert alert-danger mb-4 rounded-4 shadow-sm p-3">
+            <strong>Erro ao ligar à API:</strong> @erroMensagem
+        </div>
     }
+
+    <!-- Conteúdo da Gestão de Produtos -->
+    <div class="card border-0 shadow-sm rounded-4 p-4">
+        @if (produtos == null)
+        {
+            <div class="text-center py-4 text-muted">A carregar produtos...</div>
+        }
+        else if (!produtos.Any())
+        {
+            <div class="text-center py-4 text-muted">Ainda não existem produtos registados.</div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Imagem</th>
+                            <th>Nome do Produto</th>
+                            <th>Preço</th>
+                            <th class="text-end">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var produto in produtos)
+                        {
+                            <tr>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(produto.ImagemUrl))
+                                    {
+                                        <img src="@produto.ImagemUrl" alt="@produto.Nome" style="width: 40px; height: 40px; object-fit: cover;" class="rounded-circle border" />
+                                    }
+                                    else
+                                    {
+                                        <div class="bg-light rounded-circle d-flex align-items-center justify-content-center border" style="width: 40px; height: 40px;">
+                                            <i class="bi bi-image text-muted small"></i>
+                                        </div>
+                                    }
+                                </td>
+                                <td class="fw-semibold">@produto.Nome</td>
+                                <td>@produto.Preco.ToString("C")</td>
+                                <td class="text-end">
+                                    <button class="btn btn-sm btn-outline-primary rounded-pill px-3 me-1" @onclick="() => EditarProduto(produto.Id)">Editar</button>
+                                    <button class="btn btn-sm btn-outline-danger rounded-pill px-3" @onclick="() => ApagarProduto(produto.Id)">Apagar</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
 </div>
 
-<hr />
-
-<!-- Listagem de Produtos -->
-<h4>Lista de Produtos</h4>
-
-@if (resultadoPaginado == null)
-{
-    <p>A carregar produtos da API...</p>
-}
-else if (resultadoPaginado.Itens == null || resultadoPaginado.Itens.Count == 0)
-{
-    <p>Nenhum produto encontrado.</p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Categoria</th>
-                <th>Preço</th>
-                <th>Stock</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var produto in resultadoPaginado.Itens)
-            {
-                <tr>
-                    <td>@produto.Nome</td>
-                    <td>@produto.NomeCategoria</td>
-                    <td>@produto.Preco.ToString("C")</td>
-                    <td>@produto.Stock</td>
-                    <td>
-                        <button class="btn btn-sm btn-outline-primary" @onclick="() => CarregarParaEdicao(produto)">
-                            Editar
-                        </button>
-                        <button class="btn btn-sm btn-outline-danger" @onclick="() => EliminarProduto(produto.Id)">
-                            Eliminar
-                        </button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-
 @code {
-    private ResultadoPaginadoDto<ProdutoDto>? resultadoPaginado;
-    private CriarProdutoDto novoProduto = new();
-    private string? mensagemErro;
-    private int? produtoEmEdicaoId = null;
+    private List<ProdutoDto>? produtos;
+    private string? erroMensagem;
 
     protected override async Task OnInitializedAsync()
     {
@@ -108,97 +99,57 @@ else
     {
         try
         {
-            resultadoPaginado = await Http.GetFromJsonAsync<ResultadoPaginadoDto<ProdutoDto>>("api/produtos");
+            erroMensagem = null;
+
+            // 1. Tenta ir buscar o token em segurança
+            string? token = null;
+            try 
+            {
+                token = await JS.InvokeAsync<string>("localStorage.getItem", "authToken");
+            }
+            catch {}
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            }
+
+            // 2. Passamos os parâmetros de paginação que a API demonstrou exigir no JSON anterior
+            var resultadoPaginado = await Http.GetFromJsonAsync<ResultadoPaginadoDto<ProdutoDto>>("api/produtos?pagina=1&tamanhoPagina=50");
+            
+            produtos = resultadoPaginado?.Itens ?? new List<ProdutoDto>();
         }
         catch (Exception ex)
         {
-            Console.Error.WriteLine($"Erro ao carregar produtos: {ex.Message}");
+            produtos = new List<ProdutoDto>();
+            erroMensagem = $"Erro ao carregar: {ex.Message}";
         }
+    } 
+
+    private void EditarProduto(int id)
+    {
+        Navigation.NavigateTo($"/produtos/editar/{id}");
     }
 
-    private void CarregarParaEdicao(ProdutoDto produto)
+    private async Task ApagarProduto(int id)
     {
-        produtoEmEdicaoId = produto.Id;
-        novoProduto = new CriarProdutoDto 
-        {
-            Nome = produto.Nome,
-            Preco = produto.Preco,
-            Stock = produto.Stock,
-            CategoriaId = produto.CategoriaId
-        };
-        mensagemErro = null;
-    }
-
-    private void CancelarEdicao()
-    {
-        produtoEmEdicaoId = null;
-        novoProduto = new();
-        mensagemErro = null;
-    }
-
-    private async Task GuardarProduto()
-    {
-        mensagemErro = null;
         try
         {
-            HttpResponseMessage response;
-
-            if (produtoEmEdicaoId == null)
+            var token = await JS.InvokeAsync<string>("localStorage.getItem", "authToken");
+            if (!string.IsNullOrEmpty(token))
             {
-                // Fluxo de Criação (POST)
-                response = await Http.PostAsJsonAsync("api/produtos", novoProduto);
-            }
-            else
-            {
-                // Fluxo de Atualização (PUT)
-                response = await Http.PutAsJsonAsync($"api/produtos/{produtoEmEdicaoId}", novoProduto);
+                Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             }
 
-            if (response.IsSuccessStatusCode)
-            {
-                novoProduto = new();
-                produtoEmEdicaoId = null;
-                await CarregarProdutos();
-            }
-            else
-            {
-                var erroDetalhes = await response.Content.ReadAsStringAsync();
-                mensagemErro = $"Erro ({response.StatusCode}): {erroDetalhes}";
-            }
-        }
-        catch (Exception ex)
-        {
-            mensagemErro = $"Erro de ligação: {ex.Message}";
-        }
-    }
-
-    private async Task EliminarProduto(int id)
-    {
-        mensagemErro = null;
-        try
-        {
             var response = await Http.DeleteAsync($"api/produtos/{id}");
-
             if (response.IsSuccessStatusCode)
             {
-                // Se o produto que estamos a eliminar estiver selecionado no formulário de edição, limpa-o
-                if (produtoEmEdicaoId == id)
-                {
-                    CancelarEdicao();
-                }
-
-                // Recarrega a listagem
                 await CarregarProdutos();
-            }
-            else
-            {
-                var erroDetalhes = await response.Content.ReadAsStringAsync();
-                mensagemErro = $"Erro ao eliminar ({response.StatusCode}): {erroDetalhes}";
             }
         }
         catch (Exception ex)
         {
-            mensagemErro = $"Erro de ligação: {ex.Message}";
+            erroMensagem = ex.Message;
         }
     }
 }

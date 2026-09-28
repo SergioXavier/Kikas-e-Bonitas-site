@@ -1,0 +1,60 @@
+@page "/registo"
+@inject NavigationManager Navigation
+@inject HttpClient Http
+
+<PageTitle>Kikas & Bonitas - Criar Conta</PageTitle>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card border-0 shadow-sm rounded-4 p-4">
+                <div class="text-center mb-4">
+                    <h3 class="fw-bold text-dark">Criar Conta</h3>
+                    <p class="text-muted small">Registe-se para acompanhar as suas encomendas</p>
+                </div>
+
+                @if (!string.IsNullOrEmpty(mensagemErro))
+                {
+                    <div class="alert alert-danger py-2 small text-center">@mensagemErro</div>
+                }
+
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold">Nome Completo</label>
+                    <input type="text" class="form-control rounded-pill px-3" @bind="nome" placeholder="O seu nome" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold">Email</label>
+                    <input type="email" class="form-control rounded-pill px-3" @bind="email" placeholder="O seu email" />
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label small fw-semibold">Palavra-passe</label>
+                    <input type="password" class="form-control rounded-pill px-3" @bind="password" placeholder="Defina uma senha" />
+                </div>
+
+                <button class="btn btn-dark w-100 rounded-pill py-2 fw-semibold shadow-sm mb-3" @onclick="EfetuarRegisto">
+                    Registar Conta
+                </button>
+
+                <div class="text-center">
+                    <a href="/" class="text-decoration-none text-muted small">← Voltar à Loja</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string nome = string.Empty;
+    private string email = string.Empty;
+    private string password = string.Empty;
+    private string mensagemErro = string.Empty;
+
+    private async Task EfetuarRegisto()
+    {
+        // Lógica de registo via API (ex: Http.PostAsJsonAsync("api/clientes/registo", ...))
+        // Após sucesso, redireciona para a página de consulta de encomendas ou login
+        Navigation.NavigateTo("/minhas-encomendas");
+    }
+}

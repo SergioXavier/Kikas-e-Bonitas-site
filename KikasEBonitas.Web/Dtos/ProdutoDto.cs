@@ -8,7 +8,7 @@ public class ProdutoDto
     public int Stock {get; set; }
     public int CategoriaId {get; set; }
     public string NomeCategoria { get; set; } = string.Empty;
-
+    public string? ImagemUrl { get; set; }
 }
 
 public class ResultadoPaginadoDto<T>

@@ -6,4 +6,5 @@ public class CriarProdutoDto
     public decimal Preco {get; set; }
     public int Stock {get; set; }
     public int CategoriaId {get; set; }
+    public string? ImagemUrl { get; set; }
 }

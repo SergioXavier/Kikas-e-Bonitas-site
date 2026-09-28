@@ -1,0 +1,208 @@
+@page "/encomendas/detalhes/{id:int}"
+@using KikasEBonitas.Web.Dtos
+@inject NavigationManager Navigation
+@inject HttpClient Http
+@inject IJSRuntime JS
+
+<PageTitle>Kikas & Bonitas - Detalhes da Encomenda</PageTitle>
+
+<div class="container py-5">
+    <!-- Cabeçalho -->
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+        <div>
+            <h2 class="fw-bold text-dark mb-1">Encomenda #@Id</h2>
+            <p class="text-muted small mb-0">Detalhes completos e alteração de estado da encomenda.</p>
+        </div>
+        <div>
+            <a href="/encomendas" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+                <i class="bi bi-arrow-left me-1"></i> Voltar à Lista
+            </a>
+        </div>
+    </div>
+
+    <!-- Alertas de Erro ou Sucesso -->
+    @if (!string.IsNullOrEmpty(erroMensagem))
+    {
+        <div class="alert alert-danger mb-4 rounded-4 shadow-sm p-3">
+            <strong>Erro:</strong> @erroMensagem
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(sucessoMensagem))
+    {
+        <div class="alert alert-success mb-4 rounded-4 shadow-sm p-3">
+            @sucessoMensagem
+        </div>
+    }
+
+    @if (encomenda == null && string.IsNullOrEmpty(erroMensagem))
+    {
+        <div class="text-center py-5 text-muted">
+            <div class="spinner-border spinner-border-sm text-secondary me-2" role="status"></div>
+            A carregar detalhes da encomenda...
+        </div>
+    }
+    else if (encomenda != null)
+    {
+        <!-- Informações Gerais e Gestão de Estado -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+                    <h5 class="fw-bold mb-3 text-secondary">Informação do Cliente</h5>
+                    <p class="mb-2"><strong>Nome:</strong> @encomenda.NomeCliente</p>
+                    <p class="mb-0"><strong>Email:</strong> @encomenda.EmailCliente</p>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+                    <h5 class="fw-bold mb-3 text-secondary">Gestão de Estado e Valores</h5>
+                    <p class="mb-2"><strong>Data:</strong> @encomenda.DataCriacao.ToString("dd/MM/yyyy HH:mm")</p>
+                    
+                    <!-- Alterar Estado -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small text-muted">Estado Atual:</label>
+                        <div class="input-group">
+                            <select class="form-select rounded-pill-start" @bind="novoEstado">
+                                <option value="Pendente">Pendente</option>
+                                <option value="Paga">Paga</option>
+                                <option value="Enviada">Enviada</option>
+                                <option value="Cancelada">Cancelada</option>
+                            </select>
+                            <button class="btn btn-primary px-4" @onclick="AtualizarEstado" disabled="@isAguardando">
+                                @if (isAguardando)
+                                {
+                                    <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+                                }
+                                Atualizar
+                            </button>
+                        </div>
+                    </div>
+
+                    <p class="mb-0 text-success fw-bold fs-5"><strong>Total:</strong> @encomenda.ValorTotal.ToString("C")</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabela de Itens -->
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+            <h5 class="fw-bold mb-3 text-secondary">Itens da Encomenda</h5>
+            @if (encomenda.Itens == null || !encomenda.Itens.Any())
+            {
+                <div class="text-muted">Não existem itens associados a esta encomenda.</div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th class="text-center">Quantidade</th>
+                                <th class="text-end">Preço Unitário</th>
+                                <th class="text-end">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in encomenda.Itens)
+                            {
+                                <tr>
+                                    <td class="fw-semibold">@item.NomeProduto</td>
+                                    <td class="text-center">@item.Quantidade</td>
+                                    <td class="text-end">@item.PrecoUnitario.ToString("C")</td>
+                                    <td class="text-end fw-bold">@((item.Quantidade * item.PrecoUnitario).ToString("C"))</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private EncomendaRespostaDto? encomenda;
+    private string? erroMensagem;
+    private string? sucessoMensagem;
+    private string novoEstado = string.Empty;
+    private bool isAguardando = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CarregarDetalhes();
+    }
+
+    private async Task CarregarDetalhes()
+    {
+        try
+        {
+            erroMensagem = null;
+            await ConfigurarAutorizacao();
+
+            encomenda = await Http.GetFromJsonAsync<EncomendaRespostaDto>($"api/encomendas/{Id}");
+            if (encomenda != null)
+            {
+                novoEstado = encomenda.Status;
+            }
+        }
+        catch (Exception ex)
+        {
+            erroMensagem = $"Não foi possível carregar os detalhes da encomenda. ({ex.Message})";
+        }
+    }
+
+    private async Task AtualizarEstado()
+    {
+        try
+        {
+            erroMensagem = null;
+            sucessoMensagem = null;
+            isAguardando = true;
+
+            await ConfigurarAutorizacao();
+
+            // CORRIGIDO: O endpoint na API usa "/estado" e não "/status"
+            var response = await Http.PutAsJsonAsync($"api/encomendas/{Id}/estado", new { Status = novoEstado });
+
+            if (response.IsSuccessStatusCode)
+            {
+                sucessoMensagem = "Estado da encomenda atualizado com sucesso!";
+                if (encomenda != null)
+                {
+                    encomenda.Status = novoEstado;
+                }
+            }
+            else
+            {
+                var conteudoErro = await response.Content.ReadAsStringAsync();
+                erroMensagem = $"Erro ao atualizar o estado: {conteudoErro}";
+            }
+        }
+        catch (Exception ex)
+        {
+            erroMensagem = $"Ocorreu um erro ao comunicar com o servidor: {ex.Message}";
+        }
+        finally
+        {
+            isAguardando = false;
+        }
+    }
+
+    private async Task ConfigurarAutorizacao()
+    {
+        string? token = null;
+        try 
+        {
+            token = await JS.InvokeAsync<string>("localStorage.getItem", "authToken");
+        }
+        catch {}
+
+        if (!string.IsNullOrEmpty(token))
+        {
+            Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+        }
+    }
+}

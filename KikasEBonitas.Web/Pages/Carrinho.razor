@@ -1,0 +1,177 @@
+@page "/carrinho"
+@using KikasEBonitas.Web.Dtos
+@inject KikasEBonitas.Web.Services.CartService CartService
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@implements IDisposable
+
+<div class="container py-4">
+    <h2 class="fw-bold text-dark mb-4">O Meu Carrinho</h2>
+
+    @if (!CartService.Items.Any())
+    {
+        <div class="card p-5 text-center shadow-sm">
+            <div class="mb-3">
+                <i class="bi bi-cart-x fs-1 text-muted"></i>
+            </div>
+            <h5 class="text-dark">O seu carrinho está vazio</h5>
+            <p class="text-muted small mb-4">Explore o catálogo e adicione alguns produtos para continuar.</p>
+            <a href="" class="btn btn-primary rounded-pill px-4 py-2 mx-auto">Ver Catálogo</a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            <!-- Lista de Itens -->
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0 p-4">
+                    <h5 class="fw-bold mb-3">Itens Selecionados</h5>
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Preço Unit.</th>
+                                    <th>Qtd</th>
+                                    <th>Subtotal</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in CartService.Items)
+                                {
+                                    <tr>
+                                        <td class="fw-semibold text-dark">@item.Nome</td>
+                                        <td>@item.Preco.ToString("C")</td>
+                                        <td>
+                                            <span class="badge bg-light text-dark border">@item.Quantidade</span>
+                                        </td>
+                                        <td class="fw-bold">@((item.Preco * item.Quantidade).ToString("C"))</td>
+                                        <td>
+                                            <button class="btn btn-outline-danger btn-sm rounded-circle" @onclick="() => CartService.RemoverProduto(item.ProdutoId)">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulário de Checkout -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm border-0 p-4">
+                    <h5 class="fw-bold mb-3">Finalizar Encomenda</h5>
+                    
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Nome Completo</label>
+                        <input type="text" class="form-control" @bind="nomeCliente" placeholder="O seu nome" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Email</label>
+                        <input type="email" class="form-control" @bind="emailCliente" placeholder="O seu email" />
+                    </div>
+
+                    <hr class="my-3 text-muted" />
+
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="fw-bold text-dark">Total a Pagar:</span>
+                        <span class="fw-bold fs-5 text-success">@CartService.ObterTotal().ToString("C")</span>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(mensagemErro))
+                    {
+                        <div class="alert alert-danger py-2 small mb-3">@mensagemErro</div>
+                    }
+
+                    <button class="btn btn-success w-100 rounded-pill py-2 fw-bold shadow-sm" @onclick="FinalizarEncomenda" disabled="@enviando">
+                        @if (enviando)
+                        {
+                            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                            <span>A processar...</span>
+                        }
+                        else
+                        {
+                            <span>Confirmar Encomenda</span>
+                        }
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private string nomeCliente = string.Empty;
+    private string emailCliente = string.Empty;
+    private string? mensagemErro;
+    private bool enviando = false;
+
+    protected override void OnInitialized()
+    {
+        CartService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        CartService.OnChange -= StateHasChanged;
+    }
+
+    private async Task FinalizarEncomenda()
+    {
+        if (string.IsNullOrWhiteSpace(nomeCliente) || string.IsNullOrWhiteSpace(emailCliente))
+        {
+            mensagemErro = "Por favor, preencha o nome e o email.";
+            return;
+        }
+
+        if (!CartService.Items.Any())
+        {
+            mensagemErro = "O carrinho está vazio.";
+            return;
+        }
+
+        enviando = true;
+        mensagemErro = null;
+
+        try
+        {
+            var dto = new CriarEncomendaDto
+            {
+                NomeCliente = nomeCliente,
+                EmailCliente = emailCliente,
+                Itens = CartService.Items.Select(i => new CriarItemEncomendaDto
+                {
+                    ProdutoId = i.ProdutoId,
+                    Quantidade = i.Quantidade
+                }).ToList()
+            };
+
+            var response = await Http.PostAsJsonAsync("api/encomendas", dto);
+
+            if (response.IsSuccessStatusCode)
+            {
+                CartService.LimparCarrinho();
+                Navigation.NavigateTo("/encomendas");
+            }
+            else
+            {
+                var erroObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+                mensagemErro = erroObj != null && erroObj.ContainsKey("mensagem") 
+                    ? erroObj["mensagem"] 
+                    : "Erro ao submeter a encomenda.";
+            }
+        }
+        catch (Exception ex)
+        {
+            mensagemErro = $"Erro de ligação: {ex.Message}";
+        }
+        finally
+        {
+            enviando = false;
+        }
+    }
+}
