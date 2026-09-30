@@ -1,0 +1,205 @@
+@page "/admin/clientes/{Id:int}"
+@inject HttpClient Http
+@inject NavigationManager Navigation
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            
+            <!-- Barra superior: Botão Voltar + Opções (Histórico e Eliminar) -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <button class="btn btn-outline-dark rounded-pill px-4" @onclick="Voltar">
+                    <i class="bi bi-arrow-left me-2"></i>Voltar à Lista
+                </button>
+                <div class="d-flex gap-2">
+                    <!-- Botão de Histórico -->
+                    <a href="@($"/admin/clientes/{Id}/historico")" class="btn btn-outline-secondary rounded-pill px-3">
+                        <i class="bi bi-clock-history me-1"></i> Histórico
+                    </a>
+                    <!-- Botão de Eliminar -->
+                    <button class="btn btn-outline-danger rounded-pill px-3" @onclick="EliminarCliente">
+                        <i class="bi bi-trash me-1"></i> Eliminar
+                    </button>
+                </div>
+            </div>
+
+            @if (carregando)
+            {
+                <div class="text-center py-5">
+                    <div class="spinner-border text-dark" role="status">
+                        <span class="visually-hidden">A carregar...</span>
+                    </div>
+                </div>
+            }
+            else if (cliente == null)
+            {
+                <div class="alert alert-warning text-center rounded-4 p-4">
+                    Cliente não encontrado.
+                </div>
+            }
+            else
+            {
+                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+                    
+                    <!-- Cabeçalho com Avatar / GIF -->
+                    <div class="text-center mb-4">
+                        @if (!string.IsNullOrEmpty(cliente.GifUrl))
+                        {
+                            <img src="@cliente.GifUrl" alt="Avatar GIF" class="rounded-circle shadow-sm mb-3 border border-3 border-light" style="width: 100px; height: 100px; object-fit: cover;" />
+                        }
+                        else
+                        {
+                            <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center shadow-sm mb-3" style="width: 100px; height: 100px;">
+                                <i class="bi bi-person-fill text-secondary fs-1"></i>
+                            </div>
+                        }
+                        <h3 class="fw-bold text-dark mb-1">@cliente.Nome</h3>
+                        <p class="text-muted small">Registado em: @cliente.DataRegisto.ToString("dd/MM/yyyy HH:mm")</p>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(mensagemSucesso))
+                    {
+                        <div class="alert alert-success rounded-3 text-center py-2 mb-4">@mensagemSucesso</div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(mensagemErro))
+                    {
+                        <div class="alert alert-danger rounded-3 text-center py-2 mb-4">@mensagemErro</div>
+                    }
+
+                    <!-- Formulário de Edição dos Dados -->
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Nome Completo</label>
+                            <input type="text" class="form-control rounded-pill px-3" @bind="cliente.Nome" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Email</label>
+                            <input type="email" class="form-control rounded-pill px-3" @bind="cliente.Email" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Telefone</label>
+                            <input type="tel" class="form-control rounded-pill px-3" @bind="cliente.Telefone" placeholder="912345678" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">NIF (Contribuinte)</label>
+                            <input type="text" class="form-control rounded-pill px-3" @bind="cliente.Nif" placeholder="123456789" maxlength="9" />
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label small fw-semibold">Morada</label>
+                            <input type="text" class="form-control rounded-pill px-3" @bind="cliente.Morada" placeholder="Rua Exemplo, nº 123" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Código Postal</label>
+                            <input type="text" class="form-control rounded-pill px-3" @bind="cliente.CodigoPostal" placeholder="0000-000" />
+                        </div>
+
+                    </div>
+
+                    <div class="mt-4 pt-3 border-top">
+                        <button class="btn btn-dark w-100 rounded-pill py-2 fw-semibold shadow-sm" @onclick="GuardarAlteracoes">
+                            <i class="bi bi-check2-circle me-2"></i>Guardar Alterações
+                        </button>
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private ClienteDetalheDto? cliente;
+    private bool carregando = true;
+    private string mensagemSucesso = string.Empty;
+    private string mensagemErro = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            cliente = await Http.GetFromJsonAsync<ClienteDetalheDto>($"api/clientes/{Id}");
+        }
+        catch (Exception)
+        {
+            cliente = null;
+        }
+        finally
+        {
+            carregando = false;
+        }
+    }
+
+    private async Task GuardarAlteracoes()
+    {
+        mensagemSucesso = string.Empty;
+        mensagemErro = string.Empty;
+
+        try
+        {
+            var response = await Http.PutAsJsonAsync($"api/clientes/{Id}", cliente);
+            if (response.IsSuccessStatusCode)
+            {
+                mensagemSucesso = "Dados do cliente atualizados com sucesso!";
+            }
+            else
+            {
+                mensagemErro = "Erro ao atualizar os dados. Tente novamente.";
+            }
+        }
+        catch (Exception)
+        {
+            mensagemErro = "Ocorreu um erro de ligação ao servidor.";
+        }
+    }
+
+    private async Task EliminarCliente()
+    {
+        mensagemErro = string.Empty;
+
+        try
+        {
+            var response = await Http.DeleteAsync($"api/clientes/{Id}");
+            if (response.IsSuccessStatusCode)
+            {
+                // Redireciona para a lista de clientes após eliminar com sucesso
+                Navigation.NavigateTo("/admin/clientes");
+            }
+            else
+            {
+                mensagemErro = "Erro ao eliminar o cliente.";
+            }
+        }
+        catch (Exception)
+        {
+            mensagemErro = "Ocorreu um erro de ligação ao servidor.";
+        }
+    }
+
+    private void Voltar()
+    {
+        Navigation.NavigateTo("/admin/clientes");
+    }
+
+    public class ClienteDetalheDto
+    {
+        public int Id { get; set; }
+        public string Nome { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string? Telefone { get; set; }
+        public string? Morada { get; set; }
+        public string? CodigoPostal { get; set; }
+        public string? Nif { get; set; }
+        public string? GifUrl { get; set; }
+        public DateTime DataRegisto { get; set; }
+    }
+}

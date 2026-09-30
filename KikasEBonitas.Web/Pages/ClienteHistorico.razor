@@ -1,0 +1,129 @@
+@page "/admin/clientes/{Id:int}/historico"
+@inject HttpClient Http
+@inject NavigationManager Navigation
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            
+            <!-- Cabeçalho e Botão Voltar -->
+            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+                <div>
+                    <h2 class="fw-bold text-dark mb-1">Histórico do Cliente</h2>
+                    <p class="text-muted small mb-0">Consulte as interações e encomendas associadas.</p>
+                </div>
+                <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" @onclick="Voltar">
+                    <i class="bi bi-arrow-left me-1"></i> Voltar ao Detalhe
+                </button>
+            </div>
+
+            @if (carregando)
+            {
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status"></div>
+                    <p class="text-muted small mt-2">A carregar histórico...</p>
+                </div>
+            }
+            else if (cliente == null)
+            {
+                <div class="alert alert-warning text-center rounded-4 p-4">
+                    Cliente não encontrado.
+                </div>
+            }
+            else
+            {
+                <!-- Cartão com Informação Resumida do Cliente -->
+                <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-light">
+                    <div class="d-flex align-items-center">
+                        <div class="rounded-circle bg-white d-inline-flex align-items-center justify-content-center shadow-sm me-3 border" style="width: 60px; height: 60px;">
+                            <i class="bi bi-person-fill text-secondary fs-3"></i>
+                        </div>
+                        <div>
+                            <h4 class="fw-bold text-dark mb-0">@cliente.Nome</h4>
+                            <span class="text-muted small">@cliente.Email | @(cliente.Telefone ?? "Sem telefone")</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lista de Encomendas / Interações -->
+                <div class="card border-0 shadow-sm rounded-4 p-4">
+                    <h5 class="fw-bold text-dark mb-3">Encomendas e Registos</h5>
+
+                    @if (cliente.Encomendas == null || !cliente.Encomendas.Any())
+                    {
+                        <div class="text-center py-4 text-muted">
+                            <i class="bi bi-folder2-open fs-2 d-block mb-2"></i>
+                            Ainda não existem registos de encomendas ou interações para este cliente.
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="list-group list-group-flush">
+                            @foreach (var encomenda in cliente.Encomendas)
+                            {
+                                <div class="list-group-item px-0 py-3 d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="fw-bold text-primary">#@encomenda.Referencia</span>
+                                        <p class="text-muted small mb-0">@encomenda.Descricao</p>
+                                    </div>
+                                    <div class="text-end">
+                                        <span class="badge bg-light text-dark border px-3 py-2 rounded-pill">@encomenda.Estado</span>
+                                        <div class="text-muted small mt-1">@encomenda.Data.ToString("dd/MM/yyyy HH:mm")</div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private ClienteHistoricoDto? cliente;
+    private bool carregando = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            cliente = await Http.GetFromJsonAsync<ClienteHistoricoDto>($"api/clientes/{Id}/historico");
+        }
+        catch (Exception)
+        {
+            cliente = null;
+        }
+        finally
+        {
+            carregando = false;
+        }
+    }
+
+    private void Voltar()
+    {
+        Navigation.NavigateTo($"/admin/clientes/{Id}");
+    }
+
+    public class ClienteHistoricoDto
+    {
+        public int Id { get; set; }
+        public string Nome { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string? Telefone { get; set; }
+        public List<EncomendaDto> Encomendas { get; set; } = new();
+    }
+
+    public class EncomendaDto
+    {
+        public int Id { get; set; }
+        public string Referencia { get; set; } = string.Empty;
+        public string Descricao { get; set; } = string.Empty;
+        public string Estado { get; set; } = string.Empty;
+        public DateTime Data { get; set; }
+    }
+}

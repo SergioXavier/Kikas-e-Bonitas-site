@@ -1,177 +1,342 @@
 @page "/carrinho"
+
 @using KikasEBonitas.Web.Dtos
-@inject KikasEBonitas.Web.Services.CartService CartService
+@using KikasEBonitas.Web.Services
+@inject CartService CartService
 @inject HttpClient Http
 @inject NavigationManager Navigation
-@implements IDisposable
+@inject IJSRuntime JS
 
-<div class="container py-4">
-    <h2 class="fw-bold text-dark mb-4">O Meu Carrinho</h2>
+<h3 class="mb-4">Carrinho de Compras</h3>
 
-    @if (!CartService.Items.Any())
+@if (CartService.Items == null || !CartService.Items.Any())
+{
+    @if (!encomendaCriadaComSucesso)
     {
-        <div class="card p-5 text-center shadow-sm">
-            <div class="mb-3">
-                <i class="bi bi-cart-x fs-1 text-muted"></i>
-            </div>
-            <h5 class="text-dark">O seu carrinho está vazio</h5>
-            <p class="text-muted small mb-4">Explore o catálogo e adicione alguns produtos para continuar.</p>
-            <a href="" class="btn btn-primary rounded-pill px-4 py-2 mx-auto">Ver Catálogo</a>
+        <div class="alert alert-info">
+            O seu carrinho está vazio.
         </div>
     }
-    else
+}
+else
+{
+    @if (!encomendaCriadaComSucesso)
     {
-        <div class="row g-4">
-            <!-- Lista de Itens -->
-            <div class="col-lg-8">
-                <div class="card shadow-sm border-0 p-4">
-                    <h5 class="fw-bold mb-3">Itens Selecionados</h5>
-                    <div class="table-responsive">
-                        <table class="table align-middle">
-                            <thead>
-                                <tr>
-                                    <th>Produto</th>
-                                    <th>Preço Unit.</th>
-                                    <th>Qtd</th>
-                                    <th>Subtotal</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in CartService.Items)
-                                {
-                                    <tr>
-                                        <td class="fw-semibold text-dark">@item.Nome</td>
-                                        <td>@item.Preco.ToString("C")</td>
-                                        <td>
-                                            <span class="badge bg-light text-dark border">@item.Quantidade</span>
-                                        </td>
-                                        <td class="fw-bold">@((item.Preco * item.Quantidade).ToString("C"))</td>
-                                        <td>
-                                            <button class="btn btn-outline-danger btn-sm rounded-circle" @onclick="() => CartService.RemoverProduto(item.ProdutoId)">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Formulário de Checkout -->
-            <div class="col-lg-4">
-                <div class="card shadow-sm border-0 p-4">
-                    <h5 class="fw-bold mb-3">Finalizar Encomenda</h5>
-                    
-                    <div class="mb-3">
-                        <label class="form-label small fw-semibold">Nome Completo</label>
-                        <input type="text" class="form-control" @bind="nomeCliente" placeholder="O seu nome" />
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label small fw-semibold">Email</label>
-                        <input type="email" class="form-control" @bind="emailCliente" placeholder="O seu email" />
-                    </div>
-
-                    <hr class="my-3 text-muted" />
-
-                    <div class="d-flex justify-content-between mb-3">
-                        <span class="fw-bold text-dark">Total a Pagar:</span>
-                        <span class="fw-bold fs-5 text-success">@CartService.ObterTotal().ToString("C")</span>
-                    </div>
-
-                    @if (!string.IsNullOrEmpty(mensagemErro))
+        <div class="table-responsive mb-4">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>PRODUTO</th>
+                        <th>PREÇO</th>
+                        <th>QTD.</th>
+                        <th>TOTAL</th>
+                        <th>AÇÕES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in CartService.Items)
                     {
-                        <div class="alert alert-danger py-2 small mb-3">@mensagemErro</div>
+                        <tr>
+                            <td>@item.Nome</td>
+                            <td>@item.Preco.ToString("C2")</td>
+                            <td>
+                                <input type="number"
+                                       min="1"
+                                       class="form-control"
+                                       style="width: 80px;"
+                                       @value="@item.Quantidade"
+                                       @onchange="@(e => AtualizarQuantidade(item, e))" />
+                            </td>
+                            <td>@((item.Preco * item.Quantidade).ToString("C2"))</td>
+                            <td>
+                                <button class="btn btn-outline-danger btn-sm"
+                                        @onclick="() => CartService.RemoverProduto(item.ProdutoId)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
                     }
+                </tbody>
+            </table>
+        </div>
 
-                    <button class="btn btn-success w-100 rounded-pill py-2 fw-bold shadow-sm" @onclick="FinalizarEncomenda" disabled="@enviando">
-                        @if (enviando)
-                        {
-                            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
-                            <span>A processar...</span>
-                        }
-                        else
-                        {
-                            <span>Confirmar Encomenda</span>
-                        }
-                    </button>
+        <div class="card p-4 shadow-sm bg-light" style="max-width: 600px;">
+            <h4 class="mb-3">Finalizar Encomenda</h4>
+
+            <div class="mb-3">
+                <label class="form-label">Nome Completo *</label>
+                <input type="text"
+                       class="form-control"
+                       @bind="clienteNome"
+                       @bind:event="oninput"
+                       placeholder="Insira o seu nome" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Telemóvel / WhatsApp *</label>
+                <input type="tel"
+                       class="form-control"
+                       @bind="telefoneCliente"
+                       @bind:event="oninput"
+                       placeholder="Ex: 912345678" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Morada *</label>
+                <input type="text"
+                       class="form-control"
+                       @bind="clienteMorada"
+                       @bind:event="oninput"
+                       placeholder="Rua, Número, Andar..." />
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">NIF (Opcional)</label>
+                    <input type="text"
+                           class="form-control"
+                           @bind="clienteNif"
+                           @bind:event="oninput"
+                           placeholder="Ex: 123456789" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Código Postal (Opcional)</label>
+                    <input type="text"
+                           class="form-control"
+                           @bind="clienteCodPostal"
+                           @bind:event="oninput"
+                           placeholder="Ex: 2950-123" />
                 </div>
             </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-3 mt-2">
+                <h4 class="m-0">Total:</h4>
+                <h4 class="text-success m-0">@CartService.ObterTotal().ToString("C2")</h4>
+            </div>
+
+            @if (!string.IsNullOrEmpty(mensagemErro))
+            {
+                <div class="alert alert-danger py-2">
+                    @mensagemErro
+                </div>
+            }
+
+            <button class="btn btn-success w-100 py-3 fs-5"
+                    @onclick="FinalizarEncomenda"
+                    disabled="@isAwaitingResponse">
+                @if (isAwaitingResponse)
+                {
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    <span>A processar encomenda...</span>
+                }
+                else
+                {
+                    <span style="color: white !important;">
+                        <i class="bi bi-whatsapp me-2" style="color: white !important;"></i> Finalizar e Enviar para o WhatsApp
+                    </span>
+                }
+            </button>
         </div>
     }
-</div>
+}
+
+@if (encomendaCriadaComSucesso)
+{
+    <div class="card p-4 shadow-sm text-center mx-auto mt-4" style="max-width: 600px;">
+        <div class="text-success mb-3">
+            <i class="bi bi-check-circle-fill" style="font-size: 3rem;"></i>
+        </div>
+        
+        <h3 class="mb-3">
+            Encomenda #@idEncomendaCriada Registada com Sucesso!
+        </h3>
+
+        <p class="text-muted mb-4">
+            A sua encomenda foi gravada com sucesso e o WhatsApp foi aberto para enviar os detalhes.
+        </p>
+        
+        <button class="btn btn-outline-secondary" @onclick="ReiniciarCarrinho">
+            Fazer Nova Encomenda
+        </button>
+    </div>
+}
 
 @code {
-    private string nomeCliente = string.Empty;
-    private string emailCliente = string.Empty;
-    private string? mensagemErro;
-    private bool enviando = false;
+    private string clienteNome = string.Empty;
+    private string telefoneCliente = string.Empty;
+    private string clienteMorada = string.Empty;
+    private string clienteNif = string.Empty;
+    private string clienteCodPostal = string.Empty;
 
-    protected override void OnInitialized()
-    {
-        CartService.OnChange += StateHasChanged;
-    }
+    private string mensagemErro = string.Empty;
+    private bool isAwaitingResponse = false;
+    private bool encomendaCriadaComSucesso = false;
+    private int idEncomendaCriada = 0;
 
-    public void Dispose()
+    // Coloca aqui o número de WhatsApp da loja (ex: 351912345678)
+    private const string NUMERO_WHATSAPP = "351912345678"; 
+
+    private void AtualizarQuantidade(CartItem item, ChangeEventArgs e)
     {
-        CartService.OnChange -= StateHasChanged;
+        if (int.TryParse(e.Value?.ToString(), out int novaQtd) && novaQtd > 0)
+        {
+            item.Quantidade = novaQtd;
+        }
     }
 
     private async Task FinalizarEncomenda()
     {
-        if (string.IsNullOrWhiteSpace(nomeCliente) || string.IsNullOrWhiteSpace(emailCliente))
+        mensagemErro = string.Empty;
+
+        if (string.IsNullOrWhiteSpace(clienteNome))
         {
-            mensagemErro = "Por favor, preencha o nome e o email.";
+            mensagemErro = "Por favor, preencha o seu nome completo.";
             return;
         }
 
-        if (!CartService.Items.Any())
+        if (string.IsNullOrWhiteSpace(telefoneCliente))
         {
-            mensagemErro = "O carrinho está vazio.";
+            mensagemErro = "Por favor, insira o seu número de telemóvel.";
             return;
         }
 
-        enviando = true;
-        mensagemErro = null;
+        var telefoneLimpo = new string(telefoneCliente.Where(char.IsDigit).ToArray());
+
+        if (telefoneLimpo.Length != 9)
+        {
+            mensagemErro = "Por favor, insira um número de telemóvel válido com 9 dígitos.";
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(clienteMorada))
+        {
+            mensagemErro = "Por favor, preencha a morada de entrega.";
+            return;
+        }
+
+        if (CartService.Items == null || !CartService.Items.Any())
+        {
+            mensagemErro = "O seu carrinho está vazio.";
+            return;
+        }
+
+        isAwaitingResponse = true;
 
         try
         {
+            var itensCarrinhoSnapshot = CartService.Items.ToList();
+            var totalGeral = CartService.ObterTotal();
+
             var dto = new CriarEncomendaDto
             {
-                NomeCliente = nomeCliente,
-                EmailCliente = emailCliente,
-                Itens = CartService.Items.Select(i => new CriarItemEncomendaDto
+                NomeCliente = clienteNome,
+                Telemovel = telefoneLimpo,
+                Itens = itensCarrinhoSnapshot.Select(i => new CriarItemEncomendaDto
                 {
                     ProdutoId = i.ProdutoId,
                     Quantidade = i.Quantidade
                 }).ToList()
             };
 
-            var response = await Http.PostAsJsonAsync("api/encomendas", dto);
+            var resposta = await Http.PostAsJsonAsync("api/encomendas", dto);
 
-            if (response.IsSuccessStatusCode)
+            if (!resposta.IsSuccessStatusCode)
             {
-                CartService.LimparCarrinho();
-                Navigation.NavigateTo("/encomendas");
+                var erroDetalhado = await resposta.Content.ReadAsStringAsync();
+                if (!string.IsNullOrWhiteSpace(erroDetalhado))
+                {
+                    mensagemErro = $"Erro ao registar a encomenda: {erroDetalhado.Trim('"')}";
+                }
+                else
+                {
+                    mensagemErro = "Não foi possível concluir a encomenda. Verifique o stock disponível.";
+                }
+                return;
             }
-            else
+
+            var resultado = await resposta.Content.ReadFromJsonAsync<CriarEncomendaRespostaDto>();
+
+            if (resultado == null)
             {
-                var erroObj = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
-                mensagemErro = erroObj != null && erroObj.ContainsKey("mensagem") 
-                    ? erroObj["mensagem"] 
-                    : "Erro ao submeter a encomenda.";
+                mensagemErro = "A API criou a encomenda, mas não devolveu uma resposta válida.";
+                return;
             }
+
+            idEncomendaCriada = resultado.Encomenda.Id;
+
+            // Construção da mensagem estruturada com a função pretendida
+            var listaLinhas = itensCarrinhoSnapshot.Select(i => Uri.EscapeDataString($"• {i.Quantidade}x {i.Nome} - {(i.Quantidade * i.Preco):C2}"));
+            var resumoProdutos = string.Join("%0A", listaLinhas);
+            var q = "%0A";
+
+            var mensagem = 
+                $"{Uri.EscapeDataString($"*NOVO PEDIDO DO CATÁLOGO #{idEncomendaCriada}*")}{q}{q}" +
+                $"{Uri.EscapeDataString("*Produtos:*")}{q}" +
+                $"{resumoProdutos}{q}{q}" +
+                $"{Uri.EscapeDataString($"*Total:* {totalGeral:C2}")}{q}{q}" +
+                $"{Uri.EscapeDataString("*Dados do Cliente:*")}{q}" +
+                $"{Uri.EscapeDataString($"• *Nome:* {clienteNome}")}{q}" +
+                $"{Uri.EscapeDataString($"• *Telemóvel:* {telefoneCliente}")}{q}" +
+                $"{Uri.EscapeDataString($"• *NIF:* {(string.IsNullOrWhiteSpace(clienteNif) ? "Não indicado" : clienteNif)}")}{q}" +
+                $"{Uri.EscapeDataString($"• *Morada:* {clienteMorada}")}{q}" +
+                $"{Uri.EscapeDataString($"• *Código Postal:* {(string.IsNullOrWhiteSpace(clienteCodPostal) ? "Não indicado" : clienteCodPostal)}")}";
+
+            var url = $"https://wa.me/{NUMERO_WHATSAPP}?text={mensagem}";
+
+            // Abre o WhatsApp num novo separador sem fechar a aplicação
+            await JS.InvokeVoidAsync("open", url, "_blank");
+
+            CartService.LimparCarrinho();
+            encomendaCriadaComSucesso = true;
+        }
+        catch (HttpRequestException ex)
+        {
+            mensagemErro = $"Erro de ligação com a API: {ex.Message}";
         }
         catch (Exception ex)
         {
-            mensagemErro = $"Erro de ligação: {ex.Message}";
+            mensagemErro = $"Ocorreu um erro inesperado: {ex.Message}";
         }
         finally
         {
-            enviando = false;
+            isAwaitingResponse = false;
         }
+    }
+
+    private void ReiniciarCarrinho()
+    {
+        encomendaCriadaComSucesso = false;
+        idEncomendaCriada = 0;
+        clienteNome = string.Empty;
+        telefoneCliente = string.Empty;
+        clienteMorada = string.Empty;
+        clienteNif = string.Empty;
+        clienteCodPostal = string.Empty;
+        mensagemErro = string.Empty;
+
+        Navigation.NavigateTo("/carrinho", true);
+    }
+
+    public class CriarEncomendaDto
+    {
+        public string NomeCliente { get; set; } = string.Empty;
+        public string Telemovel { get; set; } = string.Empty;
+        public List<CriarItemEncomendaDto> Itens { get; set; } = new();
+    }
+
+    public class CriarItemEncomendaDto
+    {
+        public int ProdutoId { get; set; }
+        public int Quantidade { get; set; }
+    }
+
+    public class CriarEncomendaRespostaDto
+    {
+        public EncomendaRespostaDto Encomenda { get; set; } = new();
+    }
+
+    public class EncomendaRespostaDto
+    {
+        public int Id { get; set; }
     }
 }

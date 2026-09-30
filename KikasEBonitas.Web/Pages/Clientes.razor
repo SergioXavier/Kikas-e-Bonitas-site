@@ -1,0 +1,150 @@
+@page "/admin/clientes"
+@inject HttpClient Http
+
+<PageTitle>Kikas & Bonitas - Gestão de Clientes</PageTitle>
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+        <div>
+            <h2 class="fw-bold text-dark mb-1">Gestão de Clientes</h2>
+            <p class="text-muted small mb-0">Consulte os clientes registados na plataforma.</p>
+        </div>
+        <a href="/admin" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+            <i class="bi bi-arrow-left me-1"></i> Voltar ao Painel
+        </a>
+    </div>
+
+    @if (!string.IsNullOrEmpty(mensagemSucesso))
+    {
+        <div class="alert alert-success rounded-3 text-center py-2 mb-4">@mensagemSucesso</div>
+    }
+
+    @if (!string.IsNullOrEmpty(mensagemErro))
+    {
+        <div class="alert alert-danger rounded-3 text-center py-2 mb-4">@mensagemErro</div>
+    }
+
+    @if (clientes == null)
+    {
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="text-muted small mt-2">A carregar clientes...</p>
+        </div>
+    }
+    else if (!clientes.Any())
+    {
+        <div class="alert alert-info text-center py-4 rounded-4 shadow-sm">
+            Ainda não existem clientes registados na aplicação.
+        </div>
+    }
+    else
+    {
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Data de Registo</th>
+                            <th class="text-end">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var cliente in clientes)
+                        {
+                            <tr>
+                                <td class="fw-bold text-primary">#@cliente.Id</td>
+                                <td>@cliente.Nome</td>
+                                <td class="text-muted">@cliente.Email</td>
+                                <td class="text-muted">@cliente.DataRegisto.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td class="text-end">
+                                    <div class="btn-group" role="group">
+                                        <!-- Botão Ver / Editar -->
+                                        <a href="@($"/admin/clientes/{cliente.Id}")" class="btn btn-sm btn-outline-dark rounded-pill px-3 me-2">
+                                            <i class="bi bi-pencil-square me-1"></i> Ver / Editar
+                                        </a>
+                                        <!-- Botão Histórico -->
+                                        <a href="@($"/admin/clientes/{cliente.Id}/historico")" class="btn btn-sm btn-outline-secondary rounded-pill px-3 me-2">
+                                            <i class="bi bi-clock-history me-1"></i> Histórico
+                                        </a>
+                                        <!-- Botão Eliminar -->
+                                        <button class="btn btn-sm btn-outline-danger rounded-pill px-3" @onclick="() => EliminarCliente(cliente.Id)">
+                                            <i class="bi bi-trash me-1"></i> Eliminar
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private List<ClienteDto>? clientes;
+    private string mensagemSucesso = string.Empty;
+    private string mensagemErro = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CarregarClientes();
+    }
+
+    private async Task CarregarClientes()
+    {
+        try
+        {
+            var options = new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            var response = await Http.GetAsync("api/clientes");
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonString = await response.Content.ReadAsStringAsync();
+                clientes = System.Text.Json.JsonSerializer.Deserialize<List<ClienteDto>>(jsonString, options);
+            }
+            clientes ??= new List<ClienteDto>();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao carregar clientes: {ex.Message}");
+            clientes = new List<ClienteDto>();
+        }
+    }
+
+    private async Task EliminarCliente(int id)
+    {
+        mensagemSucesso = string.Empty;
+        mensagemErro = string.Empty;
+
+        try
+        {
+            var response = await Http.DeleteAsync($"api/clientes/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                mensagemSucesso = "Cliente eliminado com sucesso!";
+                await CarregarClientes(); // Atualiza a tabela dinamicamente
+            }
+            else
+            {
+                mensagemErro = "Erro ao eliminar o cliente.";
+            }
+        }
+        catch (Exception)
+        {
+            mensagemErro = "Ocorreu um erro de ligação ao servidor.";
+        }
+    }
+
+    public class ClienteDto
+    {
+        public int Id { get; set; }
+        public string Nome { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string? Telefone { get; set; }
+        public string? Nif { get; set; }
+        public DateTime DataRegisto { get; set; }
+    }
+}

@@ -28,6 +28,27 @@
                     <input type="email" class="form-control rounded-pill px-3" @bind="email" placeholder="O seu email" />
                 </div>
 
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold">Telefone (Opcional)</label>
+                    <input type="tel" class="form-control rounded-pill px-3" @bind="telefone" placeholder="O seu contacto telefónico" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold">Morada (Opcional)</label>
+                    <input type="text" class="form-control rounded-pill px-3" @bind="morada" placeholder="Morada de entrega" />
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label small fw-semibold">Código Postal (Opcional)</label>
+                        <input type="text" class="form-control rounded-pill px-3" @bind="codigoPostal" placeholder="0000-000" />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label small fw-semibold">NIF (Opcional)</label>
+                        <input type="text" class="form-control rounded-pill px-3" @bind="nif" placeholder="Número de Contribuinte" maxlength="9" />
+                    </div>
+                </div>
+
                 <div class="mb-4">
                     <label class="form-label small fw-semibold">Palavra-passe</label>
                     <input type="password" class="form-control rounded-pill px-3" @bind="password" placeholder="Defina uma senha" />
@@ -50,11 +71,50 @@
     private string email = string.Empty;
     private string password = string.Empty;
     private string mensagemErro = string.Empty;
+    private string telefone = string.Empty;
+    private string morada = string.Empty;
+    private string codigoPostal = string.Empty;
+    private string nif = string.Empty;
 
     private async Task EfetuarRegisto()
     {
-        // Lógica de registo via API (ex: Http.PostAsJsonAsync("api/clientes/registo", ...))
-        // Após sucesso, redireciona para a página de consulta de encomendas ou login
-        Navigation.NavigateTo("/minhas-encomendas");
+        mensagemErro = string.Empty;
+
+        if (string.IsNullOrWhiteSpace(nome) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+        {
+            mensagemErro = "Por favor, preencha todos os campos.";
+            return;
+        }
+
+        try
+        {
+            var dadosRegisto = new
+            {
+                Nome = nome,
+                Email = email,
+                PalavraPasse = password,
+                Telefone = telefone,
+                Morada = morada,
+                CodigoPostal = codigoPostal,
+                Nif = nif
+            };
+
+            var response = await Http.PostAsJsonAsync("api/auth/registo", dadosRegisto);
+
+            if (response.IsSuccessStatusCode)
+            {
+                Navigation.NavigateTo("/minhas-encomendas");
+            }
+            else
+            {
+                // Lê a resposta bruta da API para sabermos o que ela está a devolver
+                var conteudoErro = await response.Content.ReadAsStringAsync();
+                mensagemErro = $"Erro ({(int)response.StatusCode}): {conteudoErro}";
+            }
+        }
+        catch (Exception ex)
+        {
+            mensagemErro = $"Erro de ligação: {ex.Message}";
+        }
     }
 }
