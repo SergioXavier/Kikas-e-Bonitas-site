@@ -13,7 +13,7 @@
                     <p class="text-muted small mb-0">Consulte as interações e encomendas associadas.</p>
                 </div>
                 <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" @onclick="Voltar">
-                    <i class="bi bi-arrow-left me-1"></i> Voltar ao Detalhe
+                    <i class="bi bi-arrow-left me-1"></i> Voltar à Gestão de Clientes
                 </button>
             </div>
 
@@ -106,7 +106,7 @@
 
     private void Voltar()
     {
-        Navigation.NavigateTo($"/admin/clientes/{Id}");
+        Navigation.NavigateTo($"/admin/clientes");
     }
 
     public class ClienteHistoricoDto

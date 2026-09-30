@@ -4,6 +4,8 @@ public class CriarEncomendaDto
 {
     public string NomeCliente { get; set; } = string.Empty;
     public string EmailCliente { get; set; } = string.Empty;
+    public string Telemovel { get; set; } = string.Empty; // Adicionado para o telemóvel de contacto/WhatsApp
+    public int? ClienteId { get; set; } // Adicionado para associar opcionalmente o cliente habitual registado
     public List<CriarItemEncomendaDto> Itens { get; set; } = new();
 }
 

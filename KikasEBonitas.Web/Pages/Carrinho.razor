@@ -63,6 +63,40 @@ else
         <div class="card p-4 shadow-sm bg-light" style="max-width: 600px;">
             <h4 class="mb-3">Finalizar Encomenda</h4>
 
+            <!-- Secção de Cliente Habitual -->
+            <div class="card border-0 shadow-sm rounded-4 p-3 mb-4 bg-white">
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" id="checkClienteHabitual" @bind="usarDescontoCliente" @bind:after="OnCheckChanged">
+                    <label class="form-check-label fw-semibold text-primary" for="checkClienteHabitual">
+                        <i class="bi bi-star-fill me-1"></i> Sou cliente habitual (descontos exclusivos)
+                    </label>
+                </div>
+
+                @if (usarDescontoCliente)
+                {
+                    <div class="mt-3 p-3 bg-light rounded-3 border">
+                        <label class="form-label small fw-bold">Número de Telemóvel de Registo *</label>
+                        <div class="input-group">
+                            <input type="tel" class="form-control" @bind="telemovelClienteHabitual" placeholder="Introduza o telemóvel registado" />
+                            <button class="btn btn-outline-primary" type="button" @onclick="ValidarClienteTelemovel">Validar</button>
+                        </div>
+                        
+                        @if (!string.IsNullOrEmpty(mensagemAvisoCliente))
+                        {
+                            <div class="text-danger small mt-2 fw-semibold">
+                                <i class="bi bi-exclamation-circle me-1"></i> @mensagemAvisoCliente
+                            </div>
+                        }
+                        @if (clienteValidado != null)
+                        {
+                            <div class="text-success small mt-2 fw-semibold">
+                                <i class="bi bi-check-circle me-1"></i> Cliente validado: @clienteValidado.Nome (Desconto Aplicado)
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+
             <div class="mb-3">
                 <label class="form-label">Nome Completo *</label>
                 <input type="text"
@@ -162,6 +196,11 @@ else
 }
 
 @code {
+    private bool usarDescontoCliente = false;
+    private string telemovelClienteHabitual = string.Empty;
+    private string? mensagemAvisoCliente = null;
+    private ClienteValidadoDto? clienteValidado = null;
+
     private string clienteNome = string.Empty;
     private string telefoneCliente = string.Empty;
     private string clienteMorada = string.Empty;
@@ -173,8 +212,63 @@ else
     private bool encomendaCriadaComSucesso = false;
     private int idEncomendaCriada = 0;
 
-    // Coloca aqui o número de WhatsApp da loja (ex: 351912345678)
     private const string NUMERO_WHATSAPP = "351912345678"; 
+
+    private void OnCheckChanged()
+    {
+        if (!usarDescontoCliente)
+        {
+            telemovelClienteHabitual = string.Empty;
+            mensagemAvisoCliente = null;
+            clienteValidado = null;
+        }
+    }
+
+    private async Task ValidarClienteTelemovel()
+    {
+        mensagemAvisoCliente = null;
+        clienteValidado = null;
+
+        var telemovelLimpo = new string(telemovelClienteHabitual.Where(char.IsDigit).ToArray());
+
+        if (telemovelLimpo.Length != 9)
+        {
+            mensagemAvisoCliente = "Introduza um telemóvel válido com 9 dígitos.";
+            return;
+        }
+
+        try
+        {
+            var response = await Http.GetAsync($"api/clientes/por-telemovel/{telemovelLimpo}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                clienteValidado = await response.Content.ReadFromJsonAsync<ClienteValidadoDto>();
+                mensagemAvisoCliente = null;
+
+                // Preenchimento automático opcional para facilitar a vida ao cliente registado
+                if (clienteValidado != null)
+                {
+                    clienteNome = clienteValidado.Nome;
+                    telefoneCliente = clienteValidado.Telefone;
+                    if (!string.IsNullOrEmpty(clienteValidado.Nif)) clienteNif = clienteValidado.Nif;
+                }
+            }
+            else
+            {
+                // Conforme pedido: se não existe, mostra a mensagem, desmarca a caixa e limpa
+                mensagemAvisoCliente = "Cliente não registado!";
+                clienteValidado = null;
+                usarDescontoCliente = false;
+                telemovelClienteHabitual = string.Empty;
+            }
+        }
+        catch (Exception)
+        {
+            mensagemAvisoCliente = "Erro ao validar o cliente. Tente novamente.";
+            usarDescontoCliente = false;
+        }
+    }
 
     private void AtualizarQuantidade(CartItem item, ChangeEventArgs e)
     {
@@ -231,6 +325,7 @@ else
             {
                 NomeCliente = clienteNome,
                 Telemovel = telefoneLimpo,
+                ClienteId = clienteValidado?.Id, // Associa ao cliente registado caso tenha sido validado com sucesso!
                 Itens = itensCarrinhoSnapshot.Select(i => new CriarItemEncomendaDto
                 {
                     ProdutoId = i.ProdutoId,
@@ -243,19 +338,13 @@ else
             if (!resposta.IsSuccessStatusCode)
             {
                 var erroDetalhado = await resposta.Content.ReadAsStringAsync();
-                if (!string.IsNullOrWhiteSpace(erroDetalhado))
-                {
-                    mensagemErro = $"Erro ao registar a encomenda: {erroDetalhado.Trim('"')}";
-                }
-                else
-                {
-                    mensagemErro = "Não foi possível concluir a encomenda. Verifique o stock disponível.";
-                }
+                mensagemErro = !string.IsNullOrWhiteSpace(erroDetalhado) 
+                    ? $"Erro ao registar a encomenda: {erroDetalhado.Trim('"')}" 
+                    : "Não foi possível concluir a encomenda. Verifique o stock disponível.";
                 return;
             }
 
             var resultado = await resposta.Content.ReadFromJsonAsync<CriarEncomendaRespostaDto>();
-
             if (resultado == null)
             {
                 mensagemErro = "A API criou a encomenda, mas não devolveu uma resposta válida.";
@@ -264,7 +353,7 @@ else
 
             idEncomendaCriada = resultado.Encomenda.Id;
 
-            // Construção da mensagem estruturada com a função pretendida
+            // Construção da mensagem do WhatsApp
             var listaLinhas = itensCarrinhoSnapshot.Select(i => Uri.EscapeDataString($"• {i.Quantidade}x {i.Nome} - {(i.Quantidade * i.Preco):C2}"));
             var resumoProdutos = string.Join("%0A", listaLinhas);
             var q = "%0A";
@@ -283,7 +372,6 @@ else
 
             var url = $"https://wa.me/{NUMERO_WHATSAPP}?text={mensagem}";
 
-            // Abre o WhatsApp num novo separador sem fechar a aplicação
             await JS.InvokeVoidAsync("open", url, "_blank");
 
             CartService.LimparCarrinho();
@@ -312,15 +400,29 @@ else
         clienteMorada = string.Empty;
         clienteNif = string.Empty;
         clienteCodPostal = string.Empty;
+        usarDescontoCliente = false;
+        telemovelClienteHabitual = string.Empty;
+        clienteValidado = null;
         mensagemErro = string.Empty;
 
-        Navigation.NavigateTo("/carrinho", true);
+        Navigation.NavigateTo("/", true);
+    }
+
+    // DTOs locais
+    public class ClienteValidadoDto
+    {
+        public int Id { get; set; }
+        public string Nome { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Telefone { get; set; } = string.Empty;
+        public string? Nif { get; set; }
     }
 
     public class CriarEncomendaDto
     {
         public string NomeCliente { get; set; } = string.Empty;
         public string Telemovel { get; set; } = string.Empty;
+        public int? ClienteId { get; set; }
         public List<CriarItemEncomendaDto> Itens { get; set; } = new();
     }
 
