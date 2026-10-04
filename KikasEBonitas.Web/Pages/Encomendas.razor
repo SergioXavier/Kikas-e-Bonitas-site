@@ -70,6 +70,9 @@
                                     <button class="btn btn-sm btn-outline-primary rounded-pill px-3" @onclick="() => VerDetalhes(encomenda.Id)">
                                         <i class="bi bi-eye"></i> Detalhes
                                     </button>
+                                    <button class="btn btn-sm btn-outline-secondary" @onclick="() => VerRecibo(encomenda.Id)" title="Imprimir Recibo">
+                                        🖨️ Recibo
+                                    </button>
                                     <!-- Botão Eliminar -->
                                     <button class="btn btn-sm btn-outline-danger rounded-pill px-3" @onclick="() => EliminarEncomenda(encomenda.Id)">
                                         <i class="bi bi-trash"></i> Eliminar
@@ -147,6 +150,11 @@
     private void VerDetalhes(int id)
     {
         Navigation.NavigateTo($"/encomendas/detalhes/{id}");
+    }
+
+    private void VerRecibo(int encomendaId)
+    {
+        Navigation.NavigateTo($"/encomendas/recibo/{encomendaId}");
     }
 
     private async Task ConfigurarAutorizacao()

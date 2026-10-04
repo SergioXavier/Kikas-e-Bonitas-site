@@ -49,7 +49,8 @@
                 <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
                     <h5 class="fw-bold mb-3 text-secondary">Informação do Cliente</h5>
                     <p class="mb-2"><strong>Nome:</strong> @encomenda.NomeCliente</p>
-                    <p class="mb-0"><strong>Email:</strong> @encomenda.EmailCliente</p>
+                    <p class="mb-2"><strong>Telemóvel:</strong> @encomenda.Telemovel</p>
+                    <p class="mb-0"><strong>Método de Pagamento:</strong> <span class="badge bg-dark">@encomenda.MetodoPagamento</span></p>
                 </div>
             </div>
             
@@ -78,7 +79,11 @@
                         </div>
                     </div>
 
-                    <p class="mb-0 text-success fw-bold fs-5"><strong>Total:</strong> @encomenda.ValorTotal.ToString("C")</p>
+                    <div class="d-flex justify-content-between small text-muted mb-1">
+                        <span>Portes de Envio:</span>
+                        <span>@encomenda.CustoPortes.ToString("C")</span>
+                    </div>
+                    <p class="mb-0 text-success fw-bold fs-5 border-top pt-2"><strong>Total (c/ Portes):</strong> @encomenda.ValorTotal.ToString("C")</p>
                 </div>
             </div>
         </div>
@@ -164,7 +169,6 @@
 
             await ConfigurarAutorizacao();
 
-            // CORRIGIDO: O endpoint na API usa "/estado" e não "/status"
             var response = await Http.PutAsJsonAsync($"api/encomendas/{Id}/estado", new { Status = novoEstado });
 
             if (response.IsSuccessStatusCode)
@@ -204,5 +208,28 @@
         {
             Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
         }
+    }
+
+    // DTOs adaptados para incluir o MetodoPagamento e CustoPortes na visualização
+    public class ItemEncomendaRespostaDto
+    {
+        public int ProdutoId { get; set; }
+        public string NomeProduto { get; set; } = string.Empty;
+        public int Quantidade { get; set; }
+        public decimal PrecoUnitario { get; set; }
+    }
+
+    public class EncomendaRespostaDto
+    {
+        public int Id { get; set; }
+        public DateTime DataCriacao { get; set; }
+        public string NomeCliente { get; set; } = string.Empty;
+        public string EmailCliente { get; set; } = string.Empty;
+        public string Telemovel { get; set; } = string.Empty;
+        public string Status { get; set; } = string.Empty;
+        public string MetodoPagamento { get; set; } = string.Empty;
+        public decimal CustoPortes { get; set; }
+        public decimal ValorTotal { get; set; }
+        public List<ItemEncomendaRespostaDto> Itens { get; set; } = new();
     }
 }

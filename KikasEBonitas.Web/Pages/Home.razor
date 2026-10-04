@@ -3,88 +3,104 @@
 @inject HttpClient Http
 @inject KikasEBonitas.Web.Services.CartService CartService
 @inject NavigationManager Navigation
+@implements IDisposable
 
-<PageTitle>Kikas & Bonitas - Catálogo</PageTitle>
+<PageTitle>Kikas & Bonitas - Loja Online</PageTitle>
 
-<div class="container py-5 position-relative">
-    <!-- Links no Canto Superior Direito (Limpos e Organizados) -->
-    <div class="position-absolute top-0 end-0 mt-3 me-3 d-flex align-items-center gap-3">
-        <!-- Registo do Cliente -->
-        <a href="/registo" class="text-decoration-none text-muted small fw-semibold">
+<div class="home-container pb-5">
+    <!-- Links no Canto Superior Direito -->
+    <div class="position-absolute top-0 end-0 mt-3 me-3 d-flex align-items-center gap-3" style="z-index: 10;">
+        <a href="/registo" class="text-decoration-none small fw-semibold" style="color: var(--primary-black, #1A1A1A);">
             <i class="bi bi-person-plus me-1"></i> Registo de Cliente
         </a>
-        
-        <!-- Separador visual discreto -->
         <span class="text-muted">|</span>
-
-        <!-- Acesso Administrativo -->
-        <a href="/login" class="text-decoration-none text-muted small fw-semibold">
+        <a href="/login" class="text-decoration-none small fw-semibold" style="color: var(--primary-black, #1A1A1A);">
             <i class="bi bi-lock-fill me-1"></i> Login Admin
         </a>
     </div>
 
-    <!-- Título Principal -->
-    <div class="text-center mb-5">
-        <h1 class="fw-bold text-dark display-6 mb-1">Kikas & Bonitas</h1>
-        <p class="text-muted small">Consulte os nossos produtos e faça a sua encomenda</p>
+    <!-- Cabeçalho com Logótipo Centralizado -->
+    <div class="text-center pt-4 pb-3">
+        <a href="" class="d-inline-block">
+            <img src="images/Logo.jpeg" alt="Kikas & Bonitas" style="max-height: 85px; object-fit: contain;" />
+        </a>
     </div>
 
-    <!-- Catálogo de Produtos -->
-    <div class="text-center mb-4">
-        <h3 class="fw-bold text-dark" style="letter-spacing: 0.5px;">Catálogo Semanal</h3>
+    <!-- Banner / Hero Section com Estilo Elegante -->
+    <div class="hero-section text-white text-center py-5 mb-5 position-relative" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('images/Logo.jpeg') center/cover; border-top: 1px solid #E6E2DD; border-bottom: 1px solid #E6E2DD;">
+        <div class="container py-4">
+            <h1 class="fw-bold display-6 mb-2" style="font-family: 'Playfair Display', serif; letter-spacing: 2px;">
+                ELEGÂNCIA E BRILHO PARA A SUA BELEZA
+            </h1>
+            <p class="lead mb-4 fw-light" style="font-size: 1.1rem;">
+                Consulte os nossos produtos e faça a sua encomenda
+            </p>
+            <a href="#catalogo" class="btn btn-gold px-4 py-2 rounded-pill shadow-sm" style="background-color: #D4AF37; color: #ffffff; font-weight: 600; border: none;">
+                DESCOBRIR A COLEÇÃO
+            </a>
+        </div>
     </div>
 
-    @if (produtos == null)
-    {
-        <div class="text-center py-5">
-            <div class="spinner-border text-primary" role="status"></div>
-            <p class="text-muted mt-2">A carregar catálogo...</p>
+    <div class="container" id="catalogo">
+        <!-- Catálogo de Produtos -->
+        <div class="text-center mb-4">
+            <h3 class="fw-bold text-dark pb-2 d-inline-block border-bottom border-2" style="border-color: #D4AF37 !important; letter-spacing: 0.5px;">
+                Catálogo Semanal
+            </h3>
         </div>
-    }
-    else if (!produtos.Any())
-    {
-        <div class="card p-5 text-center shadow-sm border-0">
-            <p class="text-muted mb-0">De momento não existem produtos disponíveis no catálogo.</p>
-        </div>
-    }
-    else
-    {
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-            @foreach (var produto in produtos)
-            {
-                <div class="col">
-                    <div class="card h-100 shadow-sm border-0 rounded-4 p-3 d-flex flex-column justify-content-between">
-                        <div>
-                            <div class="bg-light rounded-3 mb-3 d-flex align-items-center justify-content-center" style="height: 180px; overflow: hidden;">
-                                @if (!string.IsNullOrEmpty(produto.ImagemUrl))
-                                {
-                                    <img src="@ObterCaminhoImagem(produto.ImagemUrl)" alt="@produto.Nome" class="w-100 h-100" style="object-fit: cover;" />
-                                }
-                                else
-                                {
-                                    <i class="bi bi-image text-muted fs-1"></i>
-                                }
+
+        @if (produtos == null)
+        {
+            <div class="text-center py-5">
+                <div class="spinner-border" style="color: #D4AF37;" role="status"></div>
+                <p class="text-muted mt-2">A carregar catálogo...</p>
+            </div>
+        }
+        else if (!produtos.Any())
+        {
+            <div class="card p-5 text-center shadow-sm border-0 rounded-4" style="background-color: #FDFCFB;">
+                <p class="text-muted mb-0">De momento não existem produtos disponíveis no catálogo.</p>
+            </div>
+        }
+        else
+        {
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                @foreach (var produto in produtos)
+                {
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0 rounded-4 p-3 d-flex flex-column justify-content-between" style="background-color: #ffffff; transition: transform 0.2s;">
+                            <div>
+                                <div class="bg-light rounded-3 mb-3 d-flex align-items-center justify-content-center" style="height: 180px; overflow: hidden;">
+                                    @if (!string.IsNullOrEmpty(produto.ImagemUrl))
+                                    {
+                                        <img src="@ObterCaminhoImagem(produto.ImagemUrl)" alt="@produto.Nome" class="w-100 h-100" style="object-fit: cover;" />
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-image text-muted fs-1"></i>
+                                    }
+                                </div>
+                                <h6 class="fw-semibold text-dark text-center mb-2">@produto.Nome</h6>
+                                <div class="text-center fw-bold fs-5 mb-3" style="color: #D4AF37;">
+                                    @produto.Preco.ToString("C")
+                                </div>
                             </div>
-                            <h6 class="fw-semibold text-dark text-center mb-2">@produto.Nome</h6>
-                            <div class="text-center text-success fw-bold fs-5 mb-3">
-                                @produto.Preco.ToString("C")
-                            </div>
+
+                            <button class="btn w-100 rounded-pill py-2 shadow-sm fw-semibold text-white" style="background-color: #1A1A1A; transition: background 0.2s;" @onclick="() => AdicionarAoCarrinho(produto)">
+                                <i class="bi bi-plus-lg me-1"></i> Adicionar
+                            </button>
                         </div>
-
-                        <button class="btn btn-primary w-100 rounded-pill py-2 shadow-sm" @onclick="() => AdicionarAoCarrinho(produto)">
-                            <i class="bi bi-plus-lg me-1">Adicionar</i>
-                        </button>
                     </div>
-                </div>
-            }
-        </div>
-    }
+                }
+            </div>
+        }
+    </div>
 
     <!-- Botão Flutuante do Carrinho -->
     @if (CartService.ObterQuantidadeTotal() > 0)
     {
         <div class="position-fixed bottom-0 end-0 p-4" style="z-index: 1050;">
-            <button class="btn btn-success rounded-pill shadow-lg px-4 py-3 fw-bold d-flex align-items-center gap-2" @onclick="VerCarrinho">
+            <button class="btn rounded-pill shadow-lg px-4 py-3 fw-bold d-flex align-items-center gap-2 text-white" style="background-color: #D4AF37;" @onclick="VerCarrinho">
                 <i class="bi bi-cart-fill fs-5"></i>
                 <span>Carrinho (@CartService.ObterQuantidadeTotal())</span>
             </button>

@@ -1,0 +1,131 @@
+@page "/encomendas/recibo/{Id:int}"
+@using KikasEBonitas.Web.Dtos
+@inject NavigationManager Navigation
+@inject HttpClient Http
+@inject IJSRuntime JS
+
+<div class="recibo-container">
+    <div class="no-print mb-3">
+        <button class="btn btn-primary me-2" @onclick="Imprimir">🖨️ Imprimir / Guardar PDF</button>
+        <button class="btn btn-secondary" @onclick="Voltar">← Voltar</button>
+    </div>
+
+    @if (encomenda == null)
+    {
+        <p>A carregar dados do recibo...</p>
+    }
+    else
+    {
+        <div class="talao" id="printable-area">
+            <div class="text-center header-loja">
+                <h3>Kikas & Bonitas</h3>
+                <p>Carla Xavier</p>
+                <p>NIF: 212 114 034</p>
+                <hr />
+            </div>
+
+            <div class="info-talao">
+                <p><strong>Talão de Venda / Encomenda:</strong> #@encomenda.Id</p>
+                <p><strong>Data:</strong> @encomenda.DataCriacao.ToString("dd/MM/yyyy HH:mm")</p>
+                
+                <!-- Secção dinâmica para dados do cliente (registado ou balcão) -->
+                <div class="dados-cliente-mt">
+                    <p><strong>Cliente:</strong> @encomenda.NomeCliente</p>
+                    
+                    @if (!string.IsNullOrWhiteSpace(encomenda.NifCliente))
+                    {
+                        <p><strong>NIF:</strong> @encomenda.NifCliente</p>
+                    }
+                    
+                    @if (!string.IsNullOrWhiteSpace(encomenda.ContactoCliente))
+                    {
+                        <p><strong>Contacto:</strong> @encomenda.ContactoCliente</p>
+                    }
+                    
+                    <p class="badge-tipo-cliente">
+                        <em>@(encomenda.ClienteRegistado ? "Cliente Registado" : "Cliente de Balcão / Não Registado")</em>
+                    </p>
+                </div>
+            </div>
+
+            <hr />
+
+            <table class="table table-sm itens-table">
+                <thead>
+                    <tr>
+                        <th>Qtd</th>
+                        <th>Artigo</th>
+                        <th class="text-end">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in encomenda.Itens)
+                    {
+                        <tr>
+                            <td>@item.Quantidade</td>
+                            <td>@item.NomeProduto</td>
+                            <td class="text-end">@item.Subtotal.ToString("C")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <hr />
+
+            <div class="totais">
+                <div class="d-flex justify-content-between">
+                    <strong>Total a Pagar:</strong>
+                    <strong>@encomenda.ValorTotal.ToString("C")</strong>
+                </div>
+                <p class="mt-2"><strong>Método de Pagamento:</strong> @encomenda.MetodoPagamento</p>
+            </div>
+
+            <div class="text-center footer-talao mt-4">
+                <p>Obrigado pela sua preferência!</p>
+                <p class="small">Conserve este talão para efeitos de troca.</p>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private EncomendaViewModel? encomenda;
+
+    protected override async Task OnInitializedAsync()
+    {
+        encomenda = await Http.GetFromJsonAsync<EncomendaViewModel>($"api/encomendas/{Id}");
+    }
+
+    private void Imprimir()
+    {
+        Navigation.NavigateTo("javascript:window.print();", forceLoad: false);
+    }
+
+    private void Voltar()
+    {
+        Navigation.NavigateTo("/");
+    }
+
+    public class EncomendaViewModel
+    {
+        public int Id { get; set; }
+        public DateTime DataCriacao { get; set; }
+        public string NomeCliente { get; set; } = string.Empty;
+        public string? NifCliente { get; set; }
+        public string? ContactoCliente { get; set; }
+        public bool ClienteRegistado { get; set; }
+        public string MetodoPagamento { get; set; } = string.Empty;
+        public decimal ValorTotal { get; set; }
+        public List<ItemEncomendaViewModel> Itens { get; set; } = new();
+    }
+
+    public class ItemEncomendaViewModel
+    {
+        public int Quantidade { get; set; }
+        public string NomeProduto { get; set; } = string.Empty;
+        public decimal Subtotal { get; set; }
+    }
+}

@@ -174,3 +174,112 @@ body {
     font-weight: 500;
     border-radius: 6px;
 }
+:root {
+    --primary-black: #1A1A1A;
+    --accent-gold: #D4AF37;
+    --light-gold: #F3E5AB;
+    --bg-marble: #FDFCFB;
+    --border-color: #E6E2DD;
+}
+
+body {
+    background-color: var(--bg-marble);
+    color: var(--primary-black);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar Estilizada */
+.kb-navbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--border-color);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.kb-nav-links a {
+    color: var(--primary-black);
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.3s;
+}
+
+.kb-nav-links a:hover {
+    color: var(--accent-gold);
+}
+
+/* Botões com toque dourado */
+.btn-gold {
+    background-color: var(--accent-gold);
+    color: #ffffff;
+    border: none;
+    padding: 10px 25px;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+.btn-gold:hover {
+    background-color: #C5A028;
+    color: #ffffff;
+}
+
+/* Estilo geral no ecrã */
+.recibo-container {
+    background-color: #f8f9fa;
+    padding: 30px 15px;
+    min-height: 100vh;
+}
+
+/* O talão centralizado no monitor */
+.talao {
+    max-width: 420px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 25px 20px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    color: #212529;
+}
+
+/* Regras específicas otimizadas para Impressão e Guardar em PDF */
+@media print {
+    /* Oculta tudo na página por defeito, exceto o talão */
+    body {
+        background: #fff !important;
+    }
+
+    body * {
+        visibility: hidden !important;
+    }
+
+    #printable-area, #printable-area * {
+        visibility: visible !important;
+    }
+
+    #printable-area {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 15px !important;
+        box-shadow: none !important;
+        border: none !important;
+        background: #fff !important;
+    }
+
+    /* Oculta os botões de ação (Imprimir / Voltar) no PDF */
+    .no-print {
+        display: none !important;
+    }
+}
