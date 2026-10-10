@@ -130,7 +130,7 @@ public static class ProdutoEndpoints
             // Processar o upload do ficheiro se existir
             if (file != null && file.Length > 0)
             {
-                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "produtos");
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "imagens");
                 if (!Directory.Exists(uploadsFolder))
                 {
                     Directory.CreateDirectory(uploadsFolder);
@@ -150,7 +150,7 @@ public static class ProdutoEndpoints
                 }
 
                 // Caminho relativo que será guardado na BD e acedido pelo frontend
-                imagemUrl = $"/images/produtos/{uniqueFileName}";
+                imagemUrl = $"/imagens/{uniqueFileName}";
             }
 
             var novoProduto = new Produto
@@ -206,7 +206,7 @@ public static class ProdutoEndpoints
             // Se for enviada uma nova imagem, guardamos e substituímos a antiga
             if (file != null && file.Length > 0)
             {
-                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "produtos");
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "imagens");
                 if (!Directory.Exists(uploadsFolder))
                 {
                     Directory.CreateDirectory(uploadsFolder);
@@ -225,7 +225,7 @@ public static class ProdutoEndpoints
                     await file.CopyToAsync(stream);
                 }
 
-                produtoExistente.ImagemUrl = $"/images/produtos/{uniqueFileName}";
+                produtoExistente.ImagemUrl = $"/imagens/{uniqueFileName}";
             }
 
             produtoExistente.Nome = nome;

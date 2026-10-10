@@ -199,3 +199,7 @@ GET {{host}}/api/encomendas
 
 ### Teste Encomendas 4: Obter Encomenda por ID específico
 GET {{host}}/api/encomendas/1
+
+### Importar produtos do ficheiro JSON
+POST http://localhost:5287/api/produtos/importar-json
+Content-Type: application/json

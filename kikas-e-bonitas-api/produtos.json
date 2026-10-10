@@ -1,0 +1,2221 @@
+[
+    {
+        "id": 1,
+        "nome": "7Days Tratamento Unhas Fungos",
+        "imagem": "imagens/7Days Tratamento Unhas Fungos.jpeg",
+        "preco": 6.50,
+        "categoria": 6
+    },
+    {
+        "id": 2,
+        "nome": "Acty Mask Anti Fadiga Máscara Pés",
+        "imagem": "imagens/Acty Mask Anti Fadiga Mascara Pes.jpeg",
+        "preco": 3.50,
+        "categoria": 2
+    },
+    {
+        "id": 3,
+        "nome": "Acty Mask Esfoliante Máscara Pés",
+        "imagem": "imagens/Acty Mask Esfoliante Mascara Pes.jpeg",
+        "preco": 3.50,
+        "categoria": 2
+    },
+    {
+        "id": 4,
+        "nome": "Acty Mask Máscara Nutrireparadora Pés",
+        "imagem": "imagens/Acty Mask Mascara nutrireparadora Pes.jpeg",
+        "preco": 3.50,
+        "categoria": 2
+    },
+    {
+        "id": 5,
+        "nome": "Aloe Vera Creme Anti Acne",
+        "imagem": "imagens/Aloe Vera Creme Anti Acne.jpeg",
+        "preco": 12.87,
+        "categoria": 1
+    },
+    {
+        "id": 6,
+        "nome": "Ambar Incensos Citronela & Capim Limão",
+        "imagem": "imagens/Ambar Incensos Citronela & Capim-Limao.jpeg",
+        "preco": 1.50,
+        "categoria": 8
+    },
+    {
+        "id": 7,
+        "nome": "Ambar Incensos Coco",
+        "imagem": "imagens/Ambar Incensos Coco.jpeg",
+        "preco": 1.50,
+        "categoria": 8
+    },
+    {
+        "id": 8,
+        "nome": "Ambar Incensos Rosa & Sândalo",
+        "imagem": "imagens/Ambar Incensos Rosa & Sandalo.jpeg",
+        "preco": 1.50,
+        "categoria": 8
+    },
+    {
+        "id": 9,
+        "nome": "Ambar Incensos Spa",
+        "imagem": "imagens/Ambar Incensos SPA.jpeg",
+        "preco": 1.50,
+        "categoria": 8
+    },
+    {
+        "id": 10,
+        "nome": "Ambar Perfume Auto Billionaire",
+        "imagem": "imagens/Ambar Perfume Auto Billionaire.jpeg",
+        "preco": 2.70,
+        "categoria": 9
+    },
+    {
+        "id": 11,
+        "nome": "Ambar Perfume Auto Spa",
+        "imagem": "imagens/Ambar Perfume Auto SPA.jpeg",
+        "preco": 2.70,
+        "categoria": 9
+    },
+    {
+        "id": 12,
+        "nome": "Anua 10+ Serum Ácido Azelaico & Ácido Hialurónico",
+        "imagem": "imagens/Anua 10+ Serum Acido Azelaico & Acido Hialuronico.jpeg",
+        "preco": 12.87,
+        "categoria": 1
+    },
+    {
+        "id": 13,
+        "nome": "Anua 10+ Serum Manchas Escuras",
+        "imagem": "imagens/Anua 10+ Serum Manchas Escuras.jpeg",
+        "preco": 12.87,
+        "categoria": 1
+    },
+    {
+        "id": 14,
+        "nome": "Anua 100+ Serum Ácido Hialurónico",
+        "imagem": "imagens/Anua 100+ Serum Acido Hialuronico.jpeg",
+        "preco": 12.87,
+        "categoria": 1
+    },
+    {
+        "id": 17,
+        "nome": "Anua Heartleaf 70% Creme Hidratação Profunda",
+        "imagem": "imagens/Anua Heartleaf creme Hidratacao Profunda.jpeg",
+        "preco": 14.30,
+        "categoria": 1
+    },
+    {
+        "id": 18,
+        "nome": "Anua Visibly Firming Retinol & Colágeno",
+        "imagem": "imagens/Anua Visibly Firming Retinol & Colageno.jpeg",
+        "preco": 15.55,
+        "categoria": 1
+    },
+    {
+        "id": 19,
+        "nome": "Arbutin Creme Despigmentante",
+        "imagem": "imagens/Arbutin Creme Despigmentante.jpeg",
+        "preco": 14.30,
+        "categoria": 1
+    },
+    {
+        "id": 20,
+        "nome": "Aura Velas Blueberry Cheesecake",
+        "imagem": "imagens/Aura Velas Blueberry cheesecake .jpeg",
+        "preco": 1.75,
+        "categoria": 8
+    },
+    {
+        "id": 21,
+        "nome": "Aura Velas Fragrant Garden",
+        "imagem": "imagens/Aura Velas Fragrant garden.jpeg",
+        "preco": 1.75,
+        "categoria": 8
+    },
+    {
+        "id": 22,
+        "nome": "Aura Velas Herbs Lemonade",
+        "imagem": "imagens/Aura Velas Herbs lemonade.jpeg",
+        "preco": 1.75,
+        "categoria": 8
+    },
+    {
+        "id": 23,
+        "nome": "Aura Velas Hibiscus White Sage",
+        "imagem": "imagens/Aura Velas Hibiscus White sage.jpeg",
+        "preco": 1.75,
+        "categoria": 8
+    },
+    {
+        "id": 24,
+        "nome": "Aura Velas Peony",
+        "imagem": "imagens/Aura Velas Peony.jpeg",
+        "preco": 1.75,
+        "categoria": 8
+    },
+    {
+        "id": 25,
+        "nome": "Aura Velas Raspberry Lavender",
+        "imagem": "imagens/Aura Velas Raspberry Lavender.jpeg",
+        "preco": 1.75,
+        "categoria": 8
+    },
+    {
+        "id": 26,
+        "nome": "Aura Velas Relaxation",
+        "imagem": "imagens/Aura Velas Relaxation.jpeg",
+        "preco": 1.75,
+        "categoria": 8
+    },
+    {
+        "id": 27,
+        "nome": "Aura Velas Vanilla Orchid",
+        "imagem": "imagens/Aura Velas Vanilla Orchid.jpeg",
+        "preco": 1.75,
+        "categoria": 8
+    },
+    {
+        "id": 28,
+        "nome": "Aurea Máscara Labial Hidratante Ouro",
+        "imagem": "imagens/Aurea Mascara Labial Hidratante Ouro.jpeg",
+        "preco": 1,
+        "categoria": 1
+    },
+    {
+        "id": 29,
+        "nome": "Base Coreana",
+        "imagem": "imagens/Base Coreana.jpeg",
+        "preco": 7.90,
+        "categoria": 1
+    },
+    {
+        "id": 30,
+        "nome": "Beauty Girl Paleta De Sombras",
+        "imagem": "imagens/Beauty Girl Paleta de Sombras.jpeg",
+        "preco": 24.90,
+        "categoria": 4
+    },
+    {
+        "id": 31,
+        "nome": "Beauty Paleta Sombras Melodias Cósmicas Stitch",
+        "imagem": "imagens/Beauty Paleta Sombras Melodias Cosmicas Stitch.jpeg",
+        "preco": 21.19,
+        "categoria": 4
+    },
+    {
+        "id": 34,
+        "nome": "Biodance Máscara Facial Hidrogel Bio Colágeno",
+        "imagem": "imagens/Biodance Mascara Facial Hidrogel Bio-Colageno.jpeg",
+        "preco": 7.25,
+        "categoria": 1
+    },
+    {
+        "id": 35,
+        "nome": "Biodance Máscara Facial Hidrogel",
+        "imagem": "imagens/Biodance Mascara Facial Hidrogel.jpeg",
+        "preco": 7.25,
+        "categoria": 1
+    },
+    {
+        "id": 36,
+        "nome": "Biodance Máscara Facial Profunda Hydro Cera Nol",
+        "imagem": "imagens/Biodance Mascara Facial Profunda Hydro Cera-nol .jpeg",
+        "preco": 7.25,
+        "categoria": 1
+    },
+    {
+        "id": 37,
+        "nome": "Biodance Máscara Facial Refreshing Sea Kelp",
+        "imagem": "imagens/Biodance Mascara Facial Refreshing Sea Kelp.jpeg",
+        "preco": 7.25,
+        "categoria": 1
+    },
+    {
+        "id": 38,
+        "nome": "Bruma Intima Coco Cliche",
+        "imagem": "imagens/Bruma Intima Coco Cliche.jpeg",
+        "preco": 3.50,
+        "categoria": 5
+    },
+    {
+        "id": 39,
+        "nome": "Bruma Intima Lima Cliche",
+        "imagem": "imagens/Bruma Intima Lima Cliche.jpeg",
+        "preco": 3.50,
+        "categoria": 5
+    },
+    {
+        "id": 40,
+        "nome": "Bruma Intima Meu Bem Cliche",
+        "imagem": "imagens/Bruma Intima Meu Bem Cliche.jpeg",
+        "preco": 3.50,
+        "categoria": 5
+    },
+    {
+        "id": 43,
+        "nome": "Cameleo Shampoo Anti Queda",
+        "imagem": "imagens/Cameleo Shampoo Anti Queda.jpeg",
+        "preco": 8.60,
+        "categoria": 0
+    },
+    {
+        "id": 44,
+        "nome": "Cameleo Shampoo Cabelo Grisalho",
+        "imagem": "imagens/Cameleo Shampoo Cabelo Grisalho.jpeg",
+        "preco": 8.60,
+        "categoria": 0
+    },
+    {
+        "id": 45,
+        "nome": "Celimax Shot Retinol Reafirmante",
+        "imagem": "imagens/Celimax Shot Retinol Reafirmante.jpeg",
+        "preco": 18.50,
+        "categoria": 1
+    },
+    {
+        "id": 46,
+        "nome": "Cetella Creme Protetor Solar Spf30",
+        "imagem": "imagens/Cetella Creme protetor Solar SPF30.jpeg",
+        "preco": 9.10,
+        "categoria": 10
+    },
+    {
+        "id": 47,
+        "nome": "Cetella Protetor Solar Mineral 50+",
+        "imagem": "imagens/Cetella Protetor Solar Mineral 50+.jpeg",
+        "preco": 9.10,
+        "categoria": 10
+    },
+    {
+        "id": 48,
+        "nome": "Cetella Soro Solar Spf50+",
+        "imagem": "imagens/Cetella Soro Solar SPF50+.jpeg",
+        "preco": 9.10,
+        "categoria": 10
+    },
+    {
+        "id": 49,
+        "nome": "Collagen Glow Booster Serum",
+        "imagem": "imagens/Collagen Glow Booster Serum.jpeg",
+        "preco": 14.30,
+        "categoria": 1
+    },
+    {
+        "id": 50,
+        "nome": "Cosmi Aloe Vera Gel",
+        "imagem": "imagens/Cosmi Aloe Vera Gel.jpeg",
+        "preco": 3.90,
+        "categoria": 6
+    },
+    {
+        "id": 51,
+        "nome": "Cosmi Arnica Gel",
+        "imagem": "imagens/Cosmi Arnica gel.jpeg",
+        "preco": 3.90,
+        "categoria": 6
+    },
+    {
+        "id": 52,
+        "nome": "Cosmi Balsamo Cavalo Gel Efeito Frio",
+        "imagem": "imagens/Cosmi Balsamo Cavalo Gel efeito frio.jpeg",
+        "preco": 3.90,
+        "categoria": 6
+    },
+    {
+        "id": 53,
+        "nome": "Cosmi Balsamo Cavalo Gel Efeito Quente",
+        "imagem": "imagens/Cosmi Balsamo Cavalo gel efeito quente.jpeg",
+        "preco": 3.90,
+        "categoria": 6
+    },
+    {
+        "id": 54,
+        "nome": "Cosmi Calêndula Gel",
+        "imagem": "imagens/Cosmi Calendula gel.jpeg",
+        "preco": 3.90,
+        "categoria": 6
+    },
+    {
+        "id": 55,
+        "nome": "Cosmi Colutório Oral Chá Verde",
+        "imagem": "imagens/Cosmi Colutorio Oral Cha Verde.jpeg",
+        "preco": 2.99,
+        "categoria": 6
+    },
+    {
+        "id": 56,
+        "nome": "Cosmi Colutório Oral Menta Fresca",
+        "imagem": "imagens/Cosmi Colutorio Oral Menta Fresca.jpeg",
+        "preco": 2.99,
+        "categoria": 6
+    },
+    {
+        "id": 57,
+        "nome": "Cosmi Colutório Oral Mentol",
+        "imagem": "imagens/Cosmi Colutorio Oral Mentol.jpeg",
+        "preco": 2.99,
+        "categoria": 6
+    },
+    {
+        "id": 58,
+        "nome": "Cosmi Colutório Oral Pêssego",
+        "imagem": "imagens/Cosmi Colutorio Oral Pessego.jpeg",
+        "preco": 2.99,
+        "categoria": 6
+    },
+    {
+        "id": 59,
+        "nome": "Cosmi Garra Do Diabo Gel",
+        "imagem": "imagens/Cosmi Garra do Diabo gel.jpeg",
+        "preco": 3.90,
+        "categoria": 6
+    },
+    {
+        "id": 61,
+        "nome": "Cosmi Premium Creme Facial Centelha Asiatica Ácido Hialurónico",
+        "imagem": "imagens/Cosmi Premium Creme Facial Centelha Asiatica Acido Hialuronico.jpeg",
+        "preco": 8.99,
+        "categoria": 1
+    },
+    {
+        "id": 62,
+        "nome": "Cosmi Premium Creme Facial Vitamina C Retinol",
+        "imagem": "imagens/Cosmi Premium Creme Facial Vitamina C Retinol.jpeg",
+        "preco": 8.99,
+        "categoria": 1
+    },
+    {
+        "id": 63,
+        "nome": "Cosmi Premium Pdrn Niacinamida",
+        "imagem": "imagens/Cosmi Premium PDRN Niacinamida.jpeg",
+        "preco": 8.99,
+        "categoria": 1
+    },
+    {
+        "id": 64,
+        "nome": "Cosmi Tiras Branqueamento Coco",
+        "imagem": "imagens/Cosmi Tiras Branqueamento Coco.jpeg",
+        "preco": 5.10,
+        "categoria": 6
+    },
+    {
+        "id": 65,
+        "nome": "Cosmi Tiras Branqueamento Lima",
+        "imagem": "imagens/Cosmi Tiras Branqueamento Lima.jpeg",
+        "preco": 5.10,
+        "categoria": 6
+    },
+    {
+        "id": 66,
+        "nome": "Cosmi Creme Spot Anti Imperfeições",
+        "imagem": "imagens/Cosmi creme Spot Anti Imperfeicoes.jpeg",
+        "preco": 5.50,
+        "categoria": 1
+    },
+    {
+        "id": 67,
+        "nome": "Ddonna Bruma Corpo & Cabelo Shake  Edição Limitada",
+        "imagem": "imagens/DDonna Bruma Corpo & Cabelo Shake  Edicao Limitada.jpeg",
+        "preco": 8.10,
+        "categoria": 5
+    },
+    {
+        "id": 68,
+        "nome": "Ddonna Bruma Corporal Edição Limitada Explosão Tropical",
+        "imagem": "imagens/DDonna Bruma Corporal Edicao Limitada Explosao Tropical.jpeg",
+        "preco": 8.10,
+        "categoria": 5
+    },
+    {
+        "id": 69,
+        "nome": "Ddonna Fragancia Corporal Cereja",
+        "imagem": "imagens/DDonna Fragancia Corporal Cereja.jpeg",
+        "preco": 8.10,
+        "categoria": 5
+    },
+    {
+        "id": 70,
+        "nome": "Ddonna Fragancia Corporal Cookies & Cream",
+        "imagem": "imagens/DDonna Fragancia Corporal Cookies & Cream.jpeg",
+        "preco": 8.10,
+        "categoria": 5
+    },
+    {
+        "id": 71,
+        "nome": "Ddonna Fragancia Corporal Sweet Caramel",
+        "imagem": "imagens/DDonna Fragancia Corporal Sweet Caramel.jpeg",
+        "preco": 8.10,
+        "categoria": 5
+    },
+    {
+        "id": 72,
+        "nome": "Ddonna Frangancia Corporal Berry Blast",
+        "imagem": "imagens/DDonna Frangancia Corporal Berry Blast.jpeg",
+        "preco": 8.10,
+        "categoria": 5
+    },
+    {
+        "id": 73,
+        "nome": "Ddonna Gel Duche Caramelo Doce",
+        "imagem": "imagens/DDonna Gel Duche Caramelo Doce.jpeg",
+        "preco": 12.25,
+        "categoria": 3
+    },
+    {
+        "id": 74,
+        "nome": "Ddonna Gel Duche Cereja",
+        "imagem": "imagens/DDonna Gel Duche Cereja.jpeg",
+        "preco": 12.25,
+        "categoria": 3
+    },
+    {
+        "id": 75,
+        "nome": "Ddonna Gel Duche Cookies & Cream",
+        "imagem": "imagens/DDonna Gel Duche Cookies & Cream.jpeg",
+        "preco": 12.25,
+        "categoria": 3
+    },
+    {
+        "id": 76,
+        "nome": "Ddonna Gel Duche Dreamy Treats",
+        "imagem": "imagens/DDonna Gel Duche Dreamy Treats.jpeg",
+        "preco": 12.25,
+        "categoria": 3
+    },
+    {
+        "id": 77,
+        "nome": "Ddonna Gel Duche Unicorn Vanilla",
+        "imagem": "imagens/DDonna Gel Duche Unicorn Vanilla.jpeg",
+        "preco": 12.25,
+        "categoria": 3
+    },
+    {
+        "id": 78,
+        "nome": "Ddonna Loção Corporal Coleção Vanilla Ice Yummy Cream",
+        "imagem": "imagens/DDonna Locao Corporal Colecao Vanilla Ice Yummy Cream.jpeg",
+        "preco": 12.90,
+        "categoria": 2
+    },
+    {
+        "id": 79,
+        "nome": "Ddonna Névoa Corporal Frutal Doce Gourmand",
+        "imagem": "imagens/DDonna Nevoa Corporal Frutal Doce Gourmand.jpeg",
+        "preco": 12.90,
+        "categoria": 5
+    },
+    {
+        "id": 80,
+        "nome": "Ddonna Névoa Corporal ColeçÃO Meloow Yummy",
+        "imagem": "imagens/DDonna Nevoa Corporal Colecao Meloow Yummy.jpeg",
+        "preco": 12.90,
+        "categoria": 5
+    },
+    {
+        "id": 81,
+        "nome": "Ddonna Névoa Corporal Creme Brulee",
+        "imagem": "imagens/DDonna Nevoa Corporal Creme Brulee.jpeg",
+        "preco": 12.90,
+        "categoria": 5
+    },
+    {
+        "id": 82,
+        "nome": "Ddonna Névoa Corporal Edição Limitada Pistache",
+        "imagem": "imagens/DDonna Nevoa Corporal Edicao Limitada Pistache.jpeg",
+        "preco": 12.90,
+        "categoria": 5
+    },
+    {
+        "id": 83,
+        "nome": "Ddonna Névoa Corporal Perfumada Coleção Marshmallow Shimmer",
+        "imagem": "imagens/DDonna Nevoa Corporal Perfumada Colecao Mardshmallow Shimmer.jpeg",
+        "preco": 12.90,
+        "categoria": 5
+    },
+    {
+        "id": 84,
+        "nome": "Ddonna Névoa Corporal Pinky Sweet Shimmer",
+        "imagem": "imagens/DDonna Nevoa Corporal Pinky Sweet Shimmer.jpeg",
+        "preco": 12.90,
+        "categoria": 5
+    },
+    {
+        "id": 85,
+        "nome": "Ddonna Névoa Corporal Yummy Coconut Milk",
+        "imagem": "imagens/DDonna Nevoa Corporal Yummy Coconut Milk.jpeg",
+        "preco": 12.90,
+        "categoria": 5
+    },
+    {
+        "id": 86,
+        "nome": "Ddonna Névoa Perfumada Coleção Euphoria Lovers",
+        "imagem": "imagens/DDonna Nevoa Perfumada Colecao Euphoria Lovers.jpeg",
+        "preco": 12.90,
+        "categoria": 5
+    },
+    {
+        "id": 87,
+        "nome": "Ddonna Névoa Perfumada Strawberry Coleção Yummy",
+        "imagem": "imagens/DDonna Nevoa Perfumada Strawberry Colecao Yummy.jpeg",
+        "preco": 12.90,
+        "categoria": 5
+    },
+    {
+        "id": 88,
+        "nome": "Ddonna Pistache Gourmand Bruma Perfumada Corpo & Cabelo",
+        "imagem": "imagens/DDonna Pistache Gourmand Bruma Perfumada Corpo & Cabelo.jpeg",
+        "preco": 12.90,
+        "categoria": 5
+    },
+    {
+        "id": 89,
+        "nome": "Ddonna Yum Yum Bruma Perfumada Corporal",
+        "imagem": "imagens/DDonna Yum Yum Bruma Perfumada Corporal.jpeg",
+        "preco": 12.90,
+        "categoria": 5
+    },
+    {
+        "id": 90,
+        "nome": "Ddonna Yummy Blanco Latte Bruma Perfumada Corpo & Cabelo",
+        "imagem": "imagens/DDonna Yummy Blanco Latte Bruma Perfumada Corpo & Cabelo.jpeg",
+        "preco": 12.90,
+        "categoria": 5
+    },
+    {
+        "id": 91,
+        "nome": "Ddonna Yummy Candy Bruma Perfumada Corpo & Cabelo",
+        "imagem": "imagens/DDonna Yummy Candy Bruma Perfumada Corpo & Cabelo.jpeg",
+        "preco": 12.90,
+        "categoria": 5
+    },
+    {
+        "id": 92,
+        "nome": "Ddonna Yummy Eclair Bruma Perfumada Corpo & Cabelo",
+        "imagem": "imagens/DDonna Yummy Eclair Bruma Perfumada Corpo & Cabelo.jpeg",
+        "preco": 12.90,
+        "categoria": 5
+    },
+    {
+        "id": 93,
+        "nome": "Ddonna Yummy Khamrah Bruma Perfumada Corpo & Cabelo",
+        "imagem": "imagens/DDonna Yummy Khamrah Bruma Perfumada Corpo & Cabelo.jpeg",
+        "preco": 12.90,
+        "categoria": 5
+    },
+    {
+        "id": 94,
+        "nome": "Ddonna Yummy Marshmallow Bruma Perfumada Corpo & Cabelo",
+        "imagem": "imagens/DDonna Yummy Marshmallow Bruma Perfumada Corpo & Cabelo.jpeg",
+        "preco": 12.90,
+        "categoria": 5
+    },
+    {
+        "id": 95,
+        "nome": "Ddonna Yummy Unh 08 Bruma Perfumada Corpo & Cabelo",
+        "imagem": "imagens/DDonna Yummy UNH 08 Bruma Perfumada Corpo & Cabelo.jpeg",
+        "preco": 12.90,
+        "categoria": 5
+    },
+    {
+        "id": 96,
+        "nome": "Daynee Biotina Gomas",
+        "imagem": "imagens/Daynee Biotina Gomas.jpeg",
+        "preco": 15,
+        "categoria": 6
+    },
+    {
+        "id": 97,
+        "nome": "Daynee Colágeno Gomas",
+        "imagem": "imagens/Daynee Colageno Gomas.jpeg",
+        "preco": 15,
+        "categoria": 6
+    },
+    {
+        "id": 98,
+        "nome": "Daynee Melatonina Gomas",
+        "imagem": "imagens/Daynee Melatonina Gomas.jpeg",
+        "preco": 15,
+        "categoria": 6
+    },
+    {
+        "id": 99,
+        "nome": "Daynee Multivitaminas Gomas",
+        "imagem": "imagens/Daynee Multivitaminas Gomas.jpeg",
+        "preco": 15,
+        "categoria": 6
+    },
+    {
+        "id": 100,
+        "nome": "Daynee Probióticos Gomas",
+        "imagem": "imagens/Daynee Probioticos Gomas.jpeg",
+        "preco": 15,
+        "categoria": 6
+    },
+    {
+        "id": 101,
+        "nome": "Daynee Vitamina C Gomas",
+        "imagem": "imagens/Daynee Vitamina C Gomas.jpeg",
+        "preco": 15,
+        "categoria": 6
+    },
+    {
+        "id": 102,
+        "nome": "Daynee Vitaminas Cabelo Pele Unhas Gomas",
+        "imagem": "imagens/Daynee Vitaminas Cabelo Pele Unhas Gomas.jpeg",
+        "preco": 15,
+        "categoria": 6
+    },
+    {
+        "id": 103,
+        "nome": "Dispositivo Rejuvenescimento Pescoço",
+        "imagem": "imagens/Dispositivo Rejuvenescimento Pescoco.jpeg",
+        "preco": 19.50,
+        "categoria": 1
+    },
+    {
+        "id": 105,
+        "nome": "Dona Flora Máscara Capilar Afro",
+        "imagem": "imagens/Dona Flora Mascara Capilar Afro.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 106,
+        "nome": "Dona Flora Máscara Capilar Anti Queda Gengibre & Canela & Rosmaninho",
+        "imagem": "imagens/Dona Flora Mascara Capilar Anti-Queda Gengibre & Canela & Rosmaninho.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 107,
+        "nome": "Dona Flora Máscara Capilar Densidade Biotina & Castanha India",
+        "imagem": "imagens/Dona Flora Mascara Capilar Densidade Biotina & Castanha India.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 108,
+        "nome": "Dona Flora Máscara Capilar Estimulante Gengibre",
+        "imagem": "imagens/Dona Flora Mascara Capilar Estimulante Gengibre.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 109,
+        "nome": "Dona Flora Máscara Capilar Fortificante Soja",
+        "imagem": "imagens/Dona Flora Mascara Capilar Fortificante Soja.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 110,
+        "nome": "Dona Flora Máscara Capilar Frizados Coco & Ricino",
+        "imagem": "imagens/Dona Flora Mascara Capilar Frizados Coco & Ricino.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 111,
+        "nome": "Dona Flora Máscara Capilar Hidratação Anti Frizz",
+        "imagem": "imagens/Dona Flora Mascara Capilar Hidratacao Anti-Frizz.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 112,
+        "nome": "Dona Flora Máscara Capilar Hidratante Abacate & Argão",
+        "imagem": "imagens/Dona Flora Mascara Capilar Hidratante Abacate & Argao.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 113,
+        "nome": "Dona Flora Máscara Capilar Lisos Argão",
+        "imagem": "imagens/Dona Flora Mascara Capilar Lisos Argao.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 114,
+        "nome": "Dona Flora Máscara Capilar Nutrição Vegan",
+        "imagem": "imagens/Dona Flora Mascara Capilar Nutricao Vegan.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 115,
+        "nome": "Dona Flora Máscara Capilar Nutritiva Coco & Argão",
+        "imagem": "imagens/Dona Flora Mascara Capilar Nutritiva Coco & Argao.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 116,
+        "nome": "Dona Flora Máscara Capilar Platino Trigo",
+        "imagem": "imagens/Dona Flora Mascara Capilar Platino Trigo.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 117,
+        "nome": "Dona Flora Máscara Capilar Pós Alisado",
+        "imagem": "imagens/Dona Flora Mascara Capilar Pos-Alisado.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 118,
+        "nome": "Dona Flora Máscara Capilar Pós Química Queratina",
+        "imagem": "imagens/Dona Flora Mascara Capilar Pos-Quimica Queratina.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 119,
+        "nome": "Dona Flora Máscara Capilar Reparadora Alho",
+        "imagem": "imagens/Dona Flora Mascara Capilar Reparadora Alho.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 120,
+        "nome": "Dona Flora Máscara Capilar Revitalizante Cebola & Bambu",
+        "imagem": "imagens/Dona Flora Mascara Capilar Revitalizante Cebola & Bambu.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 121,
+        "nome": "Dona Flora Shampoo Afro",
+        "imagem": "imagens/Dona Flora Shampoo Afro.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 122,
+        "nome": "Dona Flora Shampoo Anti Queda Gengibre & Canela & Rosmaninho",
+        "imagem": "imagens/Dona Flora Shampoo Anti-Queda Gengibre & Canela & Rosmaninho.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 123,
+        "nome": "Dona Flora Shampoo Densidade Biotina & Castanha India",
+        "imagem": "imagens/Dona Flora Shampoo Densidade Biotina & Castanha India.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 124,
+        "nome": "Dona Flora Shampoo Estimulante Gengibre",
+        "imagem": "imagens/Dona Flora Shampoo Estimulante Gengibre.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 125,
+        "nome": "Dona Flora Shampoo Fortificante Soja",
+        "imagem": "imagens/Dona Flora Shampoo Fortificante Soja.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 126,
+        "nome": "Dona Flora Shampoo Frisados Keratina & Pantenol",
+        "imagem": "imagens/Dona Flora Shampoo Frisados Keratina & Pantenol.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 127,
+        "nome": "Dona Flora Shampoo Hidratante Abacate & Argão",
+        "imagem": "imagens/Dona Flora Shampoo Hidratante Abacate & Argao.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 128,
+        "nome": "Dona Flora Shampoo Lisos Argão & Macadâmia & Queratina",
+        "imagem": "imagens/Dona Flora Shampoo Lisos Argao & Macadamia & Queratina.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 129,
+        "nome": "Dona Flora Shampoo Lisos Argão",
+        "imagem": "imagens/Dona Flora Shampoo Lisos Argao.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 130,
+        "nome": "Dona Flora Shampoo Neutro Trigo & Coco",
+        "imagem": "imagens/Dona Flora Shampoo Neutro Trigo & Coco.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 131,
+        "nome": "Dona Flora Shampoo Nutrição Vegan",
+        "imagem": "imagens/Dona Flora Shampoo Nutricao Vegan.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 132,
+        "nome": "Dona Flora Shampoo Nutritivo Coco & Argão",
+        "imagem": "imagens/Dona Flora Shampoo Nutritivo Coco & Argao.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 133,
+        "nome": "Dona Flora Shampoo Platino Trigo",
+        "imagem": "imagens/Dona Flora Shampoo Platino Trigo.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 134,
+        "nome": "Dona Flora Shampoo Pós Química",
+        "imagem": "imagens/Dona Flora Shampoo Pos-Quimica.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 135,
+        "nome": "Dona Flora Shampoo Profissional Hidratação",
+        "imagem": "imagens/Dona Flora Shampoo Profissional Hidratacao.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 136,
+        "nome": "Dona Flora Shampoo Reaparação Anti Frizz",
+        "imagem": "imagens/Dona Flora Shampoo Reaparacao Anti-Frizz.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 137,
+        "nome": "Dona Flora Shampoo Reparador Alho",
+        "imagem": "imagens/Dona Flora Shampoo Reparador Alho.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 138,
+        "nome": "Dona Flora Shampoo Revitalizante Cebola & Bambu",
+        "imagem": "imagens/Dona Flora Shampoo Revitalizante Cebola & Bambu.jpeg",
+        "preco": 15,
+        "categoria": 0
+    },
+    {
+        "id": 139,
+        "nome": "Dona Flora Tónico Capilar Crescimento",
+        "imagem": "imagens/Dona Flora Tonico Capilar Crescimento.jpeg",
+        "preco": 12.35,
+        "categoria": 0
+    },
+    {
+        "id": 140,
+        "nome": "Electric Massage Creme Olhos Firmeza Inchaço",
+        "imagem": "imagens/Electric Massage creme Olhos Firmeza Inchaco.jpeg",
+        "preco": 12.90,
+        "categoria": 1
+    },
+    {
+        "id": 141,
+        "nome": "Escova Limpeza Facial Sónica Azul",
+        "imagem": "imagens/Escova Limpeza Facial Sonica Azul.jpeg",
+        "preco": 3,
+        "categoria": 1
+    },
+    {
+        "id": 142,
+        "nome": "Escova Limpeza Facial Sónica Rosa",
+        "imagem": "imagens/Escova Limpeza Facial Sonica Rosa.jpeg",
+        "preco": 3,
+        "categoria": 1
+    },
+    {
+        "id": 143,
+        "nome": "Escova Mágica",
+        "imagem": "imagens/Escova Magica.jpeg",
+        "preco": 5,
+        "categoria": 1
+    },
+    {
+        "id": 144,
+        "nome": "Fruit Company Ambientador Armário Algodão Doce",
+        "imagem": "imagens/Fruit Company Ambientador Armario Algodao Doce.jpeg",
+        "preco": 3.12,
+        "categoria": 8
+    },
+    {
+        "id": 145,
+        "nome": "Fruit Company Ambientador Armário Chupa Chups",
+        "imagem": "imagens/Fruit Company Ambientador Armario Chupa-Chups.jpeg",
+        "preco": 3.12,
+        "categoria": 8
+    },
+    {
+        "id": 146,
+        "nome": "Fruit Company Ambientador Armário Gomas",
+        "imagem": "imagens/Fruit Company Ambientador Armario Gomas.jpeg",
+        "preco": 3.12,
+        "categoria": 8
+    },
+    {
+        "id": 147,
+        "nome": "Fruit Company Ambientador Armário Marshmallow",
+        "imagem": "imagens/Fruit Company Ambientador Armario Marshmallow.jpeg",
+        "preco": 3.12,
+        "categoria": 8
+    },
+    {
+        "id": 148,
+        "nome": "Fruit Company Ambientador Armário Marshmello Morango",
+        "imagem": "imagens/Fruit Company Ambientador Armario Marshmello Morango.jpeg",
+        "preco": 3.12,
+        "categoria": 8
+    },
+    {
+        "id": 149,
+        "nome": "Fruit Company Ambientador Auto Amora & Cereja",
+        "imagem": "imagens/Fruit Company Ambientador Auto Amora & Cereja.jpeg",
+        "preco": 4.55,
+        "categoria": 9
+    },
+    {
+        "id": 150,
+        "nome": "Fruit Company Ambientador Auto Amora",
+        "imagem": "imagens/Fruit Company Ambientador Auto Amora.jpeg",
+        "preco": 4.55,
+        "categoria": 9
+    },
+    {
+        "id": 151,
+        "nome": "Fruit Company Ambientador Auto Cereja",
+        "imagem": "imagens/Fruit Company Ambientador Auto Cereja.jpeg",
+        "preco": 4.55,
+        "categoria": 9
+    },
+    {
+        "id": 152,
+        "nome": "Fruit Company Ambientador Auto Coco",
+        "imagem": "imagens/Fruit Company Ambientador Auto Coco.jpeg",
+        "preco": 4.55,
+        "categoria": 9
+    },
+    {
+        "id": 153,
+        "nome": "Fruit Company Ambientador Auto Maçã Verde",
+        "imagem": "imagens/Fruit Company Ambientador Auto Maca Verde.jpeg",
+        "preco": 4.55,
+        "categoria": 9
+    },
+    {
+        "id": 154,
+        "nome": "Fruit Company Ambientador Auto Manga",
+        "imagem": "imagens/Fruit Company Ambientador Auto Manga.jpeg",
+        "preco": 4.55,
+        "categoria": 9
+    },
+    {
+        "id": 155,
+        "nome": "Fruit Company Ambientador Auto Melancia",
+        "imagem": "imagens/Fruit Company Ambientador Auto Melancia.jpeg",
+        "preco": 4.55,
+        "categoria": 9
+    },
+    {
+        "id": 156,
+        "nome": "Fruit Company Ambientador Auto Melão",
+        "imagem": "imagens/Fruit Company Ambientador Auto Melao.jpeg",
+        "preco": 4.55,
+        "categoria": 9
+    },
+    {
+        "id": 157,
+        "nome": "Fruit Company Ambientador Micado Melancia",
+        "imagem": "imagens/Fruit Company Ambientador Micado Melancia.jpeg",
+        "preco": 8.19,
+        "categoria": 8
+    },
+    {
+        "id": 158,
+        "nome": "Fruit Company Ambientador Micado Amora",
+        "imagem": "imagens/Fruit Company Ambientador Micado Amora.jpeg",
+        "preco": 8.19,
+        "categoria": 8
+    },
+    {
+        "id": 159,
+        "nome": "Fruit Company Ambientador Micado Cereja",
+        "imagem": "imagens/Fruit Company Ambientador Micado Cereja.jpeg",
+        "preco": 8.19,
+        "categoria": 8
+    },
+    {
+        "id": 160,
+        "nome": "Fruit Company Ambientador Micado Coco",
+        "imagem": "imagens/Fruit Company Ambientador Micado Coco.jpeg",
+        "preco": 8.19,
+        "categoria": 8
+    },
+    {
+        "id": 161,
+        "nome": "Fruit Company Ambientador Micado Frutos Silvestres",
+        "imagem": "imagens/Fruit Company Ambientador Micado Frutos Silvestres.jpeg",
+        "preco": 8.19,
+        "categoria": 8
+    },
+    {
+        "id": 162,
+        "nome": "Fruit Company Ambientador Micado Maçã Verde",
+        "imagem": "imagens/Fruit Company Ambientador Micado Maca Verde.jpeg",
+        "preco": 8.19,
+        "categoria": 8
+    },
+    {
+        "id": 163,
+        "nome": "Fruit Company Ambientador Micado Melão",
+        "imagem": "imagens/Fruit Company Ambientador Micado Melao.jpeg",
+        "preco": 8.19,
+        "categoria": 8
+    },
+    {
+        "id": 164,
+        "nome": "Fruit Company Ambientador Micado Morango & Nata",
+        "imagem": "imagens/Fruit Company Ambientador Micado Morango & Nata.jpeg",
+        "preco": 8.19,
+        "categoria": 8
+    },
+    {
+        "id": 165,
+        "nome": "Fruit Company Ambientador Micado Pêssego",
+        "imagem": "imagens/Fruit Company Ambientador Micado Pessego.jpeg",
+        "preco": 8.19,
+        "categoria": 8
+    },
+    {
+        "id": 166,
+        "nome": "Fruit Company Ambientador Spray Coco",
+        "imagem": "imagens/Fruit Company Ambientador Spray Coco.jpeg",
+        "preco": 4.55,
+        "categoria": 8
+    },
+    {
+        "id": 167,
+        "nome": "Fruit Company Ambientador Spray Frutos Silvestres",
+        "imagem": "imagens/Fruit Company Ambientador Spray Frutos Silvestres.jpeg",
+        "preco": 4.55,
+        "categoria": 8
+    },
+    {
+        "id": 168,
+        "nome": "Fruit Company Ambientador Spray Gomas",
+        "imagem": "imagens/Fruit Company Ambientador Spray Gomas.jpeg",
+        "preco": 4.55,
+        "categoria": 8
+    },
+    {
+        "id": 169,
+        "nome": "Fruit Company Ambientador Spray Marshmallow",
+        "imagem": "imagens/Fruit Company Ambientador Spray Marshmallow.jpeg",
+        "preco": 4.55,
+        "categoria": 8
+    },
+    {
+        "id": 170,
+        "nome": "Fruit Company Ambientador Spray Melancia",
+        "imagem": "imagens/Fruit Company Ambientador Spray Melancia.jpeg",
+        "preco": 4.55,
+        "categoria": 8
+    },
+    {
+        "id": 171,
+        "nome": "Fruit Company Ambientador Spray Melão",
+        "imagem": "imagens/Fruit Company Ambientador Spray Melao.jpeg",
+        "preco": 4.55,
+        "categoria": 8
+    },
+    {
+        "id": 172,
+        "nome": "Fruit Company Ambientador Spray Morango & Nata",
+        "imagem": "imagens/Fruit Company Ambientador Spray Morango & Nata.jpeg",
+        "preco": 4.55,
+        "categoria": 8
+    },
+    {
+        "id": 173,
+        "nome": "Fruit Company Ambientador Spray Morango",
+        "imagem": "imagens/Fruit Company Ambientador Spray Morango.jpeg",
+        "preco": 4.55,
+        "categoria": 8
+    },
+    {
+        "id": 174,
+        "nome": "Fruit Company Ambientador Spray Rebuçados & Doces",
+        "imagem": "imagens/Fruit Company Ambientador Spray Rebucados & Doces.jpeg",
+        "preco": 4.55,
+        "categoria": 8
+    },
+    {
+        "id": 175,
+        "nome": "Fruit Company Máscara Labial Abacate",
+        "imagem": "imagens/Fruit Company Mascara Labial Abacate.jpeg",
+        "preco": 5.25,
+        "categoria": 1
+    },
+    {
+        "id": 176,
+        "nome": "Fruit Company Máscara Labial Tropical",
+        "imagem": "imagens/Fruit Company Mascara Labial Tropical.jpeg",
+        "preco": 5.25,
+        "categoria": 1
+    },
+    {
+        "id": 177,
+        "nome": "Fruit Company Máscara Labial Uva",
+        "imagem": "imagens/Fruit Company Mascara Labial Uva.jpeg",
+        "preco": 5.25,
+        "categoria": 1
+    },
+    {
+        "id": 178,
+        "nome": "Fruit Company ÓLeo Labial Abacate",
+        "imagem": "imagens/Fruit Company Oleo Labial Abacate.jpeg",
+        "preco": 4,
+        "categoria": 1
+    },
+    {
+        "id": 179,
+        "nome": "Fruit Company ÓLeo Labial Amora",
+        "imagem": "imagens/Fruit Company Oleo Labial Amora.jpeg",
+        "preco": 4,
+        "categoria": 1
+    },
+    {
+        "id": 180,
+        "nome": "Fruit Company ÓLeo Labial Melancia",
+        "imagem": "imagens/Fruit Company Oleo Labial Melancia.jpeg",
+        "preco": 4,
+        "categoria": 1
+    },
+    {
+        "id": 181,
+        "nome": "Fruit Company ÓLeo Labial Morango & Nata",
+        "imagem": "imagens/Fruit Company Oleo Labial Morango & Nata.jpeg",
+        "preco": 4,
+        "categoria": 1
+    },
+    {
+        "id": 182,
+        "nome": "Fruit Company ÓLeo Labial Pêssego",
+        "imagem": "imagens/Fruit Company Oleo Labial Pessego.jpeg",
+        "preco": 4,
+        "categoria": 1
+    },
+    {
+        "id": 183,
+        "nome": "Fruit Company ÓLeo Seco Corporal Anti Estrias Coxas",
+        "imagem": "imagens/Fruit Company Oleo Seco Corporal Anti-Estrias Coxas.jpeg",
+        "preco": 6.99,
+        "categoria": 2
+    },
+    {
+        "id": 184,
+        "nome": "Fruit Company ÓLeo Seco Corporal Coco",
+        "imagem": "imagens/Fruit Company Oleo Seco Corporal Coco.jpeg",
+        "preco": 6.99,
+        "categoria": 2
+    },
+    {
+        "id": 185,
+        "nome": "Fruit Company ÓLeo Seco Corporal Monoi",
+        "imagem": "imagens/Fruit Company Oleo Seco Corporal Monoi.jpeg",
+        "preco": 6.99,
+        "categoria": 2
+    },
+    {
+        "id": 186,
+        "nome": "Fruit Company ÓLeo Seco Corporal Morango & Nata",
+        "imagem": "imagens/Fruit Company Oleo Seco Corporal Morango & Nata.jpeg",
+        "preco": 6.99,
+        "categoria": 2
+    },
+    {
+        "id": 187,
+        "nome": "Fruit Company ÓLeo Seco Corporal Tropical",
+        "imagem": "imagens/Fruit Company Oleo Seco Corporal Tropical.jpeg",
+        "preco": 6.99,
+        "categoria": 2
+    },
+    {
+        "id": 188,
+        "nome": "Fruit Company Toalhitas Amora",
+        "imagem": "imagens/Fruit Company Toalhitas Amora.jpeg",
+        "preco": 1.95,
+        "categoria": 3
+    },
+    {
+        "id": 189,
+        "nome": "Fruit Company Toalhitas Coco",
+        "imagem": "imagens/Fruit Company Toalhitas Coco.jpeg",
+        "preco": 1.95,
+        "categoria": 3
+    },
+    {
+        "id": 190,
+        "nome": "Fruit Company Toalhitas Morango & Nata",
+        "imagem": "imagens/Fruit Company Toalhitas Morango & Nata.jpeg",
+        "preco": 1.95,
+        "categoria": 3
+    },
+    {
+        "id": 191,
+        "nome": "Fruit Company Toalhitas WC Maçã",
+        "imagem": "imagens/Fruit Company Toalhitas WC Maca.jpeg",
+        "preco": 3.50,
+        "categoria": 3
+    },
+    {
+        "id": 192,
+        "nome": "Fruit Company Toalhitas WC Pêssego",
+        "imagem": "imagens/Fruit Company Toalhitas WC Pessego.jpeg",
+        "preco": 3.50,
+        "categoria": 3
+    },
+    {
+        "id": 193,
+        "nome": "Fruit Company Creme Mãos Coco",
+        "imagem": "imagens/Fruit Company creme Maos Coco.jpeg",
+        "preco": 2.50,
+        "categoria": 2
+    },
+    {
+        "id": 194,
+        "nome": "Fruit Company Creme Mãos Maçã Verde",
+        "imagem": "imagens/Fruit Company creme Maos Maca Verde.jpeg",
+        "preco": 2.50,
+        "categoria": 2
+    },
+    {
+        "id": 195,
+        "nome": "Fruit Company Creme Mãos Melão",
+        "imagem": "imagens/Fruit Company creme Maos Melao.jpeg",
+        "preco": 2.50,
+        "categoria": 2
+    },
+    {
+        "id": 196,
+        "nome": "Fruit Company Creme Mãos Morango & Nata",
+        "imagem": "imagens/Fruit Company creme Maos Morango & Nata.jpeg",
+        "preco": 2.50,
+        "categoria": 2
+    },
+    {
+        "id": 197,
+        "nome": "Fruit Of The Wokali Professional Care",
+        "imagem": "imagens/Fruit of the Wokali Professional Care.jpeg",
+        "preco": 12.87,
+        "categoria": 1
+    },
+    {
+        "id": 199,
+        "nome": "Hyaluronic Acid Creme Revitalizante Iluminador",
+        "imagem": "imagens/Hyaluronic Acid Creme Revitalizante Iluminador.jpeg",
+        "preco": 12.87,
+        "categoria": 1
+    },
+    {
+        "id": 200,
+        "nome": "Kiss Beauty Máscara Dourada RemovíVel Kojico & Cúrcuma",
+        "imagem": "imagens/Kiss Beauty Mascara Dourada Removivel Kojico & Curcuma.jpeg",
+        "preco": 5.85,
+        "categoria": 1
+    },
+    {
+        "id": 201,
+        "nome": "Kit Calmante Reparador Centella",
+        "imagem": "imagens/Kit Calmante Reparador Centella.jpeg",
+        "preco": 19.50,
+        "categoria": 1
+    },
+    {
+        "id": 202,
+        "nome": "Kit Cosmi Blossom",
+        "imagem": "imagens/Kit Cosmi Blossom.jpeg",
+        "preco": 5.25,
+        "categoria": 5
+    },
+    {
+        "id": 203,
+        "nome": "Kit Cosmi Desire",
+        "imagem": "imagens/Kit Cosmi Desire.jpeg",
+        "preco": 5.25,
+        "categoria": 5
+    },
+    {
+        "id": 204,
+        "nome": "Kit Cosmi Elegance",
+        "imagem": "imagens/Kit Cosmi Elegance.jpeg",
+        "preco": 5.25,
+        "categoria": 5
+    },
+    {
+        "id": 205,
+        "nome": "Kit Cosmi Mystery",
+        "imagem": "imagens/Kit Cosmi Mystery.jpeg",
+        "preco": 5.25,
+        "categoria": 5
+    },
+    {
+        "id": 206,
+        "nome": "Kit Cosmi Rich Man",
+        "imagem": "imagens/Kit Cosmi Rich Man.jpeg",
+        "preco": 5.25,
+        "categoria": 5
+    },
+    {
+        "id": 207,
+        "nome": "Kit Cosmi Seductive",
+        "imagem": "imagens/Kit Cosmi Seductive.jpeg",
+        "preco": 5.25,
+        "categoria": 5
+    },
+    {
+        "id": 208,
+        "nome": "Kit Cute Lover Blooming",
+        "imagem": "imagens/Kit Cute Lover Blooming.jpeg",
+        "preco": 5.25,
+        "categoria": 5
+    },
+    {
+        "id": 209,
+        "nome": "Kit Cute Lover Hello Kitty",
+        "imagem": "imagens/Kit Cute Lover Hello Kitty.jpeg",
+        "preco": 5.25,
+        "categoria": 5
+    },
+    {
+        "id": 210,
+        "nome": "Kit Cute Lover Moranguinho",
+        "imagem": "imagens/Kit Cute Lover Moranguinho.jpeg",
+        "preco": 5.25,
+        "categoria": 5
+    },
+    {
+        "id": 211,
+        "nome": "Kit Marshmallow Blush Stitch",
+        "imagem": "imagens/Kit Marshmallow Blush Stitch.jpeg",
+        "preco": 5.25,
+        "categoria": 5
+    },
+    {
+        "id": 212,
+        "nome": "Kit Viagem Anti Acne Tea Tree Centella",
+        "imagem": "imagens/Kit Viagem Anti Acne Tea Tree Centella.jpeg",
+        "preco": 19.50,
+        "categoria": 1
+    },
+    {
+        "id": 213,
+        "nome": "Kit Viagem Calmante Centella",
+        "imagem": "imagens/Kit Viagem Calmante Centella.jpeg",
+        "preco": 19.50,
+        "categoria": 1
+    },
+    {
+        "id": 214,
+        "nome": "Kit Viagem Pele Sensivel Centella",
+        "imagem": "imagens/Kit Viagem Pele Sensivel Centella.jpeg",
+        "preco": 19.50,
+        "categoria": 1
+    },
+    {
+        "id": 215,
+        "nome": "Kojic Acid Turmeric Creme Anti Manchas",
+        "imagem": "imagens/Kojic Acid Turmeric Creme Anti Manchas.jpeg",
+        "preco": 14.30,
+        "categoria": 1
+    },
+    {
+        "id": 216,
+        "nome": "Lilyeve Ampolas Couro Cabeludo",
+        "imagem": "imagens/Lilyeve Ampolas Couro Cabeludo.jpeg",
+        "preco": 19.50,
+        "categoria": 0
+    },
+    {
+        "id": 217,
+        "nome": "Madeca Creme Lifting Firmeza",
+        "imagem": "imagens/Madeca creme Lifting Firmeza.jpeg",
+        "preco": 14.30,
+        "categoria": 1
+    },
+    {
+        "id": 225,
+        "nome": "Malizia Espuma Banho Aloe Vera",
+        "imagem": "imagens/Malizia Espuma Banho Aloe Vera.jpeg",
+        "preco": 7.15,
+        "categoria": 3
+    },
+    {
+        "id": 226,
+        "nome": "Malizia Espuma Banho Amora & Almiscar",
+        "imagem": "imagens/Malizia Espuma Banho Amora & Almiscar.jpeg",
+        "preco": 7.15,
+        "categoria": 3
+    },
+    {
+        "id": 227,
+        "nome": "Malizia Espuma Banho Argão & Baunilha",
+        "imagem": "imagens/Malizia Espuma Banho Argao & Baunilha.jpeg",
+        "preco": 7.15,
+        "categoria": 3
+    },
+    {
+        "id": 228,
+        "nome": "Malizia Espuma Banho Bergamota & Salvia",
+        "imagem": "imagens/Malizia Espuma Banho Bergamota & Salvia.jpeg",
+        "preco": 7.15,
+        "categoria": 3
+    },
+    {
+        "id": 229,
+        "nome": "Malizia Espuma Banho Chá Verde & Pinho",
+        "imagem": "imagens/Malizia Espuma Banho Cha Verde & Pinho.jpeg",
+        "preco": 7.15,
+        "categoria": 3
+    },
+    {
+        "id": 230,
+        "nome": "Malizia Espuma Banho Creme De Leite",
+        "imagem": "imagens/Malizia Espuma Banho Creme de Leite.jpeg",
+        "preco": 7.15,
+        "categoria": 3
+    },
+    {
+        "id": 231,
+        "nome": "Malizia Espuma Banho Goji & Hibisco",
+        "imagem": "imagens/Malizia Espuma Banho Goji & Hibisco.jpeg",
+        "preco": 7.15,
+        "categoria": 3
+    },
+    {
+        "id": 232,
+        "nome": "Malizia Espuma Banho Leite De Coco",
+        "imagem": "imagens/Malizia Espuma Banho Leite de Coco.jpeg",
+        "preco": 7.15,
+        "categoria": 3
+    },
+    {
+        "id": 233,
+        "nome": "Malizia Espuma Banho Mel Puro",
+        "imagem": "imagens/Malizia Espuma Banho Mel puro.jpeg",
+        "preco": 7.15,
+        "categoria": 3
+    },
+    {
+        "id": 234,
+        "nome": "Malizia Espuma Banho Monoi & Flor Lótus",
+        "imagem": "imagens/Malizia Espuma Banho Monoi & Flor Lotus.jpeg",
+        "preco": 7.15,
+        "categoria": 3
+    },
+    {
+        "id": 235,
+        "nome": "Malizia Espuma Banho Talco",
+        "imagem": "imagens/Malizia Espuma Banho Talco.jpeg",
+        "preco": 7.15,
+        "categoria": 3
+    },
+    {
+        "id": 236,
+        "nome": "Malizia Espuma Banho Bio Aloe E Magnolia   1 Li",
+        "imagem": "imagens/Malizia Espuma de Banho Bio Aloe e Magnolia - 1 Li.jpeg",
+        "preco": 7.15,
+        "categoria": 3
+    },
+    {
+        "id": 237,
+        "nome": "Malizia Espuma Banho Almiscar Branco",
+        "imagem": "imagens/Malizia Espuma Banho Almiscar Branco.jpeg",
+        "preco": 7.15,
+        "categoria": 3
+    },
+    {
+        "id": 238,
+        "nome": "Malizia Espuma Banho Orquídea & Ambar",
+        "imagem": "imagens/Malizia Espuma Banho Orquidea & Ambar.jpeg",
+        "preco": 7.15,
+        "categoria": 3
+    },
+    {
+        "id": 239,
+        "nome": "Malizia Espuma Banho Pétalas De Iris",
+        "imagem": "imagens/Malizia Espuma Banho Petalas de Iris.jpeg",
+        "preco": 7.15,
+        "categoria": 3
+    },
+    {
+        "id": 240,
+        "nome": "Máscara Capilar Colágeno Pó Macaroot",
+        "imagem": "imagens/Mascara Capilar Colageno po macaroot.jpeg",
+        "preco": 14.95,
+        "categoria": 0
+    },
+    {
+        "id": 241,
+        "nome": "Máscara Capilar Roxa Pó De Macaroot",
+        "imagem": "imagens/Mascara Capilar Roxa po de Macaroot.jpeg",
+        "preco": 14.95,
+        "categoria": 0
+    },
+    {
+        "id": 242,
+        "nome": "Medicube BáLsamo Labial Volume",
+        "imagem": "imagens/Medicube Balsamo Labial Volume.jpeg",
+        "preco": 15,
+        "categoria": 1
+    },
+    {
+        "id": 243,
+        "nome": "Medicube Condicionador Capilar Rosemary Pdrn Cafeina",
+        "imagem": "imagens/Medicube Condicionador Capilar Rosemary PDRN Cafeina.jpeg",
+        "preco": 14.30,
+        "categoria": 0
+    },
+    {
+        "id": 244,
+        "nome": "Medicube Condicionador Capilar Rosemary Pdrn",
+        "imagem": "imagens/Medicube Condicionador Capilar Rosemary PDRN.jpeg",
+        "preco": 16.90,
+        "categoria": 0
+    },
+    {
+        "id": 245,
+        "nome": "Medicube Creme Vitamina C Hidratação Firmeza",
+        "imagem": "imagens/Medicube Creme Vitamina C Hidratacao Firmeza.jpeg",
+        "preco": 14.30,
+        "categoria": 1
+    },
+    {
+        "id": 246,
+        "nome": "Medicube Creme De Olhos Lifting",
+        "imagem": "imagens/Medicube Creme de Olhos Lifting.jpeg",
+        "preco": 14.30,
+        "categoria": 1
+    },
+    {
+        "id": 247,
+        "nome": "Medicube Limpeza Regeneradora Pdrn",
+        "imagem": "imagens/Medicube Limpeza Regeneradora PDRN.jpeg",
+        "preco": 11.95,
+        "categoria": 1
+    },
+    {
+        "id": 248,
+        "nome": "Medicube Máscara Facial Nocturna Colágeno",
+        "imagem": "imagens/Medicube Mascara Facial Nocturna Colageno.jpeg",
+        "preco": 12.99,
+        "categoria": 1
+    },
+    {
+        "id": 249,
+        "nome": "Medicube Olhos Firmeza",
+        "imagem": "imagens/Medicube Olhos Firmeza.jpeg",
+        "preco": 14.30,
+        "categoria": 1
+    },
+    {
+        "id": 250,
+        "nome": "Medicube Patch Olhos Pdrn Pink Caffeine",
+        "imagem": "imagens/Medicube Patch Olhos PDRN Pink Caffeine.jpeg",
+        "preco": 14.30,
+        "categoria": 1
+    },
+    {
+        "id": 251,
+        "nome": "Medicube Serum Cápsulas Vitamina C",
+        "imagem": "imagens/Medicube Serum Capsulas Vitamina C.jpeg",
+        "preco": 12.87,
+        "categoria": 1
+    },
+    {
+        "id": 252,
+        "nome": "Medicube Serum Colágeno & Nad & Egf",
+        "imagem": "imagens/Medicube Serum Colageno & NAD & EGF.jpeg",
+        "preco": 12.87,
+        "categoria": 1
+    },
+    {
+        "id": 253,
+        "nome": "Medicube Serum Colágeno Glow Booster",
+        "imagem": "imagens/Medicube Serum Colageno Glow Booster.jpeg",
+        "preco": 14.30,
+        "categoria": 1
+    },
+    {
+        "id": 254,
+        "nome": "Medicube Serum Couro Cabeludo Refrescante",
+        "imagem": "imagens/Medicube Serum Couro Cabeludo Refrescante.jpeg",
+        "preco": 14.30,
+        "categoria": 1
+    },
+    {
+        "id": 255,
+        "nome": "Medicube Serum Manjericão Sagrado Irritação Da Pele",
+        "imagem": "imagens/Medicube Serum Manjericao Sagrado Irritacao da Pele.jpeg",
+        "preco": 12.87,
+        "categoria": 1
+    },
+    {
+        "id": 256,
+        "nome": "Medicube Serum Placenta & Niacinamida",
+        "imagem": "imagens/Medicube Serum Placenta & Niacinamida.jpeg",
+        "preco": 12.87,
+        "categoria": 1
+    },
+    {
+        "id": 257,
+        "nome": "Medicube Serum Txa + Niacinamida",
+        "imagem": "imagens/Medicube Serum TXA + Niacinamida.jpeg",
+        "preco": 12.87,
+        "categoria": 1
+    },
+    {
+        "id": 258,
+        "nome": "Medicube Serum Ultra Light Pdrn Pink Peptide",
+        "imagem": "imagens/Medicube Serum Ultra Light PDRN Pink Peptide.jpeg",
+        "preco": 12.87,
+        "categoria": 1
+    },
+    {
+        "id": 259,
+        "nome": "Medicube Shampoo Rosemary Pdrn",
+        "imagem": "imagens/Medicube Shampoo Rosemary PDRN.jpeg",
+        "preco": 24.70,
+        "categoria": 0
+    },
+    {
+        "id": 260,
+        "nome": "Medicube Creme Ácido Hialurónico Hidratação",
+        "imagem": "imagens/Medicube creme Acido Hialuronico Hidratacao.jpeg",
+        "preco": 14.30,
+        "categoria": 1
+    },
+    {
+        "id": 261,
+        "nome": "Medicube Creme Niacinamida + Txa",
+        "imagem": "imagens/Medicube creme Niacinamida + TXA.jpeg",
+        "preco": 14.30,
+        "categoria": 1
+    },
+    {
+        "id": 262,
+        "nome": "Medicube Creme Olhos & Rosto Lifting Profundo",
+        "imagem": "imagens/Medicube creme Olhos & Rosto Lifting Profundo.jpeg",
+        "preco": 14.30,
+        "categoria": 1
+    },
+    {
+        "id": 263,
+        "nome": "Medicube Creme Pescoço Pdrn Colágeno Gua Sha",
+        "imagem": "imagens/Medicube creme Pescoco PDRN Colageno Gua Sha.jpeg",
+        "preco": 15.55,
+        "categoria": 1
+    },
+    {
+        "id": 264,
+        "nome": "Medicube Creme Pescoço Anti Rugas Colágeno Pdrn Gua Sha",
+        "imagem": "imagens/Medicube creme Pescoco Anti Rugas Colageno PDRN Gua Sha.jpeg",
+        "preco": 15.55,
+        "categoria": 1
+    },
+    {
+        "id": 266,
+        "nome": "Odonna Leite Corporal Infantil",
+        "imagem": "imagens/Odonna Leite Corporal Infantil.jpeg",
+        "preco": 12.25,
+        "categoria": 2
+    },
+    {
+        "id": 267,
+        "nome": "Ofashion Esfoliação Facial Coco",
+        "imagem": "imagens/Ofashion Esfoliacao Facial Coco.jpeg",
+        "preco": 3.90,
+        "categoria": 1
+    },
+    {
+        "id": 268,
+        "nome": "Ofashion Esfoliação Facial Framboesa",
+        "imagem": "imagens/Ofashion Esfoliacao Facial Framboesa.jpeg",
+        "preco": 3.90,
+        "categoria": 1
+    },
+    {
+        "id": 269,
+        "nome": "Ofashion Esfoliação Facial Pepino",
+        "imagem": "imagens/Ofashion Esfoliacao Facial Pepino.jpeg",
+        "preco": 3.90,
+        "categoria": 1
+    },
+    {
+        "id": 270,
+        "nome": "Ofashion Esfoliação Facial Abacate",
+        "imagem": "imagens/Ofashion Esfoliante Facial Abacate.jpeg",
+        "preco": 3.90,
+        "categoria": 1
+    },
+    {
+        "id": 271,
+        "nome": "Ofashion Esfoliação Facial Aloe Vera",
+        "imagem": "imagens/Ofashion Esfoliante Facial Aloe Vera.jpeg",
+        "preco": 3.90,
+        "categoria": 1
+    },
+    {
+        "id": 272,
+        "nome": "Ofashion Esfoliação Facial Baba De Caracol",
+        "imagem": "imagens/Ofashion Esfoliante Facial Baba de Caracol.jpeg",
+        "preco": 3.90,
+        "categoria": 1
+    },
+    {
+        "id": 273,
+        "nome": "Ofashion Esfoliação Facial Carvão",
+        "imagem": "imagens/Ofashion Esfoliante Facial Carvao.jpeg",
+        "preco": 3.90,
+        "categoria": 1
+    },
+    {
+        "id": 274,
+        "nome": "Ofashion Esfoliação Facial Limão",
+        "imagem": "imagens/Ofashion Esfoliante Facial Limao.jpeg",
+        "preco": 3.90,
+        "categoria": 1
+    },
+    {
+        "id": 275,
+        "nome": "Ofashion Esfoliação Facial Morango",
+        "imagem": "imagens/Ofashion Esfoliante Facial Morango.jpeg",
+        "preco": 3.90,
+        "categoria": 1
+    },
+    {
+        "id": 276,
+        "nome": "Organic Snail Creme Renovador Reparador Caracol",
+        "imagem": "imagens/Organic Snail Creme Renovador Reparador Caracol.jpeg",
+        "preco": 12.87,
+        "categoria": 1
+    },
+    {
+        "id": 277,
+        "nome": "Pdrn Shot Capilar Hidratação",
+        "imagem": "imagens/PDRN Shot Capilar Hidratacao.jpeg",
+        "preco": 14.30,
+        "categoria": 0
+    },
+    {
+        "id": 280,
+        "nome": "Pincel Maquilhagem Alta Definição",
+        "imagem": "imagens/Pincel Maquilhagem Alta Definicao.jpeg",
+        "preco": 3,
+        "categoria": 4
+    },
+    {
+        "id": 281,
+        "nome": "Pincel Maquilhagem Multifuncional",
+        "imagem": "imagens/Pincel Maquilhagem Multifuncional.jpeg",
+        "preco": 2.50,
+        "categoria": 4
+    },
+    {
+        "id": 283,
+        "nome": "Prady Fragancia Pet Coco",
+        "imagem": "imagens/Prady Fragancia Pet Coco.jpeg",
+        "preco": 5.65,
+        "categoria": 7
+    },
+    {
+        "id": 284,
+        "nome": "Prady Fragancia Pet Fresh",
+        "imagem": "imagens/Prady Fragancia Pet Fresh.jpeg",
+        "preco": 5.65,
+        "categoria": 7
+    },
+    {
+        "id": 285,
+        "nome": "Prady Fragancia Pet Morango",
+        "imagem": "imagens/Prady Fragancia Pet Morango.jpeg",
+        "preco": 5.65,
+        "categoria": 7
+    },
+    {
+        "id": 286,
+        "nome": "Prady Fragancia Pet Relax",
+        "imagem": "imagens/Prady Fragancia Pet Relax.jpeg",
+        "preco": 5.65,
+        "categoria": 7
+    },
+    {
+        "id": 287,
+        "nome": "Prady Fragancia Pet Talco",
+        "imagem": "imagens/Prady Fragancia Pet Talco.jpeg",
+        "preco": 5.65,
+        "categoria": 7
+    },
+    {
+        "id": 288,
+        "nome": "Serum Capilar Argão & Alecrim",
+        "imagem": "imagens/Serum Capilar Argao & Alecrim.jpeg",
+        "preco": 7.50,
+        "categoria": 0
+    },
+    {
+        "id": 289,
+        "nome": "Serum Corporal Anti Rugas Decote",
+        "imagem": "imagens/Serum Corporal Anti-Rugas Decote.jpeg",
+        "preco": 6.99,
+        "categoria": 2
+    },
+    {
+        "id": 290,
+        "nome": "Serum Corporal Reafirmante Nádegas",
+        "imagem": "imagens/Serum Corporal Reafirmante Nadegas.jpeg",
+        "preco": 6.99,
+        "categoria": 2
+    },
+    {
+        "id": 291,
+        "nome": "Sol Janeiro 40 Bom Dia Bright",
+        "imagem": "imagens/Sol Janeiro 40 Bom Dia Bright.jpeg",
+        "preco": 19.99,
+        "categoria": 5
+    },
+    {
+        "id": 292,
+        "nome": "Sol Janeiro 62 Brazilian 4 Play",
+        "imagem": "imagens/Sol Janeiro 62 Brazilian 4 Play.jpeg",
+        "preco": 19.99,
+        "categoria": 5
+    },
+    {
+        "id": 293,
+        "nome": "Sol Janeiro Set Viagem 59 Delicia Drench",
+        "imagem": "imagens/Sol Janeiro Set Viagem 59 Delicia Drench.jpeg",
+        "preco": 19.99,
+        "categoria": 5
+    },
+    {
+        "id": 294,
+        "nome": "Sol Janeiro Set Viagem Beija Flor",
+        "imagem": "imagens/Sol Janeiro Set Viagem Beija Flor.jpeg",
+        "preco": 19.99,
+        "categoria": 5
+    },
+    {
+        "id": 295,
+        "nome": "Story Of Love Fragancia Corporal Almiscar",
+        "imagem": "imagens/Story of Love Fragancia Corporal Almiscar.jpeg",
+        "preco": 2.60,
+        "categoria": 5
+    },
+    {
+        "id": 296,
+        "nome": "Story Of Love Fragancia Corporal Cerejas Pretas",
+        "imagem": "imagens/Story of Love Fragancia Corporal Cerejas pretas.jpeg",
+        "preco": 2.60,
+        "categoria": 5
+    },
+    {
+        "id": 297,
+        "nome": "Story Of Love Fragancia Corporal Jasmin",
+        "imagem": "imagens/Story of Love Fragancia Corporal Jasmin.jpeg",
+        "preco": 2.60,
+        "categoria": 5
+    },
+    {
+        "id": 298,
+        "nome": "Story Of Love Fragancia Corporal Rosas",
+        "imagem": "imagens/Story of Love Fragancia Corporal Rosas.jpeg",
+        "preco": 2.60,
+        "categoria": 5
+    },
+    {
+        "id": 301,
+        "nome": "Tulipan Negro Gel Banho Algodão Doce",
+        "imagem": "imagens/Tulipan Negro Gel Banho Algodao Doce.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 302,
+        "nome": "Tulipan Negro Gel Banho Beijinhos Morango",
+        "imagem": "imagens/Tulipan Negro Gel Banho Beijinhos Morango.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 303,
+        "nome": "Tulipan Negro Gel Banho Iogurt & Frutos Vermelhos",
+        "imagem": "imagens/Tulipan Negro Gel Banho Iogurt & Frutos Vermelhos.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 304,
+        "nome": "Tulipan Negro Gel Banho Marshmallow",
+        "imagem": "imagens/Tulipan Negro Gel Banho Marshmallow.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 305,
+        "nome": "Tulipan Negro Gel Banho Merengue & Canela",
+        "imagem": "imagens/Tulipan Negro Gel Banho Merengue & Canela.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 306,
+        "nome": "Tulipan Negro Gel Duche Algodão & Talco",
+        "imagem": "imagens/Tulipan Negro Gel Duche Algodao & Talco.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 307,
+        "nome": "Tulipan Negro Gel Duche Aloe Vera & Jojoba",
+        "imagem": "imagens/Tulipan Negro Gel Duche Aloe Vera & Jojoba.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 308,
+        "nome": "Tulipan Negro Gel Duche Âmbar & Sândalo",
+        "imagem": "imagens/Tulipan Negro Gel Duche Ambar & Sandalo.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 309,
+        "nome": "Tulipan Negro Gel Duche Baunilha & Macadâmia",
+        "imagem": "imagens/Tulipan Negro Gel Duche Baunilha & Macadamia.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 310,
+        "nome": "Tulipan Negro Gel Duche Bergamota & Cedro",
+        "imagem": "imagens/Tulipan Negro Gel Duche Bergamota & Cedro.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 311,
+        "nome": "Tulipan Negro Gel Duche Black Ginseng",
+        "imagem": "imagens/Tulipan Negro Gel Duche Black Ginseng.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 312,
+        "nome": "Tulipan Negro Gel Duche Candy Fantasy",
+        "imagem": "imagens/Tulipan Negro Gel Duche Candy Fantasy.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 313,
+        "nome": "Tulipan Negro Gel Duche Caramelo & Café",
+        "imagem": "imagens/Tulipan Negro Gel Duche Caramelo & Cafe.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 314,
+        "nome": "Tulipan Negro Gel Duche Cereja & Morango",
+        "imagem": "imagens/Tulipan Negro Gel Duche Cereja & Morango.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 315,
+        "nome": "Tulipan Negro Gel Duche Chocolate & Praline",
+        "imagem": "imagens/Tulipan Negro Gel Duche Chocolate & Praline.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 316,
+        "nome": "Tulipan Negro Gel Duche Coco",
+        "imagem": "imagens/Tulipan Negro Gel Duche Coco.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 317,
+        "nome": "Tulipan Negro Gel Duche Creme De Sabão",
+        "imagem": "imagens/Tulipan Negro Gel Duche Creme de Sabao.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 318,
+        "nome": "Tulipan Negro Gel Duche Floral",
+        "imagem": "imagens/Tulipan Negro Gel Duche Floral.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 319,
+        "nome": "Tulipan Negro Gel Duche Frutos & Rosas",
+        "imagem": "imagens/Tulipan Negro Gel Duche Frutos & Rosas.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 320,
+        "nome": "Tulipan Negro Gel Duche Jasmin & Musk",
+        "imagem": "imagens/Tulipan Negro Gel Duche Jasmin & Musk.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 321,
+        "nome": "Tulipan Negro Gel Duche Mandarina & Lima",
+        "imagem": "imagens/Tulipan Negro Gel Duche Mandarina & Lima.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 322,
+        "nome": "Tulipan Negro Gel Duche Melão",
+        "imagem": "imagens/Tulipan Negro Gel Duche Melao.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 323,
+        "nome": "Tulipan Negro Gel Duche Morango & Cereja",
+        "imagem": "imagens/Tulipan Negro Gel Duche Morango & Cereja.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 324,
+        "nome": "Tulipan Negro Gel Duche Morango & Nata",
+        "imagem": "imagens/Tulipan Negro Gel Duche Morango & Nata.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 325,
+        "nome": "Tulipan Negro Gel Duche Original",
+        "imagem": "imagens/Tulipan Negro Gel Duche Original.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 326,
+        "nome": "Tulipan Negro Gel Duche Ozono Protect",
+        "imagem": "imagens/Tulipan Negro Gel Duche Ozono Protect.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 327,
+        "nome": "Tulipan Negro Gel Duche Rosas",
+        "imagem": "imagens/Tulipan Negro Gel Duche Rosas.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 328,
+        "nome": "Tulipan Negro Gel Duche Violeta",
+        "imagem": "imagens/Tulipan Negro Gel Duche Violeta.jpeg",
+        "preco": 4.55,
+        "categoria": 3
+    },
+    {
+        "id": 331,
+        "nome": "Venshadi Paleta Sombras Barbie'S Eye!! Butterfly",
+        "imagem": "imagens/Venshadi Paleta Sombras Barbie's Eye!! Butterfly.jpeg",
+        "preco": 21.19,
+        "categoria": 4
+    },
+    {
+        "id": 332,
+        "nome": "Venshadi Paleta Sombras Reinos Mágicos",
+        "imagem": "imagens/Venshadi Paleta Sombras Reinos Magicos.jpeg",
+        "preco": 21.19,
+        "categoria": 4
+    },
+    {
+        "id": 333,
+        "nome": "Venshadi Paleta Tudo Em Um",
+        "imagem": "imagens/Venshadi Paleta Tudo-em-um.jpeg",
+        "preco": 24.96,
+        "categoria": 4
+    },
+    {
+        "id": 334,
+        "nome": "Veri You Loção Corporal Hidratante Vanilla Crush",
+        "imagem": "imagens/Veri You Locao Corporal Hidratante Vanilla Crush.jpeg",
+        "preco": 4.50,
+        "categoria": 2
+    },
+    {
+        "id": 335,
+        "nome": "Veri You Loção Hidratante Corporal Chocolate Magic",
+        "imagem": "imagens/Veri You Locao Hidratante Corporal Chocolate Magic.jpeg",
+        "preco": 4.50,
+        "categoria": 2
+    },
+    {
+        "id": 336,
+        "nome": "Veri You Loção Hidratante Corporal Cookies Burst",
+        "imagem": "imagens/Veri You Locao Hidratante Corporal Cookies Burst.jpeg",
+        "preco": 4.50,
+        "categoria": 2
+    },
+    {
+        "id": 337,
+        "nome": "Veri You Loção Nutritiva Corporal Strawberry Creme",
+        "imagem": "imagens/Veri You Locao Nutritiva Corporal Strawberry Creme.jpeg",
+        "preco": 4.50,
+        "categoria": 2
+    },
+    {
+        "id": 338,
+        "nome": "Vitamin C Creme Clareador Antienvelhecimento",
+        "imagem": "imagens/Vitamin C Creme Clareador Antienvelhecimento.jpeg",
+        "preco": 12.87,
+        "categoria": 1
+    },
+    {
+        "id": 339,
+        "nome": "Wins Town Colágeno Efeito Queimador Saquetas",
+        "imagem": "imagens/Wins Town Colageno efeito queimador saquetas.jpeg",
+        "preco": 15,
+        "categoria": 6
+    },
+    {
+        "id": 340,
+        "nome": "Wokali Shampoo Barra Revitalizante Gengibre",
+        "imagem": "imagens/Wokali Shampoo Barra Revitalizante Gengibre.jpeg",
+        "preco": 7.67,
+        "categoria": 0
+    },
+    {
+        "id": 341,
+        "nome": "Wokali Shampoo Barra Revitalizante",
+        "imagem": "imagens/Wokali Shampoo Barra Revitalizante.jpeg",
+        "preco": 7.67,
+        "categoria": 0
+    }
+]
