@@ -51,7 +51,9 @@
                         <tr>
                             <th>Imagem</th>
                             <th>Nome do Produto</th>
+                            <th>Categoria</th>
                             <th>Preço</th>
+                            <th>Stock</th>
                             <th class="text-end">Ações</th>
                         </tr>
                     </thead>
@@ -73,6 +75,11 @@
                                 </td>
                                 <td class="fw-semibold">@produto.Nome</td>
                                 <td>@produto.Preco.ToString("C")</td>
+                                <td>
+                                    <span class="badge @(produto.Stock <= 0 ? "bg-danger" : "bg-success") rounded-pill px-3 py-2">
+                                        @produto.Stock
+                                    </span>
+                                </td>
                                 <td class="text-end">
                                     <button class="btn btn-sm btn-outline-primary rounded-pill px-3 me-1" @onclick="() => EditarProduto(produto.Id)">Editar</button>
                                     <button class="btn btn-sm btn-outline-danger rounded-pill px-3" @onclick="() => ApagarProduto(produto.Id)">Apagar</button>
