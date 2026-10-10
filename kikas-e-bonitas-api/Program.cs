@@ -49,7 +49,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("FrontendPolicy", policy =>
     {
-        policy.WithOrigins("http://localhost:5173", "http://localhost:5289") // Ajustar para a porta do nosso front-end
+        policy.WithOrigins("http://localhost:5173", "http://localhost:5289","https://kikasbonitas-web.onrender.com")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
