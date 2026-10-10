@@ -1,0 +1,201 @@
+@host = http://localhost:5287
+
+### Teste 1: Obter todos os produtos (Traz o NomeCategoria via Include)
+GET {{host}}/api/produtos
+
+###
+
+### Teste 2: Criar um produto associado à Categoria 1 (Cosmética)
+POST {{host}}/api/produtos
+Content-Type: application/json
+
+{
+  "nome": "Sérum Facial de Rosa Mosqueta 30ml",
+  "preco": 18.90,
+  "stock": 15,
+  "categoriaId": 1
+}
+
+###
+
+### Teste 3: Criar um produto associado à Categoria 3 (Naturais)
+POST {{host}}/api/produtos
+Content-Type: application/json
+
+{
+  "nome": "Óleo Essencial de Alfazema 15ml",
+  "preco": 12.90,
+  "stock": 25,
+  "categoriaId": 3
+}
+
+###
+
+### Teste 4: Tentar criar produto com CategoriaInexistente (Retorna 400 Bad Request)
+POST {{host}}/api/produtos
+Content-Type: application/json
+
+{
+  "nome": "Produto Inválido",
+  "preco": 10.00,
+  "stock": 5,
+  "categoriaId": 999
+}
+
+###
+
+### Teste 5: Obter produto por ID
+GET {{host}}/api/produtos/1
+
+###
+
+### Teste 6: Atualizar produto (Mudar para Categoria 2 - Utilitários)
+PUT {{host}}/api/produtos/1
+Content-Type: application/json
+
+{
+  "nome": "Sérum Facial de Rosa Mosqueta - Edição Especial",
+  "preco": 21.00,
+  "stock": 10,
+  "categoriaId": 2
+}
+
+###
+
+### Teste 7: Apagar um produto (DELETE)
+DELETE {{host}}/api/produtos/1
+
+###
+
+### Teste Categorias 1: Listar todas as categorias
+GET {{host}}/api/categorias
+
+###
+
+### Teste Categorias 2: Criar nova categoria
+POST {{host}}/api/categorias
+Content-Type: application/json
+
+{
+  "nome": "Acessórios"
+}
+
+###
+
+### Teste Categorias 3: Tentar apagar categoria com produtos (Devolve 400 Bad Request)
+DELETE {{host}}/api/categorias/1
+
+###
+
+### Teste Paginação 1: Obter primeira página com 2 produtos por página
+GET {{host}}/api/produtos?pagina=1&tamanhoPagina=2
+
+###
+
+### Teste Paginação 2: Obter segunda página
+GET {{host}}/api/produtos?pagina=2&tamanhoPagina=2
+
+###
+
+### Teste Filtro 1: Pesquisar por nome contendo "Sérum"
+GET {{host}}/api/produtos?nome=Sérum
+
+###
+
+### Teste Filtro 2: Filtrar produtos apenas da Categoria 1 (Cosmética)
+GET {{host}}/api/produtos?categoriaId=1
+
+###
+
+### Teste Combinado: Pesquisar por nome E filtrar por Categoria com Paginação
+GET {{host}}/api/produtos?nome=Óleo&categoriaId=3&pagina=1&tamanhoPagina=5
+
+###
+
+### Teste Exception Handler: Simular Erro 500 no Servidor
+GET {{host}}/api/teste-erro
+
+###
+
+### 1. Obter Token de Login (Admin)
+# @name login
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "usuario": "admin",
+  "senha": "Admin123!"
+}
+
+### Guardar o token gerado numa variável do testes.http
+@authToken = {{login.response.body.token}}
+
+###
+
+### 2. Tentar criar produto SEM Token (Devolve 401 Unauthorized)
+POST {{host}}/api/produtos
+Content-Type: application/json
+
+{
+  "nome": "Produto Não Autorizado",
+  "preco": 10.00,
+  "stock": 5,
+  "categoriaId": 1
+}
+
+###
+
+### 3. Criar produto COM Token JWT Válido (Sucesso)
+POST {{host}}/api/produtos
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "nome": "Creme Hidratante Corporal 200ml",
+  "preco": 14.50,
+  "stock": 30,
+  "categoriaId": 1
+}
+###
+
+### Teste Encomendas 1: Criar Encomenda com Sucesso (Deve abater o stock do produto)
+POST {{host}}/api/encomendas
+Content-Type: application/json
+
+{
+  "nomeCliente": "Ana Rodrigues",
+  "emailCliente": "ana.rodrigues@email.com",
+  "itens": [
+    {
+      "produtoId": 2,
+      "quantidade": 2
+    }
+  ]
+}
+
+###
+
+### Teste Encomendas 2: Tentar Criar Encomenda com Stock Insuficiente (Deve devolver 400 Bad Request)
+POST {{host}}/api/encomendas
+Content-Type: application/json
+
+{
+  "nomeCliente": "Carlos Silva",
+  "emailCliente": "carlos.silva@email.com",
+  "itens": [
+    {
+      "produtoId": 2,
+      "quantidade": 999
+    }
+  ]
+}
+
+###
+
+### Teste Encomendas 3: Listar todas as Encomendas (Com detalhes de itens e produtos)
+GET {{host}}/api/encomendas
+
+###
+
+### Teste Encomendas 4: Obter Encomenda por ID específico
+GET {{host}}/api/encomendas/1
