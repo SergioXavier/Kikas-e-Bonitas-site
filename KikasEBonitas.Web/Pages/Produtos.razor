@@ -46,49 +46,45 @@
         else
         {
             <div class="table-responsive">
-                <table class="table align-middle mb-0">
-                    <thead>
-                        <tr>
-                            <th>Imagem</th>
-                            <th>Nome do Produto</th>
-                            <th>Categoria</th>
-                            <th>Preço</th>
-                            <th>Stock</th>
-                            <th class="text-end">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var produto in produtos)
-                        {
-                            <tr>
-                                <td>
-                                    @if (!string.IsNullOrEmpty(produto.ImagemUrl))
-                                    {
-                                        <img src="@produto.ImagemUrl" alt="@produto.Nome" style="width: 40px; height: 40px; object-fit: cover;" class="rounded-circle border" />
-                                    }
-                                    else
-                                    {
-                                        <div class="bg-light rounded-circle d-flex align-items-center justify-content-center border" style="width: 40px; height: 40px;">
-                                            <i class="bi bi-image text-muted small"></i>
-                                        </div>
-                                    }
-                                </td>
-                                <td class="fw-semibold">@produto.Nome</td>
-                                <td>@produto.Preco.ToString("C")</td>
-                                <td>
-                                    <span class="badge @(produto.Stock <= 0 ? "bg-danger" : "bg-success") rounded-pill px-3 py-2">
-                                        @produto.Stock
-                                    </span>
-                                </td>
-                                <td class="text-end">
-                                    <button class="btn btn-sm btn-outline-primary rounded-pill px-3 me-1" @onclick="() => EditarProduto(produto.Id)">Editar</button>
-                                    <button class="btn btn-sm btn-outline-danger rounded-pill px-3" @onclick="() => ApagarProduto(produto.Id)">Apagar</button>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+    <table class="table align-middle mb-0">
+        <thead>
+            <tr>
+                <th>Imagem</th>
+                <th>Nome do Produto</th>
+                <th>Categoria</th>
+                <th>Preço</th>
+                <th>Stock</th>
+                <th class="text-end">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var produto in produtos)
+            {
+                <tr>
+                    <td>
+                        <img src="@produto.ImagemUrl" alt="@produto.Nome" style="width: 40px; height: 40px; object-fit: cover; border-radius: 6px;" />
+                    </td>
+                    <td><strong>@produto.Nome</strong></td>
+                    <td>@produto.NomeCategoria</td>
+                    <td class="text-success fw-bold">@produto.Preco.ToString("C")</td>
+                    <td>
+                        <span class="badge @(produto.Stock <= 0 ? "bg-danger" : "bg-success") rounded-pill px-3 py-2">
+                            @produto.Stock
+                        </span>
+                    </td>
+                    <td class="text-end">
+                        <button class="btn btn-sm btn-outline-primary rounded-pill px-3" @onclick="() => EditarProduto(produto.Id)">
+                            <i class="bi bi-pencil"></i> Editar
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger rounded-pill px-3" @onclick="() => ApagarProduto(produto.Id)">
+                            <i class="bi bi-trash"></i> Apagar
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
         }
     </div>
 </div>
