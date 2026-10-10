@@ -125,7 +125,7 @@ app.MapEncomendaEndpoints();
 app.MapClienteEndpoints();
 
 // ENDPOINT DE IMPORTAÇÃO EM MASSA DO PRODUTOS.JSON
-app.MapPost("/api/produtos/importar-json", async (AppDbContext db) =>
+app.MapGet("/api/produtos/importar-json", async (AppDbContext db) =>
 {
     try
     {
