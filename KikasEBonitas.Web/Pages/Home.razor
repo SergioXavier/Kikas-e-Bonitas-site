@@ -42,29 +42,78 @@
     </div>
 
     <div class="container" id="catalogo">
-        <!-- Catálogo de Produtos -->
+        <!-- Título do Catálogo -->
         <div class="text-center mb-4">
             <h3 class="fw-bold text-dark pb-2 d-inline-block border-bottom border-2" style="border-color: #D4AF37 !important; letter-spacing: 0.5px;">
-                Catálogo Semanal
+                Catálogo de Produtos
             </h3>
         </div>
 
-        @if (produtos == null)
+        <!-- Barra de Pesquisa e Filtros de Produtos -->
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-5" style="background-color: #FDFCFB; border: 1px solid #E6E2DD !important;">
+            <h5 class="fw-bold text-center mb-4" style="color: #1A1A1A; font-family: 'Playfair Display', serif;">
+                Pesquisar produtos
+            </h5>
+            <div class="row g-3 align-items-end">
+                <!-- Nome -->
+                <div class="col-md-3">
+                    <label class="form-label small fw-bold text-muted">Nome</label>
+                    <input type="text" class="form-control rounded-pill px-3" placeholder="Pesquisar por nome..." @bind="filtroNome" @bind:event="oninput" @bind:after="OnFiltroAlterado" />
+                </div>
+
+                <!-- Categoria -->
+                <div class="col-md-3">
+                    <label class="form-label small fw-bold text-muted">Categoria</label>
+                    <select class="form-select rounded-pill px-3" @bind="filtroCategoriaId" @bind:after="OnFiltroAlterado">
+                        <option value="">Todas as categorias</option>
+                        @if (categorias != null)
+                        {
+                            @foreach (var cat in categorias)
+                            {
+                                <option value="@cat.Id">@cat.Nome</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <!-- Preço Mínimo -->
+                <div class="col-md-2">
+                    <label class="form-label small fw-bold text-muted">Preço mín.</label>
+                    <input type="number" step="0.50" class="form-control rounded-pill px-3" placeholder="0 €" @bind="filtroPrecoMin" @bind:after="OnFiltroAlterado" />
+                </div>
+
+                <!-- Preço Máximo -->
+                <div class="col-md-2">
+                    <label class="form-label small fw-bold text-muted">Preço máx.</label>
+                    <input type="number" step="0.50" class="form-control rounded-pill px-3" placeholder="100 €" @bind="filtroPrecoMax" @bind:after="OnFiltroAlterado" />
+                </div>
+
+                <!-- Botão Limpar -->
+                <div class="col-md-2 d-grid">
+                    <button class="btn btn-outline-dark rounded-pill px-3 fw-semibold" @onclick="LimparFiltros">
+                        Limpar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exibição de Produtos -->
+        @if (carregando)
         {
             <div class="text-center py-5">
                 <div class="spinner-border" style="color: #D4AF37;" role="status"></div>
                 <p class="text-muted mt-2">A carregar catálogo...</p>
             </div>
         }
-        else if (!produtos.Any())
+        else if (produtos == null || !produtos.Any())
         {
             <div class="card p-5 text-center shadow-sm border-0 rounded-4" style="background-color: #FDFCFB;">
-                <p class="text-muted mb-0">De momento não existem produtos disponíveis no catálogo.</p>
+                <p class="text-muted mb-0">De momento não foram encontrados produtos com os critérios selecionados.</p>
             </div>
         }
         else
         {
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-5">
                 @foreach (var produto in produtos)
                 {
                     <div class="col">
@@ -93,6 +142,30 @@
                     </div>
                 }
             </div>
+
+            <!-- Controlo de Paginação -->
+            @if (totalPaginas > 1)
+            {
+                <nav class="d-flex justify-content-center mt-4">
+                    <ul class="pagination pagination-md mb-0">
+                        <li class="page-item @(paginaAtual == 1 ? "disabled" : "")">
+                            <button class="page-link rounded-start-pill border-0 text-dark fw-semibold" @onclick="() => MudarPagina(paginaAtual - 1)">Anterior</button>
+                        </li>
+                        @for (int i = 1; i <= totalPaginas; i++)
+                        {
+                            var pageNum = i;
+                            <li class="page-item @(paginaAtual == pageNum ? "active" : "")">
+                                <button class="page-link border-0 fw-bold" style="@(paginaAtual == pageNum ? "background-color: #D4AF37; color: white;" : "color: #1A1A1A;")" @onclick="() => MudarPagina(pageNum)">
+                                    @pageNum
+                                </button>
+                            </li>
+                        }
+                        <li class="page-item @(paginaAtual == totalPaginas ? "disabled" : "")">
+                            <button class="page-link rounded-end-pill border-0 text-dark fw-semibold" @onclick="() => MudarPagina(paginaAtual + 1)">Seguinte</button>
+                        </li>
+                    </ul>
+                </nav>
+            }
         }
     </div>
 
@@ -110,25 +183,105 @@
 
 @code {
     private List<ProdutoDto>? produtos;
+    private List<CategoriaDto>? categorias;
+
+    // Filtros
+    private string? filtroNome;
+    private int? filtroCategoriaId;
+    private decimal? filtroPrecoMin;
+    private decimal? filtroPrecoMax;
+
+    // Paginação
+    private int paginaAtual = 1;
+    private int tamanhoPagina = 24; // 24 produtos por página para um catálogo uniforme
+    private int totalItens = 0;
+    private int totalPaginas => (int)Math.Ceiling((double)totalItens / tamanhoPagina);
+    private bool carregando = true;
 
     protected override async Task OnInitializedAsync()
     {
         CartService.OnChange += StateHasChanged;
-
-        try
-        {
-            var resultadoPaginado = await Http.GetFromJsonAsync<ResultadoPaginadoDto<ProdutoDto>>("api/produtos?pagina=1&tamanhoPagina=50");
-            produtos = resultadoPaginado?.Itens ?? new List<ProdutoDto>();
-        }
-        catch
-        {
-            produtos = new List<ProdutoDto>();
-        }
+        await CarregarCategorias();
+        await CarregarProdutos();
     }
 
     public void Dispose()
     {
         CartService.OnChange -= StateHasChanged;
+    }
+
+    private async Task CarregarCategorias()
+    {
+        try
+        {
+            categorias = await Http.GetFromJsonAsync<List<CategoriaDto>>("api/categorias");
+        }
+        catch
+        {
+            categorias = new List<CategoriaDto>();
+        }
+    }
+
+    private async Task CarregarProdutos()
+    {
+        carregando = true;
+        try
+        {
+            var url = $"api/produtos?pagina={paginaAtual}&tamanhoPagina={tamanhoPagina}";
+
+            if (!string.IsNullOrWhiteSpace(filtroNome)) 
+                url += $"&nome={Uri.EscapeDataString(filtroNome)}";
+
+            if (filtroCategoriaId.HasValue) 
+                url += $"&categoriaId={filtroCategoriaId.Value}";
+
+            if (filtroPrecoMin.HasValue) 
+                url += $"&precoMin={filtroPrecoMin.Value.ToString(System.Globalization.CultureInfo.InvariantCulture)}";
+
+            if (filtroPrecoMax.HasValue) 
+                url += $"&precoMax={filtroPrecoMax.Value.ToString(System.Globalization.CultureInfo.InvariantCulture)}";
+
+            var resultadoPaginado = await Http.GetFromJsonAsync<ResultadoPaginadoDto<ProdutoDto>>(url);
+            if (resultadoPaginado != null)
+            {
+                produtos = resultadoPaginado.Itens;
+                totalItens = resultadoPaginado.TotalItens;
+            }
+        }
+        catch
+        {
+            produtos = new List<ProdutoDto>();
+            totalItens = 0;
+        }
+        finally
+        {
+            carregando = false;
+        }
+    }
+
+    private async Task OnFiltroAlterado()
+    {
+        paginaAtual = 1; // Reseta a página para a primeira ao aplicar qualquer filtro
+        await CarregarProdutos();
+    }
+
+    private async Task MudarPagina(int novaPagina)
+    {
+        if (novaPagina >= 1 && novaPagina <= totalPaginas)
+        {
+            paginaAtual = novaPagina;
+            await CarregarProdutos();
+        }
+    }
+
+    private async Task LimparFiltros()
+    {
+        filtroNome = null;
+        filtroCategoriaId = null;
+        filtroPrecoMin = null;
+        filtroPrecoMax = null;
+        paginaAtual = 1;
+        await CarregarProdutos();
     }
 
     private string ObterCaminhoImagem(string? imagemUrl)

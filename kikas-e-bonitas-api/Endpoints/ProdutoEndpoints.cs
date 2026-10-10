@@ -16,39 +16,51 @@ public static class ProdutoEndpoints
         group.MapGet("/", async (
             string? nome,
             int? categoriaId,
+            decimal? precoMin,
+            decimal? precoMax,
             int pagina = 1,
-            int tamanhoPagina = 10,
+            int tamanhoPagina = 24,
             AppDbContext db = null!) =>
         {
             // Garantir limites razoáveis para a paginação
             if (pagina < 1) pagina = 1;
-            if (tamanhoPagina < 1) tamanhoPagina = 10;
-            if (tamanhoPagina > 50) tamanhoPagina = 50; // Limite máximo para evitar sobrecarga
+            if (tamanhoPagina < 1) tamanhoPagina = 12;
+            if (tamanhoPagina > 100) tamanhoPagina = 100; // Limite máximo para evitar sobrecarga
 
             // 1. Iniciar a query base (IQueryable permite construir a consulta SQL antes de executar)
             var query = db.Produtos.AsQueryable();
 
-            // 2. Aplicar Filtro de Nome (se fornecido)
+            // Filtro por Nome
             if (!string.IsNullOrWhiteSpace(nome))
             {
                 query = query.Where(p => p.Nome.ToLower().Contains(nome.ToLower()));
             }
 
-            // 3. Aplicar Filtro de Categoria (se fornecido)
+            // Filtro por Categoria
             if (categoriaId.HasValue)
             {
                 query = query.Where(p => p.CategoriaId == categoriaId.Value);
             }
 
-            // 4. Contar o total de itens que correspondem aos filtros
+            // Filtro por Preço Mínimo
+            if (precoMin.HasValue)
+            {
+                query = query.Where(p => p.Preco >= precoMin.Value);
+            }
+
+            // Filtro por Preço Máximo
+            if (precoMax.HasValue)
+            {
+                query = query.Where(p => p.Preco <= precoMax.Value);
+            }
+
             var totalItens = await query.CountAsync();
 
-            // 5. Aplicar Paginação (Skip e Take) e projetar para o DTO
             var produtos = await query
                 .Include(p => p.Categoria)
                 .OrderBy(p => p.Id)
-                .Skip((pagina - 1) * tamanhoPagina) // Salta os registos das páginas anteriores
-                .Take(tamanhoPagina)               // Pega apenas a quantidade solicitada
+                .Skip((pagina - 1) * tamanhoPagina)
+                .Take(tamanhoPagina)
                 .Select(p => new ProdutoRespostaDto
                 {
                     Id = p.Id,
@@ -61,7 +73,6 @@ public static class ProdutoEndpoints
                 })
                 .ToListAsync();
 
-            // 6. Retornar a resposta envelopada
             var resultado = new ResultadoPaginadoDto<ProdutoRespostaDto>
             {
                 Itens = produtos,
@@ -72,7 +83,7 @@ public static class ProdutoEndpoints
 
             return Results.Ok(resultado);
         });
-
+        
         // GET POR ID
         group.MapGet("/{id:int}", async (int id, AppDbContext db) =>
         {
