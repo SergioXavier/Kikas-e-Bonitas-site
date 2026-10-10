@@ -11,7 +11,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
         <div>
             <h2 class="fw-bold text-dark mb-1">Gestão de Encomendas</h2>
-            <p class="text-muted small mb-0">Consulte e gira as encomendas efetuadas pelos clientes.</p>
+            <p class="text-muted small mb-0">Consulte e gira as encomendas de clientes e os resumos para fornecedor.</p>
         </div>
         <div class="d-flex align-items-center gap-2">
             <a href="/admin" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
@@ -19,6 +19,20 @@
             </a>
         </div>
     </div>
+
+    <!-- Sistema de Abas (Tabs) -->
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+            <button class="nav-link @(abaAtiva == 1 ? "active fw-bold text-primary" : "text-muted")" @onclick="() => abaAtiva = 1">
+                📦 Encomendas de Clientes
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link @(abaAtiva == 2 ? "active fw-bold text-primary" : "text-muted")" @onclick="async () => { abaAtiva = 2; await CarregarResumoFornecedor(); }">
+                📋 Lista Semanal para Fornecedor
+            </button>
+        </li>
+    </ul>
 
     <!-- Alerta de Erro -->
     @if (!string.IsNullOrEmpty(erroMensagem))
@@ -28,67 +42,142 @@
         </div>
     }
 
-    <!-- Tabela de Encomendas -->
-    <div class="card border-0 shadow-sm rounded-4 p-4">
-        @if (encomendas == null)
-        {
-            <div class="text-center py-4 text-muted">A carregar encomendas...</div>
-        }
-        else if (!encomendas.Any())
-        {
-            <div class="text-center py-4 text-muted">Ainda não existem encomendas registadas.</div>
-        }
-        else
-        {
-            <div class="table-responsive">
-                <table class="table align-middle mb-0">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Cliente</th>
-                            <th>Data</th>
-                            <th>Total</th>
-                            <th>Estado</th>
-                            <th class="text-end">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var encomenda in encomendas)
-                        {
+    @if (abaAtiva == 1)
+    {
+        <!-- TAB 1: ENCOMENDAS DE CLIENTES -->
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+            @if (encomendas == null)
+            {
+                <div class="text-center py-4 text-muted">A carregar encomendas...</div>
+            }
+            else if (!encomendas.Any())
+            {
+                <div class="text-center py-4 text-muted">Ainda não existem encomendas registadas.</div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead>
                             <tr>
-                                <td class="fw-semibold">#@encomenda.Id</td>
-                                <td>@encomenda.NomeCliente</td>
-                                <td>@encomenda.DataCriacao.ToString("dd/MM/yyyy HH:mm")</td>
-                                <td class="text-success fw-bold">@encomenda.ValorTotal.ToString("C")</td>
-                                <td>
-                                    <span class="badge bg-light text-dark border px-3 py-2 rounded-pill">
-                                        @encomenda.Status
-                                    </span>
-                                </td>
-                                <td class="text-end">
-                                    <!-- Botão Detalhes -->
-                                    <button class="btn btn-sm btn-outline-primary rounded-pill px-3" @onclick="() => VerDetalhes(encomenda.Id)">
-                                        <i class="bi bi-eye"></i> Detalhes
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-secondary" @onclick="() => VerRecibo(encomenda.Id)" title="Imprimir Recibo">
-                                        🖨️ Recibo
-                                    </button>
-                                    <!-- Botão Eliminar -->
-                                    <button class="btn btn-sm btn-outline-danger rounded-pill px-3" @onclick="() => EliminarEncomenda(encomenda.Id)">
-                                        <i class="bi bi-trash"></i> Eliminar
-                                    </button>
-                                </td>
+                                <th>ID</th>
+                                <th>Cliente</th>
+                                <th>Data</th>
+                                <th>Total</th>
+                                <th>Estado</th>
+                                <th class="text-end">Ações</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var encomenda in encomendas)
+                            {
+                                <tr>
+                                    <td class="fw-semibold">#@encomenda.Id</td>
+                                    <td>@encomenda.NomeCliente</td>
+                                    <td>@encomenda.DataCriacao.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td class="text-success fw-bold">@encomenda.ValorTotal.ToString("C")</td>
+                                    <td>
+                                        <span class="badge bg-light text-dark border px-3 py-2 rounded-pill">
+                                            @encomenda.Status
+                                        </span>
+                                    </td>
+                                    <td class="text-end">
+                                        <button class="btn btn-sm btn-outline-primary rounded-pill px-3" @onclick="() => VerDetalhes(encomenda.Id)">
+                                            <i class="bi bi-eye"></i> Detalhes
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary" @onclick="() => VerRecibo(encomenda.Id)" title="Imprimir Recibo">
+                                            🖨️ Recibo
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger rounded-pill px-3" @onclick="() => EliminarEncomenda(encomenda.Id)">
+                                            <i class="bi bi-trash"></i> Eliminar
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <!-- TAB 2: LISTA SEMANAL PARA FORNECEDOR -->
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold mb-0">Produtos em Falta / Encomenda Semanal</h5>
+                <button class="btn btn-sm btn-outline-dark rounded-pill px-3" @onclick="CarregarResumoFornecedor">
+                    <i class="bi bi-arrow-clockwise"></i> Atualizar Lista
+                </button>
             </div>
-        }
-    </div>
+
+            @if (carregandoResumo)
+            {
+                <div class="text-center py-4 text-muted">A calcular resumo para o fornecedor...</div>
+            }
+            else if (resumoFornecedor == null || !resumoFornecedor.Any())
+            {
+                <div class="alert alert-info text-center mb-0 rounded-4">
+                    Não existem produtos pendentes para encomenda de fornecedor de momento.
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive mb-4">
+                    <table class="table align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Imagem</th>
+                                <th>Produto</th>
+                                <th>Stock Atual</th>
+                                <th>Qtd. a Encomendar</th>
+                                <th>Preço Unit.</th>
+                                <th>Subtotal Estimado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in resumoFornecedor)
+                            {
+                                <tr>
+                                    <td>
+                                        <img src="@item.ImagemUrl" alt="@item.NomeProduto" style="width: 40px; height: 40px; object-fit: cover; border-radius: 6px;" />
+                                    </td>
+                                    <td><strong>@item.NomeProduto</strong></td>
+                                    <td>
+                                        <span class="badge @(item.StockAtual < 0 ? "bg-danger" : "bg-secondary") rounded-pill px-3 py-2">
+                                            @item.StockAtual
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success rounded-pill px-3 py-2 fs-6">
+                                            @item.QuantidadeTotalAEncomendar
+                                        </span>
+                                    </td>
+                                    <td>@item.PrecoUnitario.ToString("C")</td>
+                                    <td class="fw-bold text-dark">
+                                        @((item.PrecoUnitario * item.QuantidadeTotalAEncomendar).ToString("C"))
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-outline-primary rounded-pill px-4" @onclick="ImprimirLista">
+                        🖨️ Imprimir / Guardar PDF para Fornecedor
+                    </button>
+                </div>
+            }
+        </div>
+    }
 </div>
 
 @code {
+    private int abaAtiva = 1;
     private List<EncomendaRespostaDto>? encomendas;
+    private List<ResumoFornecedorDto>? resumoFornecedor;
+    private bool carregandoResumo = false;
     private string? erroMensagem;
 
     protected override async Task OnInitializedAsync()
@@ -120,6 +209,25 @@
         }
     }
 
+    private async Task CarregarResumoFornecedor()
+    {
+        carregandoResumo = true;
+        try
+        {
+            await ConfigurarAutorizacao();
+            resumoFornecedor = await Http.GetFromJsonAsync<List<ResumoFornecedorDto>>("api/encomendas/resumo-fornecedor");
+        }
+        catch (Exception ex)
+        {
+            erroMensagem = $"Erro ao carregar resumo de fornecedor: {ex.Message}";
+            resumoFornecedor = new List<ResumoFornecedorDto>();
+        }
+        finally
+        {
+            carregandoResumo = false;
+        }
+    }
+
     private async Task EliminarEncomenda(int id)
     {
         bool confirmado = await JS.InvokeAsync<bool>("confirm", "Tens a certeza que pretendes eliminar esta encomenda?");
@@ -128,7 +236,6 @@
         try
         {
             await ConfigurarAutorizacao();
-
             var response = await Http.DeleteAsync($"api/encomendas/{id}");
 
             if (response.IsSuccessStatusCode)
@@ -155,6 +262,11 @@
     private void VerRecibo(int encomendaId)
     {
         Navigation.NavigateTo($"/encomendas/recibo/{encomendaId}");
+    }
+
+    private async Task ImprimirLista()
+    {
+        await JS.InvokeVoidAsync("window.print");
     }
 
     private async Task ConfigurarAutorizacao()

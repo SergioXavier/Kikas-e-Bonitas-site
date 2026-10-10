@@ -48,7 +48,7 @@ public static class EncomendaEndpoints
                         .ToDictionaryAsync(p => p.Id);
 
                 // ==========================================
-                // 2. VALIDAR STOCK
+                // 2. VALIDAR ITENS (Sem restrição de stock)
                 // ==========================================
 
                 foreach (var item in dto.Itens)
@@ -72,17 +72,8 @@ public static class EncomendaEndpoints
                                 $"Quantidade inválida para o produto '{produto.Nome}'."
                         });
                     }
-
-                    if (produto.Stock < item.Quantidade)
-                    {
-                        return Results.BadRequest(new
-                        {
-                            mensagem =
-                                $"Stock insuficiente para o produto '{produto.Nome}'. " +
-                                $"Disponível: {produto.Stock}, " +
-                                $"requerido: {item.Quantidade}."
-                        });
-                    }
+                    // NOTA: A restrição de stock insuficiente foi removida para permitir 
+                    // encomendas de produtos sob consulta/sem stock prévio.
                 }
 
                 // ==========================================
@@ -97,15 +88,15 @@ public static class EncomendaEndpoints
                     ClienteId = dto.ClienteId,    
                     DataCriacao = DateTime.UtcNow,
                     Status = StatusEncomenda.Pendente,
-                    MetodoPagamento = dto.MetodoPagamento, // Atribuir método de pagamento
-                    CustoPortes = dto.CustoPortes,         // Atribuir custo de portes
+                    MetodoPagamento = dto.MetodoPagamento,
+                    CustoPortes = dto.CustoPortes,
                     Itens = new List<ItemEncomenda>()
                 };
 
                 decimal subtotalProdutos = 0m;
 
                 // ==========================================
-                // 4. ADICIONAR ITENS E DESCONTAR STOCK
+                // 4. ADICIONAR ITENS E ATUALIZAR STOCK
                 // ==========================================
 
                 foreach (var itemDto in dto.Itens)
@@ -114,6 +105,9 @@ public static class EncomendaEndpoints
                     var precoUnitario = produto.Preco;
 
                     subtotalProdutos += precoUnitario * itemDto.Quantidade;
+                    
+                    // O stock é decrementado. Se for 0, fica negativo (ex: -2), 
+                    // indicando a quantidade exata que precisa de ser encomendada ao fornecedor.
                     produto.Stock -= itemDto.Quantidade;
 
                     encomenda.Itens.Add(
@@ -125,7 +119,6 @@ public static class EncomendaEndpoints
                         });
                 }
 
-                // Cálculo Final: Subtotal dos produtos + Portes de envio
                 encomenda.ValorTotal = subtotalProdutos + encomenda.CustoPortes;
 
                 // ==========================================
@@ -162,10 +155,6 @@ public static class EncomendaEndpoints
                             .ToList()
                     };
 
-                // ==========================================
-                // 7. RESPONDER AO BLAZOR
-                // ==========================================
-
                 return Results.Created(
                     $"/api/encomendas/{encomenda.Id}",
                     respostaDto);
@@ -187,6 +176,28 @@ public static class EncomendaEndpoints
                     .ToListAsync();
 
             return Results.Ok(encomendas);
+        });
+
+        // GET: /api/encomendas/resumo-fornecedor (Lista consolidada para encomenda semanal)
+        group.MapGet("/resumo-fornecedor", async (AppDbContext db) =>
+        {
+            var resumo = await db.ItensEncomenda
+                .Include(i => i.Produto)
+                .Include(i => i.Encomenda)
+                .Where(i => i.Encomenda.Status == StatusEncomenda.Pendente)
+                .GroupBy(i => new { i.ProdutoId, i.Produto.Nome, i.Produto.Preco, i.Produto.ImagemUrl, i.Produto.Stock })
+                .Select(g => new
+                {
+                    ProdutoId = g.Key.ProdutoId,
+                    NomeProduto = g.Key.Nome,
+                    PrecoUnitario = g.Key.Preco,
+                    ImagemUrl = g.Key.ImagemUrl,
+                    StockAtual = g.Key.Stock,
+                    QuantidadeTotalAEncomendar = g.Sum(x => x.Quantidade)
+                })
+                .ToListAsync();
+
+            return Results.Ok(resumo);
         });
 
         // GET: /api/encomendas/{id}
@@ -212,8 +223,8 @@ public static class EncomendaEndpoints
                 NomeCliente = encomenda.NomeCliente,
                 Telemovel = encomenda.EmailCliente,
                 Status = encomenda.Status.ToString(),
-                MetodoPagamento = encomenda.MetodoPagamento, // Mapear pagamento
-                CustoPortes = encomenda.CustoPortes,       // Mapear portes
+                MetodoPagamento = encomenda.MetodoPagamento,
+                CustoPortes = encomenda.CustoPortes,
                 ValorTotal = encomenda.ValorTotal,
                 Itens = encomenda.Itens
                     .Select(i => new ItemEncomendaRespostaDto
