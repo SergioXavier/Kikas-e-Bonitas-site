@@ -201,5 +201,5 @@ GET {{host}}/api/encomendas
 GET {{host}}/api/encomendas/1
 
 ### Importar produtos do ficheiro JSON
-POST https://kikas-e-bonitas-api.onrender.com/api/produtos/importar-json
+POST https://kikasbonitas-web.onrender.com/api/produtos/importar-json
 Content-Type: application/json
