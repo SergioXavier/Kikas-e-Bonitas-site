@@ -125,44 +125,53 @@ app.MapCategoriasEndpoints();
 app.MapEncomendaEndpoints();
 app.MapClienteEndpoints();
 
-// --- SEED AUTOMÁTICO NA ARRANQUE DA APLICAÇÃO ---
+// --- SEED DE CATEGORIAS E PRODUTOS NO ARRANQUE ---
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.EnsureCreated();
 
-    // 1. Inserir Categorias se não existirem
-    var categoriasEnum = new Dictionary<int, string>
+    // 1. Dicionário correto com as categorias reais dos produtos
+    var categoriasMapeamento = new Dictionary<int, string>
     {
-        { 0, "Capilares" }, { 1, "Faciais" }, { 2, "Corpo" }, { 3, "Higiene" },
-        { 4, "Maquiagem" }, { 5, "Perfumes" }, { 6, "Saúde" }, { 7, "PET" },
-        { 8, "Casa" }, { 9, "Auto" }, { 10, "Solares" }
+        { 0, "Capilares" },
+        { 1, "Faciais" },
+        { 2, "Corpo" },
+        { 3, "Higiene" },
+        { 4, "Maquiagem" },
+        { 5, "Perfumes" },
+        { 6, "Saúde" },
+        { 7, "PET" },
+        { 8, "Casa" },
+        { 9, "Auto" },
+        { 10, "Solares" }
     };
 
-    foreach (var cat in categoriasEnum)
+    foreach (var cat in categoriasMapeamento)
     {
         await db.Database.ExecuteSqlRawAsync(
-            "INSERT OR IGNORE INTO Categorias (Id, Nome) VALUES ({0}, {1})", 
+            "INSERT OR REPLACE INTO Categorias (Id, Nome) VALUES ({0}, {1})", 
             cat.Key, cat.Value);
     }
 
-    // 2. Inserir Produtos do JSON se a tabela estiver vazia
-    if (!db.Produtos.Any())
+    // 2. Carregar Produtos do JSON
+    var caminhoJson = Path.Combine(Directory.GetCurrentDirectory(), "produtos.json");
+    if (File.Exists(caminhoJson))
     {
-        var caminhoJson = Path.Combine(Directory.GetCurrentDirectory(), "produtos.json");
-        if (File.Exists(caminhoJson))
+        var jsonContent = await File.ReadAllTextAsync(caminhoJson);
+        var options = new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        var listaDto = System.Text.Json.JsonSerializer.Deserialize<List<ProdutoImportDto>>(jsonContent, options);
+
+        if (listaDto != null)
         {
-            var jsonContent = await File.ReadAllTextAsync(caminhoJson);
-            var options = new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-            var listaDto = System.Text.Json.JsonSerializer.Deserialize<List<ProdutoImportDto>>(jsonContent, options);
-
-            if (listaDto != null)
+            foreach (var dto in listaDto)
             {
-                foreach (var dto in listaDto)
-                {
-                    var caminhoImagem = dto.Imagem.Replace("imagens/produtos/", "imagens/");
-                    if (!caminhoImagem.StartsWith("/")) caminhoImagem = $"/{caminhoImagem}";
+                var existe = await db.Produtos.FindAsync(dto.Id);
+                var caminhoImagem = dto.Imagem.Replace("imagens/produtos/", "imagens/");
+                if (!caminhoImagem.StartsWith("/")) caminhoImagem = $"/{caminhoImagem}";
 
+                if (existe == null)
+                {
                     db.Produtos.Add(new KikasEBonitas.Api.Models.Produto
                     {
                         Id = dto.Id,
@@ -173,8 +182,15 @@ using (var scope = app.Services.CreateScope())
                         ImagemUrl = caminhoImagem
                     });
                 }
-                await db.SaveChangesAsync();
+                else
+                {
+                    existe.Nome = dto.Nome;
+                    existe.Preco = dto.Preco;
+                    existe.CategoriaId = dto.Categoria;
+                    existe.ImagemUrl = caminhoImagem;
+                }
             }
+            await db.SaveChangesAsync();
         }
     }
 }
