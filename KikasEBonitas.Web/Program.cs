@@ -12,7 +12,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped<JwtAuthenticationHandler>();
 
 // 2. Configurar o HttpClient para usar o handler (apontando para a porta da API, ex: 5287)
-builder.Services.AddHttpClient("KikasApi", client => client.BaseAddress = new Uri("http://localhost:5287/"))
+builder.Services.AddHttpClient("KikasApi", client => client.BaseAddress = new Uri("https://kikas-e-bonitas-site.onrender.com/"))
     .AddHttpMessageHandler<JwtAuthenticationHandler>();
 
 // 3. Fazer com que o HttpClient padrão utilize também esta configuração
