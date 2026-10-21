@@ -13,8 +13,13 @@
 {
     @if (!encomendaCriadaComSucesso)
     {
-        <div class="alert alert-info">
-            O seu carrinho está vazio.
+        <div class="alert alert-info d-flex flex-column align-items-start gap-3 p-4 shadow-sm">
+            <div>
+                <i class="bi bi-cart-x me-2"></i> O seu carrinho está vazio.
+            </div>
+            <a href="/" class="btn btn-outline-primary fw-bold px-4 py-2">
+                <i class="bi bi-arrow-left me-2"></i> Continuar a Comprar / Ver Catálogo
+            </a>
         </div>
     }
 }
@@ -49,9 +54,10 @@ else
                             </td>
                             <td>@((item.Preco * item.Quantidade).ToString("C2"))</td>
                             <td>
-                                <button class="btn btn-outline-danger btn-sm"
+                                <button class="btn btn-danger btn-sm px-2 py-1 shadow-sm"
+                                        title="Remover produto"
                                         @onclick="() => CartService.RemoverProduto(item.ProdutoId)">
-                                    <i class="bi bi-trash"></i>
+                                    <i class="bi bi-trash-fill text-white"></i> <span class="d-none d-md-inline text-white">Remover</span>
                                 </button>
                             </td>
                         </tr>
@@ -63,12 +69,15 @@ else
         <!-- Botão Inicial para revelar o formulário de Finalização -->
         @if (!mostrarFormularioFinalizacao)
         {
-            <div class="mb-5">
+            <div class="mb-5 d-flex gap-3 align-items-center">
                 <button class="btn btn-lg text-white fw-bold shadow-sm px-4 py-3" 
                         style="background-color: #D4AF37;" 
                         @onclick="MostrarFormulario">
                     Finalizar Encomenda <i class="bi bi-arrow-right ms-2"></i>
                 </button>
+                <a href="/" class="btn btn-outline-secondary fw-semibold px-3 py-3">
+                    <i class="bi bi-arrow-left me-1"></i> Continuar a Comprar
+                </a>
             </div>
         }
         else
@@ -157,7 +166,7 @@ else
                     </div>
                 </div>
 
-                <!-- NOVO: Método de Pagamento e Portes -->
+                <!-- Método de Pagamento e Portes -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Método de Pagamento *</label>
                     <div class="d-flex gap-4">
@@ -287,7 +296,7 @@ else
 
     // Campos de Pagamento e Portes
     private string metodoPagamento = "MB Way";
-    private decimal custoPortes = 3.90m; // Pode ajustar o valor fixo dos portes conforme pretendido
+    private decimal custoPortes = 3.90m;
 
     // Campos guardados para o Recibo
     private string metodoPagamentoSalvo = string.Empty;
@@ -448,7 +457,7 @@ else
                 return;
             }
 
-            idEncomendaCriada = resultado.Id; // Atualizado para corresponder ao DTO da API
+            idEncomendaCriada = resultado.Id;
             
             itensEncomendaSalvos = itensCarrinhoSnapshot;
             totalEncomendaSalvo = totalGeral;
